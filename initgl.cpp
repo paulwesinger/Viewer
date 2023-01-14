@@ -60,7 +60,6 @@ InitGL::InitGL (const std::string titel){
     MainMenu = nullptr;
     showMenu = false;
     _ShaderChanged = false;
-
     _CameraSpeed = 1.0f;
 
     //LoadConfiguration();
@@ -94,10 +93,12 @@ InitGL::~InitGL() {
 
     if ( skybox != nullptr)
         delete skybox;
+
     if (base2d != nullptr  )
         delete base2d;
-//    if (cockpit != NULL)
-//        delete cockpit;
+
+    if (cockpit != nullptr)
+        delete cockpit;
 
     if (ambientLight != nullptr)
         delete  ambientLight;
@@ -131,19 +132,107 @@ void InitGL::safeDelete(BaseObject * bo) {
 }
 
 //------------------------------------------
-//  Abstracts Render
+//  Virtuals Render
 // -----------------------------------------
-void InitGL::Render(glm::mat4 cam) {
+void InitGL::Render() {
 
-    if ( skybox != nullptr )
-        skybox->Draw(cam);
 
-    // Hier noch zusätzliche virtuelle Renderer (objecte, und so weiter!
+
+    if (! list3D.empty() ) {
+        for (unsigned int i=0;i < list3D.size(); i++ ) {
+
+            glm::vec3 vt(0.001,0.002,0.003);
+
+            if (_Animate && list3D[i]->HasAnimation()) {
+
+                list3D[i]->StepTranslate(vt,_Elapsed);
+                list3D[i]->AnimateRotate(_Elapsed);
+            }
+
+            if (_UseBlend)
+                list3D[i]->SetUseBlending(true);
+            else
+                list3D[i]->SetUseBlending(false);
+
+            list3D[i]->UseBlinn(_UseBlinn);
+            list3D[i]->Draw(camera);
+      }
+   }  // Not showpanel
 }
 
-void InitGL::showSkyBox() {
-
+void InitGL::RenderSkyBox() {
+    if ( skybox != nullptr && _ShowSkybox )
+        skybox->Draw(camera->GetView());
 }
+
+void InitGL::RenderLight() {
+    if (lightSource != nullptr) {
+
+        if (_UseBlend)
+            lightSource->SetUseBlending(true);
+           // glDisable(GL_DEPTH_TEST);
+        else
+            //glEnable(GL_DEPTH_TEST);
+            lightSource->SetUseBlending(false);
+
+        lightSource->SetColor(glm::vec4(0.5,0.5,0.5,0.3));
+        lightSource->SetProjection(projection->GetPerspective());
+        lightSource->SetFirstTranslate(false);
+        if (_Animate && lightSource->HasAnimation() )
+            lightSource ->AnimateRotate(_Elapsed);
+
+        lightSource->Draw(camera);
+    }
+}
+
+void InitGL::RenderCockpit() {
+
+    if (cockpit != nullptr) {
+
+        if (cockpit->HasMesh()  && _ShowCockpit) {
+
+            cockpit->getCockpitMesch()->SetUseBlending(true);
+            cockpit->getCockpitMesch()->setGlasShader(true);
+            cockpit->setProjectionMatrix(projection->GetPerspective());
+            cockpit->Translate(camera->GetPos());
+            cockpit->Rotate(camera->MoveDirectionDEG());
+            cockpit->Draw(camera);
+            cockpit->getCockpitMesch()->setGlasShader(true);
+        }
+    }
+}
+
+void InitGL::Render2D(){
+
+    if ( !  objects2D.empty() ) {
+        for (uint i =0; i < objects2D.size(); i++) {
+            (objects2D[i])->Render();
+        }
+    }
+}
+
+void InitGL::RenderControlls() {
+
+    //------------------------------------
+    // MainMenu rendern
+    // -----------------------------------
+    if ( MainMenu != nullptr  && showMenu) {
+        MainMenu ->Render();
+    }
+
+    if (! textfields.empty() ) {
+        for (uint i = 0; i < textfields.size(); i ++) {
+            textfields.at(i)->Render();
+        }
+    }
+
+    if ( ! buttons.empty() ) {
+        for ( uint i = 0; i < buttons.size(); i++) {
+            buttons[i]->Render();
+        }
+    }
+}
+
 
 
 bool InitGL::hasSkyBox() { return _HasSkyBox; }
@@ -671,7 +760,7 @@ void InitGL::toggleAnimation() { _Animate = toggleVal(_Animate); }
 void InitGL::toogleCockpit() { _ShowCockpit = toggleVal(_ShowCockpit); }
 void InitGL::toggleBlend() {_UseBlend = toggleVal(_UseBlend); }
 void InitGL::togglePanel2D() {_ShowPanel = toggleVal(_ShowPanel);}
-void InitGL::toggleSkyBox() { _RenderSkybox = toggleVal(_RenderSkybox);}
+void InitGL::toggleSkyBox() { _ShowSkybox = toggleVal(_ShowSkybox);}
 bool InitGL::toggleVal(bool val){return ! val; }
 
 
@@ -884,9 +973,6 @@ bool InitGL::HandleMessage() {
 void InitGL::Run() {
 
     bool quit = false;
-    // Diese transformations vectoren enthalten die "steps" für die Animation
-
-    //sphere1->Translate(vec3(0.0,-4.0,0.0));
 
     //--------------------------------------------------
     // framerate berechene
@@ -896,7 +982,6 @@ void InitGL::Run() {
     showMenu = true;
 
     glEnable(GL_DEPTH_TEST);
-
     //--------------------------------------------------
     // Uncomment, if needed
     //--------------------------------------------------
@@ -910,12 +995,6 @@ void InitGL::Run() {
     auto start = Clock::now();
     auto end = Clock::now();
 
-/*
-    if (load3DS->Load3DS("models/32-sting-sword-lowpoly.3ds"))
-        loginfo("Modell geladen");
-    else
-        logwarn("Modell nicht geladen");
-*/
     while ( ! _QuitGame) {
 
         HandleMessage();
@@ -948,23 +1027,9 @@ void InitGL::Run() {
 
        if ( ! _ShowPanel) {
 
-           if (lightSource != nullptr) {
-
-               if (_UseBlend)
-                   lightSource->SetUseBlending(true);
-                  // glDisable(GL_DEPTH_TEST);
-               else
-                   //glEnable(GL_DEPTH_TEST);
-                   lightSource->SetUseBlending(false);
-
-               lightSource->SetColor(glm::vec4(0.5,0.5,0.5,0.3));
-               lightSource->SetProjection(projection->GetPerspective());
-               lightSource->SetFirstTranslate(false);
-               if (_Animate && lightSource->HasAnimation() )
-                   lightSource ->AnimateRotate(_Elapsed);
-
-               lightSource->Draw(camera);
-           }
+            RenderLight();
+            Render();
+            RenderCockpit();
 
             // ===================================
             // Engine Objekte
@@ -978,58 +1043,10 @@ void InitGL::Run() {
                 if (lightSource != nullptr)
                     lightSource->setActiveShader(_CurrentShader);
 
-
                 if (cockpit != nullptr) {
 
                     if (cockpit->HasMesh())
                         cockpit->getCockpitMesch()->setActiveShader(_CurrentShader);
-                }
-
-            }
-
-             if (! list3D.empty() ) {
-                for (unsigned int i=0;i < list3D.size(); i++ ) {
-
-                    glm::vec3 vt(0.001,0.002,0.003);
-
-                    if (_Animate && list3D[i]->HasAnimation()) {
-
-                        list3D[i]->StepTranslate(vt,_Elapsed);
-                        list3D[i]->AnimateRotate(_Elapsed);
-                    }
-
-                    if (_UseBlend)
-                        list3D[i]->SetUseBlending(true);
-                    else
-                        list3D[i]->SetUseBlending(false);
-
-                    list3D[i]->UseBlinn(_UseBlinn);
-                    list3D[i]->Draw(camera);
-                }
-
-                //if ( PE != nullptr) {
-                    //PE->Render(camera,elapsed);
-                //}
-
-            }  // Not showpanel
-
-            // ===================================
-            // Das beste zum Schluss : Skybox
-            // ===================================
-
-            Render(camera->GetView());
-
-            if (cockpit != nullptr) {
-
-                if (cockpit->HasMesh()  && _ShowCockpit) {
-
-                    cockpit->getCockpitMesch()->SetUseBlending(true);
-                    cockpit->getCockpitMesch()->setGlasShader(true);
-                    cockpit->setProjectionMatrix(projection->GetPerspective());
-                    cockpit->Translate(camera->GetPos());
-                    cockpit->Rotate(camera->MoveDirectionDEG());
-                    cockpit->Draw(camera);
-                    cockpit->getCockpitMesch()->setGlasShader(true);
                 }
             }
         }
@@ -1039,30 +1056,8 @@ void InitGL::Run() {
         //====================================
         Prepare2D();
 
-        //------------------------------------
-        // MainMenu rendern
-        // -----------------------------------
-        if ( MainMenu != nullptr  && showMenu) {
-            MainMenu ->Render();
-        }
-
-        if (! textfields.empty() ) {
-            for (uint i = 0; i < textfields.size(); i ++) {
-                textfields.at(i)->Render();
-            }
-        }
-
-        if ( !  objects2D.empty() ) {
-            for (uint i =0; i < objects2D.size(); i++) {
-                (objects2D[i])->Render();
-            }
-        }
-
-        if ( ! buttons.empty() ) {
-            for ( uint i = 0; i < buttons.size(); i++) {
-                buttons[i]->Render();
-            }
-        }
+        Render2D();
+        RenderControlls();
 
         Restore3D();
 

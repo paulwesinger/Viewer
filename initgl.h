@@ -61,7 +61,6 @@ public:
     // Methode zum abbrechen
     void sdl_die( std::string msg);
     virtual ~InitGL();
-    void showSkyBox();
 
     virtual void Prepare2D(); // Flags für Rendern einstellen
     virtual void Restore3D(); // Flags zurücksetzen
@@ -76,11 +75,21 @@ protected:
     //----------------------------------
     // Look and feel
     //----------------------------------
-    virtual void Render(glm::mat4 cam);
+    virtual void Render();
+    virtual void RenderSkyBox();
+    virtual void RenderLight();
+    virtual void RenderCockpit();
+    virtual void Render2D();
+    virtual void RenderControlls();
+
     virtual void SetResolution(int resx,int resy);
     virtual bool HandleMessage();
     virtual void InitEngineObject();
     virtual void InitUserObjects();
+
+    static void toggleSkyBox();
+
+
 
     void SetClearColor(float r, float g, float b, float a);
     void setClearColor(float r, float g, float b);
@@ -92,7 +101,7 @@ protected:
     static void toogleCockpit();
     static void toggleBlend();
     static void togglePanel2D();
-    static void toggleSkyBox();
+
     static bool toggleVal(bool val);
 
     // HandlerFuncs for Mouse
@@ -191,8 +200,9 @@ protected:
 
     //Flags for overrides
     bool _ShowFramesPerSecond   = false;
-    bool _ShowMousePositions     = false;
+    bool _ShowMousePositions    = false;
     bool _ShowCameraPos         = false;
+    bool _ShowSkybox            = false;
 
     uint32_t _Elapsed;
 

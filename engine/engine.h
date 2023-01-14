@@ -51,7 +51,7 @@ public:
 
 protected:
     void loadButtons();
-    void Render(glm::mat4 cam)  override;
+    void Render()  override;
     // Lists for all objects:
     std::vector<std::string> btnList;
     std::vector<std::string> object2DList;
@@ -66,8 +66,9 @@ protected:
 
     CButton * toogleSkyBoxBtn;
 
+    static void functoggleSkyBox();
     static void funcFog();
-    static void funcToogleSkybox();
+
     static void functoogleAnimation(bool checked);
     static void functoogleBlend(bool checked);
     static void functoogleCockpit(bool checked);

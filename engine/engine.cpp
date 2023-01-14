@@ -109,7 +109,7 @@ void CEngine::functoogleBlend(bool checked) {
        InitGL::toggleBlend();
 }
 
-void CEngine::funcToogleSkybox() {
+void CEngine::functoggleSkyBox() {
     InitGL::toggleSkyBox();
 }
 
@@ -117,10 +117,10 @@ void CEngine::funcFog(){
     loginfo("Fog - function");
 }
 
-void CEngine::Render(glm::mat4 cam) {
+void CEngine::Render() {
 
     if (_RenderSkybox)
-        InitGL::Render(cam);
+        InitGL::Render();
 }
 
 void CEngine::functoogleCockpit(bool checked) {
@@ -162,7 +162,7 @@ void CEngine::initMenu(){
                                                             MainMenu->Width(), 0);
 
 
-    toogleSkyBoxBtn = CreateImageButton(PATH::ROOT + BTN_BG, PATH::ROOT + BTN_SKYBOX,con1->NextControllPos(),CEngine::funcToogleSkybox);
+    toogleSkyBoxBtn = CreateImageButton(PATH::ROOT + BTN_BG, PATH::ROOT + BTN_SKYBOX,con1->NextControllPos(),InitGL::toggleSkyBox);
 
     con1->addButton(toogleSkyBoxBtn);
     con1->addSpacer();
