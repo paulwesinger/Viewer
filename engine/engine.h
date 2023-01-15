@@ -51,7 +51,8 @@ public:
 
 protected:
     void loadButtons();
-    void Render()  override;
+    virtual void Render()  override;
+    virtual void RenderSkyBox() override;
     // Lists for all objects:
     std::vector<std::string> btnList;
     std::vector<std::string> object2DList;
@@ -66,7 +67,7 @@ protected:
 
     CButton * toogleSkyBoxBtn;
 
-    static void functoggleSkyBox();
+    static void functoggleSkybox();
     static void funcFog();
 
     static void functoogleAnimation(bool checked);
@@ -124,7 +125,6 @@ protected:
     //tamplate
     //-----------------------------------------------------------------
     CButton * CreateImageButton(std::string btnBg,std::string btnimage, sPoint nextControllPos, FP handler);
-
 
     //-----------------------------------------------------------------
     //tamplate

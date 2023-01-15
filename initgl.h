@@ -39,7 +39,7 @@
 #include "defaults.h"
 
 // static flags for handler in derrived classes
-extern bool _RenderSkybox;
+extern bool _ShowSkybox;
 extern bool _Animate;
 extern bool _UseBlend;
 extern bool _ShowCockpit;
@@ -87,10 +87,6 @@ protected:
     virtual void InitEngineObject();
     virtual void InitUserObjects();
 
-    static void toggleSkyBox();
-
-
-
     void SetClearColor(float r, float g, float b, float a);
     void setClearColor(float r, float g, float b);
     void toogleFullScreen();
@@ -101,7 +97,7 @@ protected:
     static void toogleCockpit();
     static void toggleBlend();
     static void togglePanel2D();
-
+    static void toggleSkyBox();
     static bool toggleVal(bool val);
 
     // HandlerFuncs for Mouse
@@ -202,7 +198,6 @@ protected:
     bool _ShowFramesPerSecond   = false;
     bool _ShowMousePositions    = false;
     bool _ShowCameraPos         = false;
-    bool _ShowSkybox            = false;
 
     uint32_t _Elapsed;
 

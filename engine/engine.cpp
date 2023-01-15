@@ -109,7 +109,7 @@ void CEngine::functoogleBlend(bool checked) {
        InitGL::toggleBlend();
 }
 
-void CEngine::functoggleSkyBox() {
+void CEngine::functoggleSkybox() {
     InitGL::toggleSkyBox();
 }
 
@@ -119,8 +119,13 @@ void CEngine::funcFog(){
 
 void CEngine::Render() {
 
-    if (_RenderSkybox)
-        InitGL::Render();
+    InitGL::Render();
+}
+
+void CEngine::RenderSkyBox() {
+
+    if (_ShowSkybox)
+        InitGL::RenderSkyBox();
 }
 
 void CEngine::functoogleCockpit(bool checked) {
@@ -162,7 +167,7 @@ void CEngine::initMenu(){
                                                             MainMenu->Width(), 0);
 
 
-    toogleSkyBoxBtn = CreateImageButton(PATH::ROOT + BTN_BG, PATH::ROOT + BTN_SKYBOX,con1->NextControllPos(),InitGL::toggleSkyBox);
+    toogleSkyBoxBtn = CreateImageButton(PATH::ROOT + BTN_BG, PATH::ROOT + BTN_SKYBOX,con1->NextControllPos(),CEngine::functoggleSkybox);
 
     con1->addButton(toogleSkyBoxBtn);
     con1->addSpacer();
@@ -175,26 +180,6 @@ void CEngine::initMenu(){
     con2 = new CControllContainer(InitGL::getShaderPtr(),MainMenu->Pos().x,
                                              curr_y,
                                   MainMenu->Width(),0);
-
-  //  con2->addSpacer();
-
-   // toogleSkyBoxBtn = CreateImageButton(PATH::ROOT + BTN_BG, PATH::ROOT + BTN_SKYBOX,con2->NextControllPos(),CEngine::funcToogleSkybox);
-
-
-   // toogleSkyBoxBtn = new CImageButton(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png",
-   //                        PATH::ROOT + "images/ToogleSkybox.png",con2->NextControllPos(),InitGL::getShaderPtr());
-
-    //toogleSkyBoxBtn->setGlyphShader(shader->getGlyphShader());
-    //toogleSkyBoxBtn->setColorShader(shader->getColor2DShader());
-    //toogleSkyBoxBtn->setTextureShader(shader->getTexture2DShader(),true);
-
-   // toogleSkyBoxBtn->setColor(BTN_ENABLE);
-   // toogleSkyBoxBtn->setDisablecolor(BTN_DISABLE);
-   // toogleSkyBoxBtn->setSize(BTN_WIDTH,BTN_HEIGHT);
-   // toogleSkyBoxBtn->AddHandler(CEngine::funcToogleSkybox);
- //   con2->addButton(toogleSkyBoxBtn);
-
-//    con2->addSpacer();
     //-----------------------------------------------------
     // Textedit:
     //-----------------------------------------------------
@@ -205,6 +190,8 @@ void CEngine::initMenu(){
     s.h = CONTROLL::HEIGHT;
 
     p = con2->NextControllPos();
+
+
     txtFrameperSec = new TextEdit(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s,
                                   glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0),InitGL::getShaderPtr());
 

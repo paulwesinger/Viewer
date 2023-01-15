@@ -22,7 +22,7 @@ const std::string PATH_TEXTFIELD    = PATH::ROOT + "images/Textfeld.png";
 const std::string PATH_BOTTOM       = PATH::ROOT + "images/Bottom.png";
 
 
-bool _RenderSkybox;
+bool _ShowSkybox;
 bool _Animate;
 bool _UseBlend;
 bool _ShowCockpit;
@@ -135,8 +135,6 @@ void InitGL::safeDelete(BaseObject * bo) {
 //  Virtuals Render
 // -----------------------------------------
 void InitGL::Render() {
-
-
 
     if (! list3D.empty() ) {
         for (unsigned int i=0;i < list3D.size(); i++ ) {
@@ -760,6 +758,7 @@ void InitGL::toggleAnimation() { _Animate = toggleVal(_Animate); }
 void InitGL::toogleCockpit() { _ShowCockpit = toggleVal(_ShowCockpit); }
 void InitGL::toggleBlend() {_UseBlend = toggleVal(_UseBlend); }
 void InitGL::togglePanel2D() {_ShowPanel = toggleVal(_ShowPanel);}
+
 void InitGL::toggleSkyBox() { _ShowSkybox = toggleVal(_ShowSkybox);}
 bool InitGL::toggleVal(bool val){return ! val; }
 
