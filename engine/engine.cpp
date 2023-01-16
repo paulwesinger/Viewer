@@ -167,12 +167,15 @@ void CEngine::initMenu(){
                                                             MainMenu->Width(), 0);
 
 
-    toogleSkyBoxBtn = CreateImageButton(PATH::ROOT + BTN_BG, PATH::ROOT + BTN_SKYBOX,con1->NextControllPos(),CEngine::functoggleSkybox);
 
-    con1->addButton(toogleSkyBoxBtn);
-    con1->addSpacer();
-    MainMenu->addConatiner(con1);
-    curr_y = MainMenu->CurrentY() + MENU_SPACER;
+    if (skybox != nullptr) {
+        toogleSkyBoxBtn = CreateImageButton(PATH::ROOT + BTN_BG, PATH::ROOT + BTN_SKYBOX,con1->NextControllPos(),CEngine::functoggleSkybox);
+
+        con1->addButton(toogleSkyBoxBtn);
+        con1->addSpacer();
+        MainMenu->addConatiner(con1);
+        curr_y = MainMenu->CurrentY() + MENU_SPACER;
+    }
 
     //---------------------------------------------------
     // 2. container
