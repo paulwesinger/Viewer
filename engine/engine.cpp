@@ -37,8 +37,6 @@ CEngine::CEngine(std::string titel) :
     cameraX             = nullptr;
     cameraY             = nullptr;
     cameraZ             = nullptr;
-
-
   //  _FullScreen = true;
   //  _ResX = FULLSCREEN_WIDTH;
   //  _ResY = FULLSCREEN_HEIGHT;
@@ -47,8 +45,8 @@ CEngine::CEngine(std::string titel) :
     _FullScreen = false;
     _ResX = SD_WIDTH;
     _ResY = SD_HEIGHT;
-
 }
+
 CEngine::~CEngine(){
 
     safeDelete (con1);
@@ -63,12 +61,18 @@ void CEngine::Done() {
 
 void CEngine::Run() {
 
-    initMenu();
+
+
     Init2D();
     Init3D();
     InitButtons();
+    initMenu();
 
     InitGL::Run();
+}
+
+void CEngine::InitEngineObject(){
+    InitGL::InitEngineObject();
 }
 
 bool CEngine::HandleMessage() {
@@ -166,10 +170,13 @@ void CEngine::initMenu(){
     con1 = new CControllContainer(InitGL::getShaderPtr(), MainMenu->Pos().x,MainMenu->Pos().y,
                                                             MainMenu->Width(), 0);
 
-
+    sPoint p;
+    p.x = 0;
+    p.y =0;
 
     if (skybox != nullptr) {
-        toogleSkyBoxBtn = CreateImageButton(PATH::ROOT + BTN_BG, PATH::ROOT + BTN_SKYBOX,con1->NextControllPos(),CEngine::functoggleSkybox);
+        toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
+                                            con1->NextControllPos(),CEngine::functoggleSkybox);
 
         con1->addButton(toogleSkyBoxBtn);
         con1->addSpacer();
@@ -187,21 +194,23 @@ void CEngine::initMenu(){
     // Textedit:
     //-----------------------------------------------------
     sSize s;
-    sPoint p;
+    //sPoint p;
     //con2->addSpacer();
     s.w = MainMenu->Width() - CONTROLL::MARGIN_X ;
     s.h = CONTROLL::HEIGHT;
 
     p = con2->NextControllPos();
 
-
-    txtFrameperSec = new TextEdit(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s,
+    txtFrameperSec = new TextEdit(_ResX, _ResY,PATH::ROOT + BTN_BG, p,s,
                                   glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0),InitGL::getShaderPtr());
 
-    txtFrameperSec->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
+    //Setting the color for the outputlabel
+    txtFrameperSec->setColor(glm::vec4(1.0, 1.0, 1.0, 1.0));
     con2->addControll2D(txtFrameperSec);
     // add label for Frames to buildin textrender label
     txtFrameperSec->setLabel("FPS");
+
+    MainMenu->addConatiner(con1);
 
     //----------------------------------------------------
     // checkbox für Animation
@@ -310,9 +319,10 @@ void CEngine::initMenu(){
 }
 
 void CEngine::ShowFramesPerSec() {
-            TextRender * t = txtFrameperSec->getTextPtr();
 
+    TextRender * t = txtFrameperSec->getTextPtr();
     if (t != nullptr) {
+        t-> SetTextColor(glm::vec4(1.0,1.0,1.0,100));
         t->SetText(0,IntToString(_FramerateOut));
         t->Render();
     }
@@ -392,7 +402,11 @@ void CEngine::Init2D() {
 
     add2Dobject(base2d);
     add2Dobject(testToolBox);
-  }
+}
+
+void CEngine::Render2DUserObject() {
+    InitGL::Render2DUserObject();
+}
 
 void CEngine::Init3D(){
 

@@ -80,6 +80,9 @@ protected:
     virtual void RenderLight();
     virtual void RenderCockpit();
     virtual void Render2D();
+
+    virtual void Render2DUserObject() {};
+
     virtual void RenderControlls();
 
     virtual void SetResolution(int resx,int resy);

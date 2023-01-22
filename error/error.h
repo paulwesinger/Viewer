@@ -3,7 +3,7 @@
 
 #include "../logs/logs.h"
 
-class Error
+class ErrorLogs
 {
 public:
     static void Warning(bool isExpressionTrue,std::string message);
@@ -11,7 +11,7 @@ public:
 
 private:
 
-    Error() {}
+    ErrorLogs() {}
 };
 
 #endif // ERROR_H

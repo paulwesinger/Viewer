@@ -1009,7 +1009,7 @@ void InitGL::Run() {
             ms = 0;
         }
 
-        if (_ShowFramesPerSecond )
+        //if (_ShowFramesPerSecond )
             ShowFramesPerSec();
 
         if (_ShowCameraPos)
@@ -1057,6 +1057,8 @@ void InitGL::Run() {
 
         Render2D();
         RenderControlls();
+
+        Render2DUserObject();
 
         Restore3D();
 

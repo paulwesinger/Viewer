@@ -61,11 +61,12 @@ static const GLchar * Standard2DGlyph_FragmentSrc = {
     "void main()                                                    \n"
     "{                                                              \n"
     "   vec4 texel = texture(text,fs_in.uv);                        \n"
-    "   if(texel.r == 0.0 && texel.g == 0.0 && texel.b == 0)        \n"
+    "   //if (texel.a == 0)                                           \n"
+    "    if(texel.r == 0.0 && texel.g == 0.0 && texel.b == 0)        \n"
     "       discard;                                                \n"
     "   else {                                                      \n"
     "       vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, fs_in.uv).r); \n"
-    "       fragcolor =    sampled * col2D;                         \n"
+    "       fragcolor =     col2D;                         \n"
     "   }                                                           \n"
     "}                                                                "
 };
@@ -426,22 +427,22 @@ void Shader::CreateStandardShaders() {
     //------------------------------------------------------
     //Create Shader for Text printing and 2D
     //------------------------------------------------------
-    Error::Failed(CreateStandardGlyphShader(),"Creating GlyphShader failed",_FAILED_GlyphShader);
-    Error::Failed(CreateStandard2DTextureShader(),"Creating 2D TextureShader failed !", _FAILED_2DTextureShader);
-    Error::Failed(CreateStandard2DColorShader(),"Creating 2D ColorShader failed !", _FAILED_2DColorShader);
+    ErrorLogs::Failed(CreateStandardGlyphShader(),"Creating GlyphShader failed",_FAILED_GlyphShader);
+    ErrorLogs::Failed(CreateStandard2DTextureShader(),"Creating 2D TextureShader failed !", _FAILED_2DTextureShader);
+    ErrorLogs::Failed(CreateStandard2DColorShader(),"Creating 2D ColorShader failed !", _FAILED_2DColorShader);
 
     //------------------------------------------------------
     //Create Shader for 3D rendering with texture, no lights
     //------------------------------------------------------
-    Error::Failed(CreateStandard3DTextureShader(),"Creating Standard3DTextureShader failed !", _FAILED_3DTextureShader);
+    ErrorLogs::Failed(CreateStandard3DTextureShader(),"Creating Standard3DTextureShader failed !", _FAILED_3DTextureShader);
 
     //------------------------------------------------------
     //Create Shader for 3D rendering with color, no lights
     //------------------------------------------------------
-    Error::Failed(CreateStandard3DColorShader(),"Creating Standard3DColorShader failed !", _FAILED_3DColorShader);
-    Error::Failed(CreateStandard3DLightShader(),"Creating Standard3DLightShader failed !", _FAILED_3DLightShader);
-    Error::Failed(CreateStandard3DLightColorShader(),"Creating Standard3DLightColorShader failed !", _FAILED_3DLightColorShader);
-    Error::Failed(CreateStandard3DGlasShader(),"Creating Standard3DGlasShader failed !", _FAILED_3DGlasShader);
+    ErrorLogs::Failed(CreateStandard3DColorShader(),"Creating Standard3DColorShader failed !", _FAILED_3DColorShader);
+    ErrorLogs::Failed(CreateStandard3DLightShader(),"Creating Standard3DLightShader failed !", _FAILED_3DLightShader);
+    ErrorLogs::Failed(CreateStandard3DLightColorShader(),"Creating Standard3DLightColorShader failed !", _FAILED_3DLightColorShader);
+    ErrorLogs::Failed(CreateStandard3DGlasShader(),"Creating Standard3DGlasShader failed !", _FAILED_3DGlasShader);
 }
 
 

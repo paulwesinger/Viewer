@@ -49,10 +49,13 @@ public:
 
 
 
+
 protected:
     void loadButtons();
     virtual void Render()  override;
     virtual void RenderSkyBox() override;
+
+    virtual void Render2DUserObject() override;
     // Lists for all objects:
     std::vector<std::string> btnList;
     std::vector<std::string> object2DList;
@@ -86,6 +89,7 @@ protected:
     // virtuelle functions
     void ShowFramesPerSec() override;
     void ShowCameraPos() override;
+    void InitEngineObject() override;
 
     bool initButtonStruct(sButtonStruct & bs,std::vector<std::string> cfg);
     bool init3DStruct(s3DStruct & d3s, std::vector<std::string> &cfg);

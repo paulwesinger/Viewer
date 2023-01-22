@@ -128,7 +128,7 @@ TextRender::TextRender(int resx, int resy,Shader *sh) {
     _PathBottomLine = "";
     _Font = GNU_DEFAULT_FONT;
     shader = sh;
-    Error::Failed(Init(resx,resy),"Fehler beim Initialissieren",_FAILED);
+    ErrorLogs::Failed(Init(resx,resy),"Fehler beim Initialissieren",_FAILED);
 }
 
 TextRender::TextRender(int resx, int resy, sPoint pos, Shader * sh) {
@@ -140,7 +140,7 @@ TextRender::TextRender(int resx, int resy, sPoint pos, Shader * sh) {
     _PathBottomLine = "";
     _Font = GNU_DEFAULT_FONT;
     shader = sh;
-    Error::Failed(Init(resx,resy),"Fehler beim Initialissieren",_FAILED);
+    ErrorLogs::Failed(Init(resx,resy),"Fehler beim Initialissieren",_FAILED);
 }
 
 TextRender::TextRender(int resx, int resy, sPoint pos,std::string imagetextfield, Shader * sh) {
@@ -152,7 +152,7 @@ TextRender::TextRender(int resx, int resy, sPoint pos,std::string imagetextfield
     _PathBottomLine = "";
     _Font = GNU_DEFAULT_FONT;
     shader = sh;
-    Error::Failed(Init(resx,resy),"Fehler beim Initialissieren",_FAILED);
+    ErrorLogs::Failed(Init(resx,resy),"Fehler beim Initialissieren",_FAILED);
 }
 
 TextRender::TextRender(int resx, int resy, sPoint pos,std::string imagehead, std::string imagetextfield, Shader * sh) {
@@ -163,7 +163,7 @@ TextRender::TextRender(int resx, int resy, sPoint pos,std::string imagehead, std
     _PathBottomLine = "";
     _Font = GNU_DEFAULT_FONT;
     shader = sh;
-    Error::Failed(Init(resx,resy),"Fehler beim Initialissieren",_FAILED);
+    ErrorLogs::Failed(Init(resx,resy),"Fehler beim Initialissieren",_FAILED);
 }
 
 TextRender::TextRender(int resx, int resy, sPoint pos,std::string imagehead, std::string imagetextfield,std::string imagebottom, Shader * sh) {
@@ -174,7 +174,7 @@ TextRender::TextRender(int resx, int resy, sPoint pos,std::string imagehead, std
     _PathBottomLine = imagebottom;
     _Font = GNU_DEFAULT_FONT;
     shader = sh;
-    Error::Failed(Init(resx,resy),"Fehler beim Initialissieren",_FAILED);
+    ErrorLogs::Failed(Init(resx,resy),"Fehler beim Initialissieren",_FAILED);
 }
 
 void TextRender::SetColorShader(GLuint s) {
@@ -687,7 +687,12 @@ void TextRender::Render() {
     // Text Rendern
     //--------------------
     glActiveTexture(GL_TEXTURE0);
-    glUseProgram( shader->getGlyphShader());
+    GLuint s = shader->getGlyphShader();
+
+    SetGlyphShader(s);
+    glUseProgram( s); //   shader->getGlyphShader());
+
+
     glBindVertexArray(_VAO);
     mv_projectloc = glGetUniformLocation(_GlyphShader,"projection");
     uniform_colorloc   = glGetUniformLocation(_GlyphShader,"col2D");
