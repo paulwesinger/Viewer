@@ -202,10 +202,12 @@ void CEngine::initMenu(){
     p = con2->NextControllPos();
 
     txtFrameperSec = new TextEdit(_ResX, _ResY,PATH::ROOT + BTN_BG, p,s,
-                                  glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0),InitGL::getShaderPtr());
+                                  glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.0, 0.99, 1.0, 1.0),InitGL::getShaderPtr());
+
+
 
     //Setting the color for the outputlabel
-    txtFrameperSec->setColor(glm::vec4(1.0, 1.0, 1.0, 1.0));
+    txtFrameperSec->setColor(glm::vec4(0.0, 0.0, 1.0, 1.0));
     con2->addControll2D(txtFrameperSec);
     // add label for Frames to buildin textrender label
     txtFrameperSec->setLabel("FPS");
