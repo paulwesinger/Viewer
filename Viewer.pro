@@ -56,6 +56,7 @@ SOURCES += \
         sphere/sphere.cpp \
         textedit/textedit.cpp \
         textrenderer/textrender.cpp \
+        toolbars/toolbar.cpp \
         utils/utils.cpp \
         vecmath/vecmath.cpp \
         window/window.cpp
@@ -237,6 +238,7 @@ HEADERS += \
     sphere/sphere.h \
     textedit/textedit.h \
     textrenderer/textrender.h \
+    toolbars/toolbar.h \
     utils/utils.h \
     vecmath/vecmath.h \
     window/window.h

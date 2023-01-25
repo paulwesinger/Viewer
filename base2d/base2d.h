@@ -54,7 +54,6 @@ protected:
     GLuint _GlyphShader;
 
     unsigned int _Texture;
-
     std::string _ImagePath;
 
     GLint _Uniform_mv_projectloc;
