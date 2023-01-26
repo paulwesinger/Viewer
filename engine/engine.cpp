@@ -37,6 +37,8 @@ CEngine::CEngine(std::string titel) :
     cameraX             = nullptr;
     cameraY             = nullptr;
     cameraZ             = nullptr;
+
+    toolbar             = nullptr;
   //  _FullScreen = true;
   //  _ResX = FULLSCREEN_WIDTH;
   //  _ResY = FULLSCREEN_HEIGHT;
@@ -96,6 +98,7 @@ bool CEngine::HandleMessage() {
 
 void CEngine::InitUserObjects() {
     InitGL::InitUserObjects();
+
 }
 
 // ---------------------------------------------------------------
@@ -124,6 +127,12 @@ void CEngine::funcFog(){
 void CEngine::Render() {
 
     InitGL::Render();
+
+
+    if (toolbar != nullptr)
+        toolbar->Render();
+
+
 }
 
 void CEngine::RenderSkyBox() {
@@ -400,10 +409,14 @@ void CEngine::Init2D() {
    // testToolBox->setHeight(80);
     testToolBox-> setPos(1000,800);
 
+    toolbar = new ToolBar(_ResX,_ResY,InitGL::getShaderPtr());
+    //toolbar-> setPos(100,30);
+
 
 
     add2Dobject(base2d);
     add2Dobject(testToolBox);
+    add2Dobject(toolbar);
 }
 
 void CEngine::Render2DUserObject() {

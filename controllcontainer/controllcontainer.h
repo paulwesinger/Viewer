@@ -18,8 +18,8 @@ const int SPACER = 10;
 class CControllContainer
 {
 public:
-    CControllContainer(Shader * sh);
-    CControllContainer(Shader * sh, int px=0, int py=0, int w=100, int h=100);
+    CControllContainer(Shader * sh, bool vertical = true);
+    CControllContainer(Shader * sh, int px=0, int py=0, int w=100, int h=100, bool vertical = true);
     ~CControllContainer();
 
     bool removeContainer(CControllContainer *container);
@@ -48,7 +48,6 @@ public:
     std::vector<CButton *> buttons;
     std::vector<TextRender*> texts;
 
-
 private:
 
     void releaseConterItems();
@@ -65,6 +64,8 @@ private:
 
 
     Shader * shader;
+
+    bool _Vertical;
 
 
 };

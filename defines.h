@@ -88,19 +88,24 @@ typedef struct {
  int y1;
 } sRect;
 
-typedef struct {
+struct stPoint{
   int x;
   int y;
- // sPoint(int _x, int _y) :  x(_x), y(_y)  {}
+  stPoint(){}
+  stPoint(int _x, int _y)
+      {
+        x =_x, y = _y;
+      }
 
-}sPoint;
+};
+typedef stPoint sPoint;
 
 struct POINT {
 
     float x;
     float y;
     float z = 0.0f;
-
+    POINT(){}
     POINT(float _x, float _y) :  x(_x), y(_y)  {}
 };
 typedef struct POINT Point;

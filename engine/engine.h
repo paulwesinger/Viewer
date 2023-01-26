@@ -14,6 +14,8 @@
 #include "../controllcontainer/controllcontainer.h"
 #include "../menu/menu.h"
 #include "../window/window.h"
+#include "../toolbars/toolbar.h"
+
 
 const std::string BUTTONS_CFG  = PATH::ROOT + "config/Buttons/";
 const std::string OBJECT3D_CFG = PATH::ROOT + "config/3DObjects/";
@@ -119,6 +121,8 @@ protected:
 
     // Toolboxes, sonstige Fenster
     Window * testToolBox;
+
+    ToolBar * toolbar;
 
 
     std::string &getValueItem(std::string &s, std::string erasestring);

@@ -3,7 +3,7 @@
 #include "../utils/utils.h"
 #include "../defaults.h"
 
-CControllContainer::CControllContainer(Shader * sh) {
+CControllContainer::CControllContainer(Shader * sh, bool vertical) {
 
     _Height = 10;
     _Width = 10;
@@ -11,10 +11,11 @@ CControllContainer::CControllContainer(Shader * sh) {
     _CurrentX = 5;
 
     shader = sh;
+    _Vertical = vertical;
 }
 
 
-CControllContainer::CControllContainer(Shader * sh, int px, int py, int w, int h) {
+CControllContainer::CControllContainer(Shader * sh, int px, int py, int w, int h, bool vertical) {
 
     _Height = h;
     _Width = w ;   // 2* 5
@@ -22,6 +23,7 @@ CControllContainer::CControllContainer(Shader * sh, int px, int py, int w, int h
     _CurrentX = px + 5;
 
     shader = sh;
+    _Vertical = vertical;
 }
 
 CControllContainer::~CControllContainer() {
@@ -85,13 +87,7 @@ sPoint CControllContainer::Pos() {
 }
 
 sPoint CControllContainer::NextControllPos() {
-    sPoint p;
-    p.x = _CurrentX;
-    p.y = _CurrentY;
-
-    loginfo("_CurrentX " + IntToString(p.x),"CControllContainer::NextControllPos");
-    logEmptyLine();
-    return  p;
+    return sPoint(_CurrentX,_CurrentY);
 }
 
 void CControllContainer::setDimensions(sSize size) {
