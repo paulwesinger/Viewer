@@ -5,7 +5,7 @@
 #include "../window/window.h"
 #include "../menu/menu.h"
 #include "../shaders/shader.h"
-
+#include "../menu/menu.h"
 
 class ToolBar : public Window
 {
@@ -17,9 +17,21 @@ public:
 
     void Render() override;
 
+    void setMenuPtr(CMenu* ptr);
+    CMenu* getMenuPtr();
+
+protected:
+    void Stretch();
+
+
 private:
 
     void Init();
+
+    //------------------------------
+    //nullptr, wenn keines vorhanden
+    //------------------------------
+    CMenu * mainmenu;
 
 };
 

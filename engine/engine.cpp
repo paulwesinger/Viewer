@@ -327,6 +327,9 @@ void CEngine::initMenu(){
 
     MainMenu->addConatiner(con2);
 
+    if (toolbar != nullptr) {
+        toolbar->setMenuPtr(MainMenu);
+    }
 }
 
 void CEngine::ShowFramesPerSec() {
