@@ -18,10 +18,11 @@ const int SPACER = 10;
 class CControllContainer
 {
 public:
-    CControllContainer(Shader * sh, bool vertical = true);
-    CControllContainer(Shader * sh, int px=0, int py=0, int w=100, int h=100, bool vertical = true);
+    CControllContainer(Shader * sh, LAYOUT l = LAYOUT::Vertical);
+    CControllContainer(Shader * sh, int px=0, int py=0, int w=100, int h=100, LAYOUT l = LAYOUT::Vertical);
     ~CControllContainer();
 
+    void setLayout(LAYOUT l);
     bool removeContainer(CControllContainer *container);
     void rename(std::string theNewName);
 
@@ -50,6 +51,7 @@ public:
 
 private:
 
+    void CalcNextPos(int value);
     void releaseConterItems();
 
     std::string _Name;
@@ -62,12 +64,8 @@ private:
     sSize _Dimensions; // von user seite
     sPoint _Pos; // absoluter wert
 
-
     Shader * shader;
-
-    bool _Vertical;
-
-
+    LAYOUT layout;
 };
 
 #endif // CCONTROLLCONTAINER_H

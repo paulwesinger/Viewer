@@ -198,7 +198,7 @@ void CEngine::initMenu(){
     //---------------------------------------------------
     con2 = new CControllContainer(InitGL::getShaderPtr(),MainMenu->Pos().x,
                                              curr_y,
-                                  MainMenu->Width(),0);
+                                  MainMenu->Width(),0, LAYOUT::Horizontal);
     //-----------------------------------------------------
     // Textedit:
     //-----------------------------------------------------
@@ -415,9 +415,6 @@ void CEngine::Init2D() {
     toolbar = new ToolBar(_ResX,_ResY,InitGL::getShaderPtr());
     toolbar->setMenuPtr(MainMenu);
     //toolbar-> setPos(100,30);
-
-
-
     add2Dobject(base2d);
     add2Dobject(testToolBox);
     add2Dobject(toolbar);

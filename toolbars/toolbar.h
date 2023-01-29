@@ -6,6 +6,7 @@
 #include "../menu/menu.h"
 #include "../shaders/shader.h"
 #include "../menu/menu.h"
+#include "../controllcontainer/controllcontainer.h"
 
 class ToolBar : public Window
 {
@@ -32,7 +33,7 @@ private:
     //nullptr, wenn keines vorhanden
     //------------------------------
     CMenu * mainmenu;
-
+    CControllContainer * container;
 };
 
 #endif // TOOLBAR_H

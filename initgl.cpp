@@ -214,20 +214,9 @@ void InitGL::RenderControlls() {
     //------------------------------------
     // MainMenu rendern
     // -----------------------------------
+
     if ( MainMenu != nullptr  && showMenu) {
         MainMenu ->Render();
-    }
-
-    if (! textfields.empty() ) {
-        for (uint i = 0; i < textfields.size(); i ++) {
-            textfields.at(i)->Render();
-        }
-    }
-
-    if ( ! buttons.empty() ) {
-        for ( uint i = 0; i < buttons.size(); i++) {
-            buttons[i]->Render();
-        }
     }
 }
 

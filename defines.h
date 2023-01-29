@@ -30,6 +30,12 @@ const std::string NO_FILE  = "NO FILE";
 
 
 // Structs for Objects to read in
+
+enum LAYOUT {
+    Horizontal  = 0,
+    Vertical
+};
+
 enum ObjectType {
     ZYLINER = 0 ,
     KUGEL       ,

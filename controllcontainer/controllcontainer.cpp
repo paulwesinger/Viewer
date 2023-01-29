@@ -3,7 +3,7 @@
 #include "../utils/utils.h"
 #include "../defaults.h"
 
-CControllContainer::CControllContainer(Shader * sh, bool vertical) {
+CControllContainer::CControllContainer(Shader * sh, LAYOUT l) {
 
     _Height = 10;
     _Width = 10;
@@ -11,11 +11,11 @@ CControllContainer::CControllContainer(Shader * sh, bool vertical) {
     _CurrentX = 5;
 
     shader = sh;
-    _Vertical = vertical;
+    layout = l;
 }
 
 
-CControllContainer::CControllContainer(Shader * sh, int px, int py, int w, int h, bool vertical) {
+CControllContainer::CControllContainer(Shader * sh, int px, int py, int w, int h, LAYOUT l) {
 
     _Height = h;
     _Width = w ;   // 2* 5
@@ -23,11 +23,15 @@ CControllContainer::CControllContainer(Shader * sh, int px, int py, int w, int h
     _CurrentX = px + 5;
 
     shader = sh;
-    _Vertical = vertical;
+    layout = l;
 }
 
 CControllContainer::~CControllContainer() {
     releaseConterItems();
+}
+
+void CControllContainer::setLayout(LAYOUT l) {
+    layout = l;
 }
 
 void CControllContainer::disableControll(Base2D *con){
@@ -109,8 +113,17 @@ void CControllContainer::rename(std::string theNewName){
     _Name = theNewName;
 }
 
+void CControllContainer::CalcNextPos(int value) {
+    if (layout == LAYOUT::Vertical)
+        _CurrentY += value;
+    else
+        if (layout == LAYOUT::Horizontal)
+            _CurrentX += value;
+}
+
 bool CControllContainer::addSpacer(){
-    _CurrentY += SPACER;
+
+    CalcNextPos(SPACER);
     return true;
 }
 
@@ -120,9 +133,18 @@ bool CControllContainer::addButton(CButton *btn) {
     btn->setPos(_CurrentX,_CurrentY);
     // Gesammthöhe des container
     _Height += btn->Height();
+
     // Nächste Position im Container
-    _CurrentY += btn->Height() + 1 ;
-    _Dimensions.h = _Height;
+    if (layout == LAYOUT::Vertical) {
+        CalcNextPos(btn->Height() + 1);
+        _Dimensions.h += _Height;
+    }
+    else {
+        CalcNextPos(btn->Width() + 1);
+        _Dimensions.w += _Height;
+    }
+
+
     buttons.push_back(btn);
 
     loginfo("Add Button to Container ...... Done ", "CControllcontainer::addbutton");
@@ -130,10 +152,18 @@ bool CControllContainer::addButton(CButton *btn) {
 }
 
 bool CControllContainer::addControll2D(Base2D *controll) {
+
     controll->setPos(_CurrentX, _CurrentY);
-    _Height += controll->Height();
-    _CurrentY += controll->Height()+1;
-    _Dimensions.h += _Height;
+
+    if (layout == LAYOUT::Vertical) {
+        CalcNextPos(controll->Height()+1);
+        _Dimensions.h += _Height;
+    }
+    else {
+        CalcNextPos(controll->Width()+1);
+        _Dimensions.h += _Width;
+    }
+
     controlls2D.push_back(controll);
     loginfo("added controll2D");
     return true;
@@ -147,6 +177,11 @@ bool CControllContainer::addControll3D(BaseObject *baseobject)
 
 bool CControllContainer::addText(std::string text, int resx, int resy){
 
+
+    // ----------------------
+    // Need tobe testet !!!
+    // Not used yet
+    //-----------------------
     sPoint p;
     p.x = _Pos.x+ 1;
     p.y = _CurrentY;
@@ -156,8 +191,15 @@ bool CControllContainer::addText(std::string text, int resx, int resy){
     t->SetPos(p);
     t->AddString(text);
 
+    if (layout == LAYOUT::Vertical ){
+        CalcNextPos(t->GetTextAreaHeight() + 1);
+        _Height += t->GetTextAreaHeight();
+    }
+    else {
+        CalcNextPos(t->GetWidth() + 1);
+        _Width += t->GetWidth();
+    }
 
-    _CurrentY += t->GetTextAreaHeight() + 1;
-    _Height += t->GetTextAreaHeight();
+
     return  true;
 }
