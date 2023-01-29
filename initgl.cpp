@@ -1123,7 +1123,7 @@ void InitGL::OnLeftMouseButtonDown(int &x, int &y) {
     if ( ! MainMenu->containerList.empty() && MainMenu != nullptr && MainMenu->Active()) {
 
         for ( uint i = 0; i< MainMenu->containerList.size(); i++) {
-            if ( ! MainMenu->containerList.at(i)->buttons.empty()) {
+       /*     if ( ! MainMenu->containerList.at(i)->buttons.empty()) {
 
                 for (uint j=0; j< MainMenu->containerList.at(i)->buttons.size(); j ++) {
                     if (MainMenu->containerList.at(i)->buttons.at(j)->intersect(x, y) ) {
@@ -1131,6 +1131,8 @@ void InitGL::OnLeftMouseButtonDown(int &x, int &y) {
 
                     }
                 }
+
+         */
              // Checkbox, ....
              if ( ! MainMenu->containerList.at(i)->controlls2D.empty() ) {
 
@@ -1142,7 +1144,7 @@ void InitGL::OnLeftMouseButtonDown(int &x, int &y) {
                 }
              }
           }
-       }
+       //}
     }
 }
 
@@ -1151,6 +1153,8 @@ void InitGL::OnLeftMouseButtonUp(int &x, int &y) {
     if ( ! MainMenu->containerList.empty() && MainMenu != nullptr && MainMenu->Active()) {
 
         for ( uint i = 0; i< MainMenu->containerList.size(); i++) {
+
+            /*
             if ( ! MainMenu->containerList.at(i)->buttons.empty()) {
 
                 for (uint j=0; j< MainMenu->containerList.at(i)->buttons.size(); j ++) {
@@ -1159,13 +1163,13 @@ void InitGL::OnLeftMouseButtonUp(int &x, int &y) {
                     }
                 }
             }
-
+            */
             if ( ! MainMenu->containerList.at(i)->controlls2D.empty() ) {
 
-                if ( ! _LockClick) {
+                if ( _LockClick) {
                     for (uint j=0; j< MainMenu->containerList.at(i)->controlls2D.size(); j ++) {
                         if (MainMenu->containerList.at(i)->controlls2D.at(j)->intersect(x, y) ) {
-                            MainMenu->containerList.at(i)->controlls2D.at(j)->OnClick();
+                            MainMenu->containerList.at(i)->controlls2D.at(j)->OnRelease();
                         }
                     }
                 }

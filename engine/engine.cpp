@@ -271,6 +271,17 @@ void CEngine::initMenu(){
     // ---------------------------------------------------
     // Statusfenster(pos) von Camera:
     //----------------------------------------------------
+
+    toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
+                                        con1->NextControllPos(),CEngine::functoggleSkybox);
+
+    con2->addButton(toogleSkyBoxBtn);
+    con2->addSpacer();
+
+    //curr_y = MainMenu->CurrentY() + MENU_SPACER;
+
+
+
     p = con2->NextControllPos();
     cameraX = new TextEdit(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s,
                   glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0), InitGL::getShaderPtr());
@@ -317,6 +328,10 @@ void CEngine::initMenu(){
     cameradirZ->setLabel("CamDir.Z");
 
     p = con2->NextControllPos();
+
+
+
+    /*
     cameradirX = new TextEdit(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s,
                               glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0),InitGL::getShaderPtr());
 
@@ -324,7 +339,7 @@ void CEngine::initMenu(){
     con2->addControll2D(cameradirX);
     // add label for Frames to buildin textrender label
     cameradirX->setLabel("CamDir.X");
-
+*/
     MainMenu->addConatiner(con2);
 
     if (toolbar != nullptr) {

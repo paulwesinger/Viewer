@@ -61,6 +61,7 @@ void CControllContainer::releaseConterItems() {
         controlls2D.clear();
     }
 
+    /*
     if (! controlls3D.empty() ) {
         for (uint i=0; i< controlls3D.size(); i++) {
             delete controlls3D.at(i);
@@ -81,6 +82,8 @@ void CControllContainer::releaseConterItems() {
         }
         texts.clear();
     }
+
+    */
 }
 
 void CControllContainer::setPos(sPoint pos) {
@@ -145,7 +148,8 @@ bool CControllContainer::addButton(CButton *btn) {
     }
 
 
-    buttons.push_back(btn);
+    //buttons.push_back(btn);
+    controlls2D.push_back(btn);
 
     loginfo("Add Button to Container ...... Done ", "CControllcontainer::addbutton");
     return  true;

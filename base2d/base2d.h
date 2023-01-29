@@ -36,6 +36,7 @@ public:
 
     virtual void Render() override;
     virtual void OnClick();
+    virtual void OnRelease();
 
 protected:
 

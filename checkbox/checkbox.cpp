@@ -90,6 +90,15 @@ void CheckBox::OnClick(){
     clickFunc(_Checked);
 }
 
+void CheckBox::OnRelease(){
+    releaseClick();
+}
+
+void CheckBox::releaseClick() {
+
+// for convience
+}
+
 TextRender* CheckBox::getLabelPtr(){
     return textLabel;
 }

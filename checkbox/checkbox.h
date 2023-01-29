@@ -30,6 +30,8 @@ public:
     TextRender * getLabelPtr();
     bool Checked();
     void OnClick() override;
+    void OnRelease() override;
+
     void AddHandler(FPB Handler);
 protected:
     TextRender * textLabel;
@@ -40,6 +42,7 @@ protected:
 
 
 private:
+    void releaseClick();
     glm::vec4 _LabelTextColor;
 
     sPoint _PosLabel;

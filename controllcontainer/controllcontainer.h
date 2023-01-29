@@ -46,8 +46,8 @@ public:
 
     std::vector<Base2D *> controlls2D;
     std::vector<BaseObject*> controlls3D;
-    std::vector<CButton *> buttons;
-    std::vector<TextRender*> texts;
+//    std::vector<CButton *> buttons;
+//    std::vector<TextRender*> texts;
 
 private:
 

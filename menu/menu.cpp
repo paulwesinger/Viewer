@@ -121,12 +121,14 @@ void CMenu::Render() {
     menuBackground ->Render();
     if (! containerList.empty() ) {
         for(uint i=0; i < containerList.size(); i++) {
-
+/*
             if ( ! containerList.at(i) ->buttons.empty()) {
                 for (uint j=0; j < containerList.at(i)->buttons.size(); j++){
                     containerList.at(i)->buttons.at(j) ->Render();
                 }
             }
+
+            */
             if ( ! containerList.at(i) ->controlls2D.empty() ) {
                 for (uint j=0; j < containerList.at(i)->controlls2D.size(); j++){
                     containerList.at(i)->controlls2D.at(j) ->Render();
