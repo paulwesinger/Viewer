@@ -69,11 +69,18 @@ protected:
 
     CControllContainer *con1;
     CControllContainer *con2;
+    CControllContainer * ContainerToolbar1;
 
     CButton * toogleSkyBoxBtn;
+    CButton * TestButton1;
+    CButton * TestButton2;
+
 
     static void functoggleSkybox();
     static void funcFog();
+    static void funcTestBtn1();
+    static void funcTestBtn2();
+
 
     static void functoogleAnimation(bool checked);
     static void functoogleBlend(bool checked);
@@ -87,6 +94,7 @@ protected:
     void Init3D();
     void initMenu();
     void initLandscape();
+    void InitToolBar();
 
     // virtuelle functions
     void ShowFramesPerSec() override;

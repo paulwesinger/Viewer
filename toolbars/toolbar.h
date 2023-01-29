@@ -7,6 +7,7 @@
 #include "../shaders/shader.h"
 #include "../menu/menu.h"
 #include "../controllcontainer/controllcontainer.h"
+#include <glm/vec4.hpp>
 
 class ToolBar : public Window
 {
@@ -21,19 +22,31 @@ public:
     void setMenuPtr(CMenu* ptr);
     CMenu* getMenuPtr();
 
+    void addConatiner(CControllContainer *con);
+    void setLAyOut(LAYOUT l);
+
 protected:
     void Stretch();
+    std::vector<CControllContainer *> containerList;
 
 
 private:
 
     void Init();
+    void CalcDragArea();
 
     //------------------------------
     //nullptr, wenn keines vorhanden
     //------------------------------
     CMenu * mainmenu;
     CControllContainer * container;
+
+    sRect DragArea;
+    glm::vec4 DragAreaColor;
+
+    Base2D * DragIcon;
+
+    LAYOUT _Layout;
 };
 
 #endif // TOOLBAR_H

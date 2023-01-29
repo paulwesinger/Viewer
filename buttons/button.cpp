@@ -86,7 +86,7 @@ void CButton::OnClick() {
     //clickFunc();
 }  // Must be overwritten
 */
-void CButton::OnRelease(){}
+//void CButton::OnRelease(){}
 
 void CButton::OnFocus() {
     loginfo("OnFocus","CButton::OnFocus");

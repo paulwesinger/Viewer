@@ -34,11 +34,15 @@ CEngine::CEngine(std::string titel) :
     checkBoxAnimation   = nullptr;
     toogleSkyBoxBtn     = nullptr;
 
+    TestButton1         = nullptr;
+    TestButton2         = nullptr;
+
     cameraX             = nullptr;
     cameraY             = nullptr;
     cameraZ             = nullptr;
 
     toolbar             = nullptr;
+    ContainerToolbar1   = nullptr;
   //  _FullScreen = true;
   //  _ResX = FULLSCREEN_WIDTH;
   //  _ResY = FULLSCREEN_HEIGHT;
@@ -63,8 +67,6 @@ void CEngine::Done() {
 
 void CEngine::Run() {
 
-    InitButtons();
-    initMenu();
 
     Init2D();
     Init3D();
@@ -124,6 +126,20 @@ void CEngine::funcFog(){
     loginfo("Fog - function");
 }
 
+void CEngine::funcTestBtn1() {
+
+}
+
+void CEngine::funcTestBtn2() {
+
+}
+
+
+
+
+
+
+
 void CEngine::Render() {
 
     InitGL::Render();
@@ -158,6 +174,36 @@ CButton * CEngine::CreateImageButton(std::string btnBg, std::string btnImage, sP
     b->AddHandler(handler);
 
     return b;
+}
+
+
+// --------------------------------------------------------------
+// Init Toolbar
+// --------------------------------------------------------------
+void CEngine::InitToolBar() {
+    TestButton1 = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
+                                        con1->NextControllPos(),CEngine::funcTestBtn1);
+
+
+
+
+
+   stPoint p(toolbar->Pos()) ;
+
+    ContainerToolbar1 = new CControllContainer(InitGL::getShaderPtr(), p.x,p.y,
+                                               toolbar->Width(), 0,LAYOUT::Horizontal);
+
+
+    ContainerToolbar1->addControll2D(TestButton1);
+    //p = ContainerToolbar1->NextControllPos();
+
+    TestButton2 = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
+                                        con1->NextControllPos(),CEngine::funcTestBtn2);
+
+    ContainerToolbar1->addControll2D(TestButton2);
+
+    toolbar->addConatiner(ContainerToolbar1);
+
 }
 
 
@@ -198,7 +244,7 @@ void CEngine::initMenu(){
     //---------------------------------------------------
     con2 = new CControllContainer(InitGL::getShaderPtr(),MainMenu->Pos().x,
                                              curr_y,
-                                  MainMenu->Width(),0, LAYOUT::Horizontal);
+                                  MainMenu->Width(),0, LAYOUT::Vertical);
     //-----------------------------------------------------
     // Textedit:
     //-----------------------------------------------------
@@ -433,6 +479,12 @@ void CEngine::Init2D() {
     add2Dobject(base2d);
     add2Dobject(testToolBox);
     add2Dobject(toolbar);
+
+
+
+    InitButtons();
+    initMenu();
+    InitToolBar();
 }
 
 void CEngine::Render2DUserObject() {

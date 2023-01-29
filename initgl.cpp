@@ -1101,13 +1101,6 @@ void InitGL::OnLeftMouseButtonDown(int &x, int &y) {
             textfields.at(i)->OnStartDrag(x, y);
     }
 
-    if ( ! buttons.empty()  ) {
-        for (uint i = 0; i < buttons.size(); i++) {
-            if (buttons[i]->intersect(x, y) )
-                buttons[i]->OnStartDrag(x, y);
-        }
-    }
-
     if (!objects2D.empty() ) {
 
 
@@ -1123,18 +1116,8 @@ void InitGL::OnLeftMouseButtonDown(int &x, int &y) {
     if ( ! MainMenu->containerList.empty() && MainMenu != nullptr && MainMenu->Active()) {
 
         for ( uint i = 0; i< MainMenu->containerList.size(); i++) {
-       /*     if ( ! MainMenu->containerList.at(i)->buttons.empty()) {
 
-                for (uint j=0; j< MainMenu->containerList.at(i)->buttons.size(); j ++) {
-                    if (MainMenu->containerList.at(i)->buttons.at(j)->intersect(x, y) ) {
-                        MainMenu->containerList.at(i)->buttons.at(j)->OnClick();
-
-                    }
-                }
-
-         */
-             // Checkbox, ....
-             if ( ! MainMenu->containerList.at(i)->controlls2D.empty() ) {
+            if ( ! MainMenu->containerList.at(i)->controlls2D.empty() ) {
 
                 _LockClick = true;
                 for (uint j=0; j< MainMenu->containerList.at(i)->controlls2D.size(); j ++) {
@@ -1142,9 +1125,8 @@ void InitGL::OnLeftMouseButtonDown(int &x, int &y) {
                         MainMenu->containerList.at(i)->controlls2D.at(j)->OnClick();
                     }
                 }
-             }
-          }
-       //}
+            }
+        }
     }
 }
 
@@ -1154,16 +1136,6 @@ void InitGL::OnLeftMouseButtonUp(int &x, int &y) {
 
         for ( uint i = 0; i< MainMenu->containerList.size(); i++) {
 
-            /*
-            if ( ! MainMenu->containerList.at(i)->buttons.empty()) {
-
-                for (uint j=0; j< MainMenu->containerList.at(i)->buttons.size(); j ++) {
-                    if (MainMenu->containerList.at(i)->buttons.at(j)->intersect( x, y) ) {
-                        MainMenu->containerList.at(i)->buttons.at(j)->OnRelease();
-                    }
-                }
-            }
-            */
             if ( ! MainMenu->containerList.at(i)->controlls2D.empty() ) {
 
                 if ( _LockClick) {
@@ -1176,13 +1148,6 @@ void InitGL::OnLeftMouseButtonUp(int &x, int &y) {
                 else
                     _LockClick = false;
             }
-        }
-    }
-
-    if ( ! buttons.empty()  ) {
-        for (uint i = 0; i < buttons.size(); i++) {
-            if (buttons[i]->intersect(x, y) )
-                buttons[i]->OnRelease();
         }
     }
 

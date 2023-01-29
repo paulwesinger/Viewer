@@ -56,8 +56,6 @@ public:
     virtual void setScale(float s = 1.0f) = 0;
 
     //EventHandling
-    //virtual void OnClick() = 0 ;  // Muss überschrieben werden !!!!
-    virtual void OnRelease() = 0;
     virtual void OnFocus();
 
     virtual void alignToSize(int w, int h);
