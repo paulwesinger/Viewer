@@ -63,12 +63,12 @@ void CEngine::Done() {
 
 void CEngine::Run() {
 
-
+    InitButtons();
+    initMenu();
 
     Init2D();
     Init3D();
-    InitButtons();
-    initMenu();
+
 
     InitGL::Run();
 }
@@ -413,6 +413,7 @@ void CEngine::Init2D() {
     testToolBox-> setPos(1000,800);
 
     toolbar = new ToolBar(_ResX,_ResY,InitGL::getShaderPtr());
+    toolbar->setMenuPtr(MainMenu);
     //toolbar-> setPos(100,30);
 
 

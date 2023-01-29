@@ -27,8 +27,10 @@ void ToolBar::Render() {
 
     if (mainmenu == nullptr)
         Window::Render();
-    else
+    else{
         Stretch();
+        Window::Render();
+    }
 }
 
 void ToolBar::Stretch() {
@@ -59,8 +61,7 @@ void ToolBar::Init() {
 }
 
 void ToolBar::setMenuPtr(CMenu * ptr) {
-    if (mainmenu != nullptr)
-        mainmenu = ptr;
+    mainmenu = ptr;
 }
 
 CMenu * ToolBar::getMenuPtr() {
