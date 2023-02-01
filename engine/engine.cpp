@@ -79,22 +79,84 @@ void CEngine::InitEngineObject(){
     InitGL::InitEngineObject();
 }
 
-bool CEngine::HandleMessage() {
+void CEngine::OnMouseMove(int &x, int &y, uint32 buttonstate) {
+    InitGL::OnMouseMove(x,y,buttonstate);
+}
 
-    /*
+void CEngine::OnLeftMouseButtonUp(int &x, int &y) {
+    InitGL::OnLeftMouseButtonUp(x,y);
 
-    SDL_PollEvent(&_Event);
+    for (uint i = 0; i < toolbar->containerList.size(); i ++){
+        if ( ! toolbar->containerList.at(i)->controlls2D.empty() ) {
 
-    switch(_Event.type) {
-
-        case SDL_KEYDOWN:
-        case SDL_KEYUP : {
-            switch(_Event.key.keysym.sym) {
-                case SDLK_d: _QuitGame = true; break;
+            if ( _LockClick) {
+                for (uint j=0; j< toolbar->containerList.at(i)->controlls2D.size(); j ++) {
+                    if (toolbar->containerList.at(i)->controlls2D.at(j)->intersect(x, y) ) {
+                        toolbar->containerList.at(i)->controlls2D.at(j)->OnRelease();
+                    }
+                }
             }
+            else
+                _LockClick = false;
         }
     }
-    */
+}
+
+void CEngine::OnLeftMouseButtonDown( int &x, int &y){
+    InitGL::OnLeftMouseButtonDown(x,y);
+
+    for (uint i = 0; i < toolbar->containerList.size(); i ++){
+        if ( ! toolbar->containerList.at(i)->controlls2D.empty() ) {
+
+            if ( _LockClick) {
+                for (uint j=0; j< toolbar->containerList.at(i)->controlls2D.size(); j ++) {
+                    if (toolbar->containerList.at(i)->controlls2D.at(j)->intersect(x, y) ) {
+                        toolbar->containerList.at(i)->controlls2D.at(j)->OnClick();
+                    }
+                }
+            }
+            else
+                _LockClick = false;
+        }
+    }
+}
+
+bool CEngine::HandleMessage() {
+
+    SDL_Event event;
+    SDL_PollEvent(&event);
+    SDL_FlushEvent(SDL_MOUSEMOTION);
+    uint32_t buttons;
+    switch(event.type) {
+    //------------------------------------------------------------------------------
+    // Mause Events
+    //------------------------------------------------------------------------------
+        case      SDL_MOUSEMOTION : {
+
+            _Mouse.x = _Event.motion.x;
+            _Mouse.y = _Event.motion.y;
+
+            buttons = SDL_GetMouseState(&event.motion.x, &event.motion.y);
+            OnMouseMove(event.motion.x, event.motion.y, buttons);
+            break;
+        }
+
+        case SDL_MOUSEBUTTONDOWN: {
+
+            if ( event.button.button == SDL_BUTTON_LEFT ) {
+                OnLeftMouseButtonDown(event.motion.x, event.motion.y);
+            }
+            break;
+        }
+
+        case SDL_MOUSEBUTTONUP: {
+
+            if ( event.button.button == SDL_BUTTON_LEFT ) {
+                OnLeftMouseButtonUp(event.motion.x, event.motion.y);
+            }
+            break;
+        }
+    }
     return InitGL::HandleMessage();
 }
 
@@ -133,10 +195,6 @@ void CEngine::funcTestBtn1() {
 void CEngine::funcTestBtn2() {
 
 }
-
-
-
-
 
 
 
@@ -199,6 +257,8 @@ void CEngine::InitToolBar() {
 
     TestButton2 = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
                                         con1->NextControllPos(),CEngine::funcTestBtn2);
+    TestButton2->AddHandler(CEngine::functoggleSkybox);
+
 
     ContainerToolbar1->addControll2D(TestButton2);
 

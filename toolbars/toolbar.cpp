@@ -91,6 +91,10 @@ void ToolBar::Init() {
     _Layout = LAYOUT::Horizontal;
 }
 
+void ToolBar::DragToolBar(){
+
+}
+
 void ToolBar::setMenuPtr(CMenu * ptr) {
     mainmenu = ptr;
 }
@@ -99,15 +103,13 @@ CMenu * ToolBar::getMenuPtr() {
     return mainmenu;
 }
 
+void ToolBar::setLayOut(LAYOUT l){
+    _Layout = l;
+}
+
 void ToolBar::addConatiner(CControllContainer *con) {
 
     if ( con == nullptr )
         return;
     containerList.push_back(con);
-
-    /*
-    _currentY += con->Dimensions().h + 1;
-    loginfo("Add Controllcontainer to Menu .... Done"  ,"CMenu::addContainer");
-    */
-
 }

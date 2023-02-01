@@ -23,9 +23,11 @@ public:
     CMenu* getMenuPtr();
 
     void addConatiner(CControllContainer *con);
-    void setLAyOut(LAYOUT l);
+    void setLayOut(LAYOUT l);
 
-protected:
+    void DragToolBar();
+
+public:
     void Stretch();
     std::vector<CControllContainer *> containerList;
 

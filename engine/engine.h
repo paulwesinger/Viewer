@@ -58,6 +58,11 @@ protected:
     virtual void RenderSkyBox() override;
 
     virtual void Render2DUserObject() override;
+
+    virtual void OnMouseMove(int &x, int &y, uint32 buttonstate) override;
+    virtual void OnLeftMouseButtonUp(int &x, int &y) override;
+    virtual void OnLeftMouseButtonDown( int &x, int &y) override;
+
     // Lists for all objects:
     std::vector<std::string> btnList;
     std::vector<std::string> object2DList;
