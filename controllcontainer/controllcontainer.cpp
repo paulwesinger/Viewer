@@ -12,6 +12,8 @@ CControllContainer::CControllContainer(Shader * sh, LAYOUT l) {
 
     shader = sh;
     layout = l;
+
+    _Pos = sPoint(0,0);
 }
 
 
@@ -21,6 +23,8 @@ CControllContainer::CControllContainer(Shader * sh, int px, int py, int w, int h
     _Width = w ;   // 2* 5
     _CurrentY = py + 5;
     _CurrentX = px + 5;
+
+    _Pos = sPoint(px,py);
 
     shader = sh;
     layout = l;
@@ -110,6 +114,28 @@ void CControllContainer::enableChilds() {
 
 void CControllContainer::disableChilds() {
 
+}
+
+void CControllContainer::DragContainer(sPoint newp) {
+
+}
+
+void CControllContainer::DragContainer(int newx, int newy) {
+    int relX = newx - _Pos.x;
+    int relY = newy - _Pos.y;
+
+    _Pos.x += relX;
+    _Pos.y += relY;
+
+    _CurrentX += relX;
+    _CurrentY += relY;
+
+    for (uint i = 0; i < controlls2D.size(); i++) {
+        sPoint p = controlls2D[i]->Pos();
+        p.x += relX;
+        p.y += relY;
+        controlls2D[i]->setPos(p.x,p.y);
+    }
 }
 
 void CControllContainer::rename(std::string theNewName){

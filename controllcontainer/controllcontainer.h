@@ -42,6 +42,8 @@ public:
 
     sSize Dimensions();
     sPoint Pos();
+    void DragContainer(sPoint newp);
+    void DragContainer(int newx, int newy);
     sPoint NextControllPos();
 
     std::vector<Base2D *> controlls2D;

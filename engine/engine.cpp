@@ -81,6 +81,11 @@ void CEngine::InitEngineObject(){
 
 void CEngine::OnMouseMove(int &x, int &y, uint32 buttonstate) {
     InitGL::OnMouseMove(x,y,buttonstate);
+
+    if (toolbar != nullptr ) {
+        if (toolbar->IsDragging())
+            toolbar->DragToolBar();
+    }
 }
 
 void CEngine::OnLeftMouseButtonUp(int &x, int &y) {
@@ -93,6 +98,7 @@ void CEngine::OnLeftMouseButtonUp(int &x, int &y) {
                 for (uint j=0; j< toolbar->containerList.at(i)->controlls2D.size(); j ++) {
                     if (toolbar->containerList.at(i)->controlls2D.at(j)->intersect(x, y) ) {
                         toolbar->containerList.at(i)->controlls2D.at(j)->OnRelease();
+                        toolbar->OnEndDrag(x,y);
                     }
                 }
             }
@@ -112,6 +118,7 @@ void CEngine::OnLeftMouseButtonDown( int &x, int &y){
                 for (uint j=0; j< toolbar->containerList.at(i)->controlls2D.size(); j ++) {
                     if (toolbar->containerList.at(i)->controlls2D.at(j)->intersect(x, y) ) {
                         toolbar->containerList.at(i)->controlls2D.at(j)->OnClick();
+                        toolbar->OnStartDrag(x,y);
                     }
                 }
             }
@@ -125,7 +132,7 @@ bool CEngine::HandleMessage() {
 
     SDL_Event event;
     SDL_PollEvent(&event);
-    SDL_FlushEvent(SDL_MOUSEMOTION);
+
     uint32_t buttons;
     switch(event.type) {
     //------------------------------------------------------------------------------
@@ -157,6 +164,8 @@ bool CEngine::HandleMessage() {
             break;
         }
     }
+
+    SDL_FlushEvent(SDL_MOUSEMOTION);
     return InitGL::HandleMessage();
 }
 

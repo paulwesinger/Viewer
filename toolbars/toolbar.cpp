@@ -93,6 +93,9 @@ void ToolBar::Init() {
 
 void ToolBar::DragToolBar(){
 
+    for (int i=0; i<containerList.size();i++){
+        containerList[i]->DragContainer(this->Pos());
+    }
 }
 
 void ToolBar::setMenuPtr(CMenu * ptr) {
