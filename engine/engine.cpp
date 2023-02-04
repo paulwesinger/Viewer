@@ -84,7 +84,7 @@ void CEngine::OnMouseMove(int &x, int &y, uint32 buttonstate) {
 
     if (toolbar != nullptr ) {
         if (toolbar->IsDragging())
-            toolbar->DragToolBar();
+            toolbar->OnDrag(x,y);
     }
 }
 
@@ -98,8 +98,11 @@ void CEngine::OnLeftMouseButtonUp(int &x, int &y) {
                 for (uint j=0; j< toolbar->containerList.at(i)->controlls2D.size(); j ++) {
                     if (toolbar->containerList.at(i)->controlls2D.at(j)->intersect(x, y) ) {
                         toolbar->containerList.at(i)->controlls2D.at(j)->OnRelease();
-                        toolbar->OnEndDrag(x,y);
                     }
+                }
+
+                if (toolbar->intersect(x,y)) {
+                    toolbar->OnEndDrag(x,y);
                 }
             }
             else
@@ -118,8 +121,12 @@ void CEngine::OnLeftMouseButtonDown( int &x, int &y){
                 for (uint j=0; j< toolbar->containerList.at(i)->controlls2D.size(); j ++) {
                     if (toolbar->containerList.at(i)->controlls2D.at(j)->intersect(x, y) ) {
                         toolbar->containerList.at(i)->controlls2D.at(j)->OnClick();
-                        toolbar->OnStartDrag(x,y);
+
                     }
+                }
+
+                if (toolbar->intersect(x,y) ) {
+                    toolbar->OnStartDrag(x,y);
                 }
             }
             else
@@ -135,9 +142,19 @@ bool CEngine::HandleMessage() {
 
     uint32_t buttons;
     switch(event.type) {
-    //------------------------------------------------------------------------------
-    // Mause Events
-    //------------------------------------------------------------------------------
+/*
+        case SDL_KEYDOWN:
+        case SDL_KEYUP : {
+            switch(_Event.key.keysym.sym) {
+
+                case SDLK_ESCAPE: _QuitGame = true;
+                   break;
+            }
+        }
+*/
+        //------------------------------------------------------------------------------
+        // Mause Events
+        //------------------------------------------------------------------------------
         case      SDL_MOUSEMOTION : {
 
             _Mouse.x = _Event.motion.x;

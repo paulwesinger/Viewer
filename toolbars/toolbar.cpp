@@ -91,11 +91,32 @@ void ToolBar::Init() {
     _Layout = LAYOUT::Horizontal;
 }
 
-void ToolBar::DragToolBar(){
+bool ToolBar::intersect(int x, int y) {
+    return  ( ((x > _Pos.x) && (x < _Pos.x + 30) ) &&
+              ((y > _Pos.y) && (y < _Pos.y + 30) ) ) ? true : false;
+}
 
-    for (int i=0; i<containerList.size();i++){
-        containerList[i]->DragContainer(this->Pos());
+
+
+void ToolBar::OnStartDrag(int mx, int my) {
+
+    Base::OnStartDrag(mx,my);
+
+}
+
+void ToolBar::OnDrag(int mx, int my) {
+
+    Base::OnDrag(mx,my);
+
+    for (uint i=0; i<containerList.size();i++){
+        sPoint p(this->_Pos.x+30,this->Pos().y);
+        containerList[i]->DragContainer(p);
     }
+
+}
+
+void ToolBar::OnEndDrag(int mx, int my){
+    Base::OnEndDrag(mx,my);
 }
 
 void ToolBar::setMenuPtr(CMenu * ptr) {

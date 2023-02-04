@@ -25,7 +25,10 @@ public:
     void addConatiner(CControllContainer *con);
     void setLayOut(LAYOUT l);
 
-    void DragToolBar();
+    virtual void OnStartDrag(int mx, int my) override;
+    virtual void OnDrag(int mx, int my) override;
+    virtual void OnEndDrag(int mx, int my) override;
+    virtual bool intersect(int x, int y) override;
 
 public:
     void Stretch();

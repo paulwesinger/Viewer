@@ -118,6 +118,22 @@ void CControllContainer::disableChilds() {
 
 void CControllContainer::DragContainer(sPoint newp) {
 
+    int relX = newp.x - _Pos.x;
+    int relY = newp.y - _Pos.y;
+
+    _Pos.x += relX;
+    _Pos.y += relY;
+
+    _CurrentX += relX;
+    _CurrentY += relY;
+
+    for (uint i = 0; i < controlls2D.size(); i++) {
+        sPoint p = controlls2D[i]->Pos();
+        p.x += relX;
+        p.y += relY;
+        controlls2D[i]->setPos(p.x,p.y);
+    }
+
 }
 
 void CControllContainer::DragContainer(int newx, int newy) {
