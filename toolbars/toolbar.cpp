@@ -33,10 +33,8 @@ void ToolBar::Render() {
     }
     DragIcon->Render();
 
-    for (int i = 0;i < containerList.size(); i++) {
-        for (int j=0; j<containerList[i]->controlls2D.size(); j++ ) {
-            containerList[i]->controlls2D[j]->Render();
-        }
+    for (uint i = 0; i<CtrlList.size(); i++)    {
+        CtrlList.at(i)->Render();
     }
 }
 
@@ -73,13 +71,17 @@ void ToolBar::Init() {
     _Pos.x = 100;
     _Pos.y = 0;
     _Size.w = _ResX - 100;
-    _Size.h = 30;
+    _Size.h = 34;
     _Color = glm::vec4(0.8,0.8,1,0.5);
 
     DragArea.x  = _Pos.x;
     DragArea.y  = _Pos.y;
     DragArea.x1 = _Pos.x + _Size.h;
     DragArea.y1 = _Pos.y + _Size.h;
+
+    _CurrentCtrlPos.x = DragArea.x1 + 5;
+    _CurrentCtrlPos.y = DragArea.y + 2;
+
 
     DragIcon = new Base2D(_ResX,_ResY,shader);
     DragIcon->setPos(DragArea.x,DragArea.y);
@@ -102,21 +104,67 @@ void ToolBar::OnStartDrag(int mx, int my) {
 
     Base::OnStartDrag(mx,my);
 
+    CalcDragArea();
+
+    _CurrentCtrlPos.x = DragArea.x + 32;
+    _CurrentCtrlPos.y = DragArea.y +2;
+
+    for (uint i = 0; i < CtrlList.size(); i ++) {
+
+        if (_Layout == LAYOUT::Horizontal) {
+            CtrlList.at(i)->setPos(_CurrentCtrlPos.x,_CurrentCtrlPos.y);
+            _CurrentCtrlPos.x += CtrlList.at(i)->Width()+2;
+        }
+        else
+        {
+            CtrlList.at(i)->setPos(_CurrentCtrlPos.x,_CurrentCtrlPos.y);
+            _CurrentCtrlPos.y += CtrlList.at(i)->Height() + 2;
+        }
+    }
 }
 
 void ToolBar::OnDrag(int mx, int my) {
 
     Base::OnDrag(mx,my);
 
-    for (uint i=0; i<containerList.size();i++){
-        sPoint p(this->_Pos.x+30,this->Pos().y);
-        containerList[i]->DragContainer(p);
+    _CurrentCtrlPos.x = DragArea.x + 32;
+    _CurrentCtrlPos.y = DragArea.y +2;
+
+    for (uint i = 0; i < CtrlList.size(); i ++) {
+
+        if (_Layout == LAYOUT::Horizontal) {
+            CtrlList.at(i)->setPos(_CurrentCtrlPos.x,_CurrentCtrlPos.y);
+            _CurrentCtrlPos.x += CtrlList.at(i)->Width()+2;
+        }
+        else
+        {
+            CtrlList.at(i)->setPos(_CurrentCtrlPos.x,_CurrentCtrlPos.y);
+            _CurrentCtrlPos.y += CtrlList.at(i)->Height() + 2;
+        }
     }
 
 }
 
 void ToolBar::OnEndDrag(int mx, int my){
     Base::OnEndDrag(mx,my);
+
+    CalcDragArea();
+
+    _CurrentCtrlPos.x = DragArea.x + 32;
+    _CurrentCtrlPos.y = DragArea.y + 2;
+
+    for (uint i = 0; i < CtrlList.size(); i ++) {
+
+        if (_Layout == LAYOUT::Horizontal) {
+            CtrlList.at(i)->setPos(_CurrentCtrlPos.x,_CurrentCtrlPos.y);
+            _CurrentCtrlPos.x += CtrlList.at(i)->Width()+2;
+        }
+        else
+        {
+            CtrlList.at(i)->setPos(_CurrentCtrlPos.x,_CurrentCtrlPos.y);
+            _CurrentCtrlPos.y += CtrlList.at(i)->Height() + 2;
+        }
+    }
 }
 
 void ToolBar::setMenuPtr(CMenu * ptr) {
@@ -136,4 +184,18 @@ void ToolBar::addConatiner(CControllContainer *con) {
     if ( con == nullptr )
         return;
     containerList.push_back(con);
+}
+
+void ToolBar::addCtrl(Base2D * ctl) {
+
+
+    if (ctl != nullptr ) {
+        ctl->setPos(_CurrentCtrlPos.x,_CurrentCtrlPos.y);
+        if (_Layout == LAYOUT::Horizontal)
+            _CurrentCtrlPos.x += ctl->Width() + 2;
+        else
+            _CurrentCtrlPos.y += ctl->Height() + 2;
+
+        CtrlList.push_back(ctl);
+    }
 }

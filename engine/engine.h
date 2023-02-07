@@ -146,6 +146,7 @@ protected:
     //tamplate
     //-----------------------------------------------------------------
     CButton * CreateImageButton(std::string btnBg,std::string btnimage, sPoint nextControllPos, FP handler);
+    CButton * CreateImageButton(std::string btnBg,std::string btnimage, FP handler);
 
     //-----------------------------------------------------------------
     //tamplate

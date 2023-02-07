@@ -221,6 +221,25 @@ CImageButton::CImageButton( int resx, int  resy, Shader * sh) :
     textImage->setPos(0,0);
 }
 
+CImageButton::CImageButton(int resx, int resy, std::string pathbg, std::string pathtext, Shader * sh):
+    CButton(resx,resy,sh) {
+
+    _TextPath = pathtext;
+    _Pos = sPoint(0,0);
+
+    textPos.x = _Pos.x + BUTTON::X_MARGIN;
+    textPos.y = _Pos.y + BUTTON::Y_MARGIN;
+
+    sPoint p;
+    p.x = (int) textPos.x;
+    p.y = (int) textPos.y;
+
+    textImage = new Base2D(resx, resy,_TextPath,sh);
+    textImage->setColor(glm::vec4(BUTTON::COLOR_DEFAULT_TEXT,_AlphaText));
+    textImage->setPos(0,0);
+    // init stuff
+}
+
 CImageButton::CImageButton(int resx, int resy, std::string pathbg, std::string pathtext, sPoint pos,Shader * sh):
     CButton(resx, resy, pathbg,"",sh){
 

@@ -80,7 +80,7 @@ void CEngine::InitEngineObject(){
 }
 
 void CEngine::OnMouseMove(int &x, int &y, uint32 buttonstate) {
-    InitGL::OnMouseMove(x,y,buttonstate);
+   InitGL::OnMouseMove(x,y,buttonstate);
 
     if (toolbar != nullptr ) {
         if (toolbar->IsDragging())
@@ -91,13 +91,12 @@ void CEngine::OnMouseMove(int &x, int &y, uint32 buttonstate) {
 void CEngine::OnLeftMouseButtonUp(int &x, int &y) {
     InitGL::OnLeftMouseButtonUp(x,y);
 
-    for (uint i = 0; i < toolbar->containerList.size(); i ++){
-        if ( ! toolbar->containerList.at(i)->controlls2D.empty() ) {
+    if ( ! toolbar->CtrlList.empty() ) {
 
             if ( _LockClick) {
-                for (uint j=0; j< toolbar->containerList.at(i)->controlls2D.size(); j ++) {
-                    if (toolbar->containerList.at(i)->controlls2D.at(j)->intersect(x, y) ) {
-                        toolbar->containerList.at(i)->controlls2D.at(j)->OnRelease();
+                for (uint j=0; j< toolbar->CtrlList.size(); j ++) {
+                    if (toolbar->CtrlList.at(j)->intersect(x, y) ) {
+                        toolbar->CtrlList.at(j)->OnRelease();
                     }
                 }
 
@@ -108,23 +107,20 @@ void CEngine::OnLeftMouseButtonUp(int &x, int &y) {
             else
                 _LockClick = false;
         }
-    }
 }
 
 void CEngine::OnLeftMouseButtonDown( int &x, int &y){
     InitGL::OnLeftMouseButtonDown(x,y);
 
-    for (uint i = 0; i < toolbar->containerList.size(); i ++){
-        if ( ! toolbar->containerList.at(i)->controlls2D.empty() ) {
+        if ( ! toolbar->CtrlList.empty()) {
 
             if ( _LockClick) {
-                for (uint j=0; j< toolbar->containerList.at(i)->controlls2D.size(); j ++) {
-                    if (toolbar->containerList.at(i)->controlls2D.at(j)->intersect(x, y) ) {
-                        toolbar->containerList.at(i)->controlls2D.at(j)->OnClick();
+                for (uint j=0; j< toolbar->CtrlList.size(); j ++) {
+                    if (toolbar->CtrlList.at(j)->intersect(x, y) ) {
+                        toolbar->CtrlList.at(j)->OnClick();
 
                     }
                 }
-
                 if (toolbar->intersect(x,y) ) {
                     toolbar->OnStartDrag(x,y);
                 }
@@ -132,7 +128,6 @@ void CEngine::OnLeftMouseButtonDown( int &x, int &y){
             else
                 _LockClick = false;
         }
-    }
 }
 
 bool CEngine::HandleMessage() {
@@ -260,6 +255,17 @@ CButton * CEngine::CreateImageButton(std::string btnBg, std::string btnImage, sP
     return b;
 }
 
+CButton * CEngine::CreateImageButton(std::string btnBg, std::string btnImage, FP handler) {
+    CButton * b = new CImageButton(_ResX, _ResY, btnBg, btnImage, InitGL::getShaderPtr());
+
+    b->setColor(BTN_ENABLE);
+    b->setDisablecolor(BTN_DISABLE);
+    b->setSize(BTN_WIDTH,BTN_HEIGHT);
+    b->AddHandler(handler);
+
+    return b;
+}
+
 
 // --------------------------------------------------------------
 // Init Toolbar
@@ -272,13 +278,13 @@ void CEngine::InitToolBar() {
 
 
 
-   stPoint p(toolbar->Pos()) ;
+//   stPoint p(toolbar->Pos()) ;
 
-    ContainerToolbar1 = new CControllContainer(InitGL::getShaderPtr(), p.x,p.y,
-                                               toolbar->Width(), 0,LAYOUT::Horizontal);
+ //   ContainerToolbar1 = new CControllContainer(InitGL::getShaderPtr(), p.x,p.y,
+ //                                              toolbar->Width(), 0,LAYOUT::Horizontal);
 
 
-    ContainerToolbar1->addControll2D(TestButton1);
+ //   ContainerToolbar1->addControll2D(TestButton1);
     //p = ContainerToolbar1->NextControllPos();
 
     TestButton2 = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
@@ -286,9 +292,14 @@ void CEngine::InitToolBar() {
     TestButton2->AddHandler(CEngine::functoggleSkybox);
 
 
-    ContainerToolbar1->addControll2D(TestButton2);
+    toolbar->addCtrl(TestButton1);
 
-    toolbar->addConatiner(ContainerToolbar1);
+    toolbar->addCtrl(TestButton2);
+
+
+ //   ContainerToolbar1->addControll2D(TestButton2);
+
+//    toolbar->addConatiner(ContainerToolbar1);
 
 }
 

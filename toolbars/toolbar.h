@@ -23,6 +23,7 @@ public:
     CMenu* getMenuPtr();
 
     void addConatiner(CControllContainer *con);
+    void addCtrl(Base2D * ctl);
     void setLayOut(LAYOUT l);
 
     virtual void OnStartDrag(int mx, int my) override;
@@ -33,6 +34,7 @@ public:
 public:
     void Stretch();
     std::vector<CControllContainer *> containerList;
+    std::vector<Base2D*> CtrlList;
 
 
 private:
@@ -52,6 +54,8 @@ private:
     Base2D * DragIcon;
 
     LAYOUT _Layout;
+
+    sPoint _CurrentCtrlPos;
 };
 
 #endif // TOOLBAR_H
