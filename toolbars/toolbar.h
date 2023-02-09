@@ -41,6 +41,7 @@ private:
 
     void Init();
     void CalcDragArea();
+    void CalcCtrlPos();
 
     //------------------------------
     //nullptr, wenn keines vorhanden

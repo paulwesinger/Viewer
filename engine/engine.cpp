@@ -137,16 +137,6 @@ bool CEngine::HandleMessage() {
 
     uint32_t buttons;
     switch(event.type) {
-/*
-        case SDL_KEYDOWN:
-        case SDL_KEYUP : {
-            switch(_Event.key.keysym.sym) {
-
-                case SDLK_ESCAPE: _QuitGame = true;
-                   break;
-            }
-        }
-*/
         //------------------------------------------------------------------------------
         // Mause Events
         //------------------------------------------------------------------------------
@@ -176,6 +166,7 @@ bool CEngine::HandleMessage() {
             break;
         }
     }
+
 
     SDL_FlushEvent(SDL_MOUSEMOTION);
     return InitGL::HandleMessage();
@@ -271,6 +262,8 @@ CButton * CEngine::CreateImageButton(std::string btnBg, std::string btnImage, FP
 // Init Toolbar
 // --------------------------------------------------------------
 void CEngine::InitToolBar() {
+
+
     TestButton1 = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
                                         con1->NextControllPos(),CEngine::funcTestBtn1);
 
@@ -288,7 +281,7 @@ void CEngine::InitToolBar() {
     //p = ContainerToolbar1->NextControllPos();
 
     TestButton2 = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
-                                        con1->NextControllPos(),CEngine::funcTestBtn2);
+                                       con1->NextControllPos(),CEngine::funcTestBtn2);
     TestButton2->AddHandler(CEngine::functoggleSkybox);
 
 

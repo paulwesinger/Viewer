@@ -61,10 +61,15 @@ void ToolBar::Stretch() {
 void ToolBar::CalcDragArea() {
     DragArea.x  = _Pos.x;
     DragArea.y  = _Pos.y;
-    DragArea.x1 = _Pos.x + _Size.h;
-    DragArea.y1 = _Pos.y + _Size.h;
+    DragArea.x1 = _Pos.x + 30;
+    DragArea.y1 = _Pos.y + 30;
 
     DragIcon->setPos(DragArea.x,DragArea.y);
+}
+
+void ToolBar::CalcCtrlPos() {
+    _CurrentCtrlPos.x = DragArea.x1 + 2;
+    _CurrentCtrlPos.y = DragArea.y + 2;
 }
 
 void ToolBar::Init() {
@@ -74,13 +79,12 @@ void ToolBar::Init() {
     _Size.h = 34;
     _Color = glm::vec4(0.8,0.8,1,0.5);
 
+
     DragArea.x  = _Pos.x;
     DragArea.y  = _Pos.y;
-    DragArea.x1 = _Pos.x + _Size.h;
-    DragArea.y1 = _Pos.y + _Size.h;
+    DragArea.x1 = _Pos.x + 30;
+    DragArea.y1 = _Pos.y + 30;
 
-    _CurrentCtrlPos.x = DragArea.x1 + 5;
-    _CurrentCtrlPos.y = DragArea.y + 2;
 
 
     DragIcon = new Base2D(_ResX,_ResY,shader);
@@ -89,16 +93,16 @@ void ToolBar::Init() {
     DragAreaColor = glm::vec4(1,1,0,1);
 
     mainmenu = nullptr;
-
+    CalcCtrlPos();
     _Layout = LAYOUT::Horizontal;
 }
 
 bool ToolBar::intersect(int x, int y) {
-    return  ( ((x > _Pos.x) && (x < _Pos.x + 30) ) &&
-              ((y > _Pos.y) && (y < _Pos.y + 30) ) ) ? true : false;
+
+
+    return  ( ((x > DragArea.x) && (x < DragArea.x1) ) &&
+              ((y > DragArea.y) && (y < DragArea.y1) ) ) ? true : false;
 }
-
-
 
 void ToolBar::OnStartDrag(int mx, int my) {
 
@@ -106,8 +110,7 @@ void ToolBar::OnStartDrag(int mx, int my) {
 
     CalcDragArea();
 
-    _CurrentCtrlPos.x = DragArea.x + 32;
-    _CurrentCtrlPos.y = DragArea.y +2;
+    CalcCtrlPos();
 
     for (uint i = 0; i < CtrlList.size(); i ++) {
 
@@ -127,8 +130,7 @@ void ToolBar::OnDrag(int mx, int my) {
 
     Base::OnDrag(mx,my);
 
-    _CurrentCtrlPos.x = DragArea.x + 32;
-    _CurrentCtrlPos.y = DragArea.y +2;
+    CalcCtrlPos();
 
     for (uint i = 0; i < CtrlList.size(); i ++) {
 
@@ -150,8 +152,7 @@ void ToolBar::OnEndDrag(int mx, int my){
 
     CalcDragArea();
 
-    _CurrentCtrlPos.x = DragArea.x + 32;
-    _CurrentCtrlPos.y = DragArea.y + 2;
+    CalcCtrlPos();
 
     for (uint i = 0; i < CtrlList.size(); i ++) {
 
