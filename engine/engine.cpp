@@ -6,7 +6,8 @@
 
 
 
-const std::string BTN_BG            = "images/ButtonReleased.png";
+const std::string BTN_RELEASED      = "images/ButtonReleased.png";
+const std::string BTN_PRESSED       = "images/ButtonPressed.png";
 const std::string BTN_SKYBOX        = "images/ToogleSkybox.png";
 
 // macro
@@ -69,16 +70,18 @@ void CEngine::Done() {
 
 void CEngine::Run() {
 
-
-    Init2D();
-    Init3D();
-
-
     InitGL::Run();
 }
 
 void CEngine::InitEngineObject(){
     InitGL::InitEngineObject();
+
+    Init2D();
+    Init3D();
+
+    InitButtons();
+    initMenu();
+    InitToolBar();
 }
 
 void CEngine::OnMouseMove(int &x, int &y, uint32 buttonstate) {
@@ -282,8 +285,8 @@ void CEngine::InitToolBar() {
         toolbar->setMenuPtr(MainMenu);
 
 
-    TestButton1 = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn1);
-    TestButton2 = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn2);
+    TestButton1 = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn1);
+    TestButton2 = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn2);
 
     toolbar->addCtrl(TestButton1);
     toolbar->addCtrl(TestButton2);
@@ -296,7 +299,7 @@ void CEngine::InitToolBar() {
 void CEngine::initMenu(){
 
     //                  |Resolution|  | Position           | width,height, colors             |
-     MainMenu = new CMenu(_ResX, _ResY, 0, 0, MENU_WIDTH, MENU_HEIGHT,
+     MainMenu = new CMenu(_ResX, _ResY, 0, 0, MENU_WIDTH, 5/*MENU_HEIGHT*/,
                           glm::vec4(0.1,0.1,0.1,0.8), glm::vec4(0.9,0.9,0.9,1.0), InitGL::getShaderPtr());
 
     int curr_y = 0;
@@ -313,7 +316,7 @@ void CEngine::initMenu(){
     p.y =0;
 
     if (skybox != nullptr) {
-        toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
+        toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT + BTN_SKYBOX,
                                             con1->NextControllPos(),CEngine::functoggleSkybox);
 
         con1->addControll2D(toogleSkyBoxBtn);
@@ -339,18 +342,14 @@ void CEngine::initMenu(){
 
     p = con2->NextControllPos();
 
-    txtFrameperSec = new TextEdit(_ResX, _ResY,PATH::ROOT + BTN_BG, p,s,
+    txtFrameperSec = new TextEdit(_ResX, _ResY,PATH::ROOT + BTN_RELEASED, p,s,
                                   glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0),InitGL::getShaderPtr());
 
 
-
     //Setting the color for the outputlabel
-
     con2->addControll2D(txtFrameperSec);
     // add label for Frames to buildin textrender label
     txtFrameperSec->setLabel("FPS");
-
-    MainMenu->addConatiner(con1);
 
     //----------------------------------------------------
     // checkbox für Animation
@@ -401,7 +400,7 @@ void CEngine::initMenu(){
     // Statusfenster(pos) von Camera:
     //----------------------------------------------------
 
-    toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
+    toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT + BTN_SKYBOX,
                                         con1->NextControllPos(),CEngine::functoggleSkybox);
 
     //toogleSkyBoxBtn->setSize(MainMenu->)
@@ -471,11 +470,7 @@ void CEngine::initMenu(){
     cameradirX->setLabel("CamDir.X");
 */
     MainMenu->addConatiner(con2);
-/*
-    if (toolbar != nullptr) {
-        toolbar->setMenuPtr(MainMenu);
-    }
-    */
+    MainMenu->setHeight(con2->Dimensions().h);
 }
 
 void CEngine::ShowFramesPerSec() {
@@ -562,10 +557,6 @@ void CEngine::Init2D() {
     add2Dobject(base2d);
     add2Dobject(testToolBox);
     add2Dobject(toolbar);
-
-    InitButtons();
-    initMenu();
-    InitToolBar();
 }
 
 void CEngine::Render2DUserObject() {

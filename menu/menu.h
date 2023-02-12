@@ -42,6 +42,9 @@ public:
     void addControll2D(CControllContainer * con, Base2D * ctl);
     void addTextItem(CControllContainer * con, std::string text);
 
+    void setWidth(int w);
+    void setHeight(int h);
+
     sPoint Pos();
     int Width();
     int Height();

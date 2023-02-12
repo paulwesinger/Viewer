@@ -12,6 +12,10 @@ CControllContainer::CControllContainer(Shader * sh, LAYOUT l) {
     _CurrentY = 5;
     _CurrentX = 5;
 
+
+    _Dimensions.w = _Width;
+    _Dimensions.h = _Height;
+
     shader = sh;
     layout = l;
 
@@ -23,6 +27,10 @@ CControllContainer::CControllContainer(Shader * sh, int px, int py, int w, int h
 
     _Height = h - MARGIN;
     _Width = w - MARGIN * 2;   // 2* 5
+
+    _Dimensions.w = w;
+    _Dimensions.h = h;
+
     _CurrentY = py + 5;
     _CurrentX = px + 5;
 
@@ -166,7 +174,7 @@ bool CControllContainer::addControll2D(Base2D *controll) {
     if (layout == LAYOUT::Vertical) {
         CalcNextPos(controll->Height()+1);
         controll->setWidth(_Width);
-        _Dimensions.h += _Height;
+        _Dimensions.h += controll->Height();
     }
     else {
         CalcNextPos(controll->Width()+1);

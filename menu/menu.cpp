@@ -105,6 +105,16 @@ sPoint CMenu::Pos() {
     return p;
 }
 
+void CMenu::setHeight(int h) {
+    height = h;
+    menuBackground->setSize(width, height);
+}
+
+void CMenu::setWidth(int w) {
+    width = w;
+    menuBackground->setSize(width, height);
+}
+
 int CMenu::Width() {
     return width;
 }
@@ -163,6 +173,7 @@ void CMenu::addConatiner(CControllContainer *con) {
         return;
     containerList.push_back(con);
     _currentY += con->Dimensions().h + 1;
+    height += con->Dimensions().h;
     loginfo("Add Controllcontainer to Menu .... Done"  ,"CMenu::addContainer");
 
 }

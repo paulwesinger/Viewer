@@ -263,9 +263,7 @@ void CImageButton::animateClick() {
 
 
     if (textImage != nullptr) {
-        sPoint p;
-
-        p = textImage->Pos();
+        sPoint p = textImage->Pos();
         textImage->setPos(p.x+2, p.y+2);
     }
 }

@@ -44,6 +44,7 @@ SOURCES += \
         logs/logs.cpp \
         main.cpp \
         menu/menu.cpp \
+        menuitem/menuitem.cpp \
         meshobject/meshobject.cpp \
         objectclasses/object.cpp \
         objloader/objloader.cpp \
@@ -226,6 +227,7 @@ HEADERS += \
     lights/light.h \
     logs/logs.h \
     menu/menu.h \
+    menuitem/menuitem.h \
     meshobject/meshobject.h \
     objectclasses/object.h \
     objloader/objloader.h \
