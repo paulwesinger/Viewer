@@ -514,6 +514,8 @@ bool InitGL::InitSDL2()  {
 
     InitEngineObject();
 
+    InitUserObjects();
+
     return true;
 }
 
@@ -586,47 +588,18 @@ void InitGL::InitEngineObject() {
     lightSource->initShader(LIGHT_COLOR_SHADER, shader->getLightColorShader());  //cubeshaderprog_color_normal);
     lightSource->initShader(GLASS_SHADER, shader->getGlasShader() );//   glasshader);
     lightSource->setActiveShader(LIGHT_SHADER);
-
-    //InitUserObjects();
 }
 
 void InitGL::InitUserObjects() {
 
-    // ---------------------------------------
-    // Skybox ,objects init.
-    // ---------------------------------------
-    loginfo("Erstelle Standard SkyBox \"Dessert\" ........","InitGL::InitEngineObject");
-
+    loginfo("Starte InitUserObject","InitGL::InitUserObject");
 
     /*
-    std::vector<std::string> faces;
-
-    faces.push_back(PATH::ROOT + "skybox/desert/desert_lf.tga");
-    faces.push_back(PATH::ROOT + "skybox/desert/desert_rt.tga");
-    faces.push_back(PATH::ROOT + "skybox/desert/desert_up.tga");
-    faces.push_back(PATH::ROOT + "skybox/desert/desert_dn.tga");
-    faces.push_back(PATH::ROOT + "skybox/desert/desert_ft.tga");
-    faces.push_back(PATH::ROOT + "skybox/desert/desert_bk.tga");
-
-
-    skybox = new SkyBox(projection->GetPerspective());
-    skybox -> Load(faces);
-    loginfo("Erstelle Skybox ........Done","InitGL::InitEngineObject");
-
-
-    loginfo("..... done all");
-    loginfo("============================");
-
-    //================================
-    // Init 2D Objects
-    // ===============================
-
-    */
     logimage("Erstelle Text Renderer.....");
     sPoint p;
     p.x =   100;
     p.y =   400;
-/*
+
     MousePositions = new TextRender(_ResX, _ResY, p,PATH_HEADLINE, PATH_TEXTFIELD,getShaderPtr());
 
     MousePositions->SetGlyphShader(shader->getGlyphShader());
@@ -644,54 +617,9 @@ void InitGL::InitUserObjects() {
 
     textfields.push_back(MousePositions);
 */
-    //========================================
-    // Init 3D Objects
-    //========================================
-
-    loginfo("Erstelle 3D Objects .........");
-    loginfo("Erstelle cube 1 - 3......done");
-
-    // Liste mit Texture pfaden erstellen
 
 
 
-    // Sphere
-    loginfo("=============================");
-    loginfo("Erstelle Sphere .........done");
-    loginfo("=============================");
-/*
-    cubeimages.clear();
-    texturesok =  fu.readLine("config/cube2textures.cfg",cubeimages);
-    sphere1  = new CSphere(glm::vec3(6.0,5.0,-12.0),glm::vec4(1.0,0.0,0.0,0.2), projection->GetPerspective(),24,(GLfloat)4.0,shader);
-    sphere1->addTexture(cubeimages,"InitGL::Sphere");
-    cubeimages.clear();
-*/
-
-
-/*
-    sphere1->initShader(COLOR_SHADER,shader->getColor3DShader());
-    sphere1->initShader(TEXTURE_SHADER,shader->getTexture3DShader());
-    sphere1->initShader(LIGHT_SHADER, shader->getLightShader());   //cubeshaderprog_normals);
-    sphere1->initShader(LIGHT_COLOR_SHADER, shader->getLightColorShader()); //   cubeshaderprog_color_normal);
-    sphere1->initShader(GLASS_SHADER,  shader->getGlasShader() );
-    sphere1->setActiveShader(LIGHT_SHADER);
-    //phere1->setGlasShader(true);
-    sphere1->addLight(ambientLight);
-*/
-
-
-
-    loginfo("--------------------------------------------");
-    loginfo("Erstelle Cokpit ","InitGL::InitEngineObjects");
-    loginfo("--------------------------------------------");
-
-    //cockpit = new Cockpit(projection->GetPerspective(),camera->GetPos());
-
-    logwarn("Cokpit angelegt, Mesh wird in CEngine zugewiesen  !!", "IniEngineObjects");
-    loginfo("Done 3D Objects .............");
-
-    logwarn("Partikelengine mit 100 Elementen !!", "IniEngineObjects");
-    loginfo("Done 3D Objects .............");
 }
 
 
@@ -999,7 +927,7 @@ void InitGL::Run() {
             ms = 0;
         }
 
-        //if (_ShowFramesPerSecond )
+        if (_ShowFramesPerSecond )
             ShowFramesPerSec();
 
         if (_ShowCameraPos)

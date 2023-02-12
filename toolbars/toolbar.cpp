@@ -3,6 +3,9 @@
 
 
 
+
+
+
 const sPoint operator+ (sPoint const &p1 , sPoint const &p2 ){
     sPoint tmp;
     tmp.x = p1.x + p2.x;
@@ -13,23 +16,75 @@ const sPoint operator+ (sPoint const &p1 , sPoint const &p2 ){
 ToolBar::ToolBar(int resX, int resY,Shader * sh)
     : Window(resX,resY,sh)
 {
+    InitPos(0,0);
+    InitSize(_ResX - 100 ,_Size.h = 34);
+    InitColor(ENABLECOL, DISABLECOL);
     Init();
 }
 
 ToolBar::ToolBar(int resX, int resY, int w, int h,Shader * sh)
     : Window(resX, resY, sh)
 {
+    InitPos(0,0);
+    InitSize(w,h);
+    InitColor(ENABLECOL,DISABLECOL);
     Init();
 }
-ToolBar::ToolBar(int resX, int resY, int w, int h, glm::vec4 bg, glm::vec4 fg,Shader * sh, std::string path)
+ToolBar::ToolBar(int resX, int resY, int w, int h, glm::vec4 enablecol, glm::vec4 disablecol,Shader * sh, std::string path)
     : Window(resX, resY,path, sh)
 {
+    InitPos(0, 0);
+    InitSize(w,h);
+    InitColor(enablecol,disablecol);
     Init();
 }
-ToolBar::ToolBar(int resX, int resY, int px, int py, int w, int h, glm::vec4 bg,glm::vec4 fg, Shader *sh, std::string path)
+ToolBar::ToolBar(int resX, int resY, int px, int py, int w, int h, glm::vec4 enablecol,glm::vec4 disablecol, Shader *sh, std::string path)
     : Window(resX,resY,path,sh)
 {
+    InitPos(px,py);
+    InitSize(w,h);
+    InitColor(enablecol,disablecol);
     Init();
+}
+
+
+void ToolBar::InitSize(int w, int h) {
+    _Size.w = w;
+    _Size.h = h;
+
+    Init();
+}
+
+void ToolBar::InitPos(int px, int py) {
+    _Pos.x = px;
+    _Pos.y = py;
+}
+
+void ToolBar::InitColor(glm::vec4 enablecol, glm::vec4 disablecol) {
+
+    _Color = enablecol;
+    _DisableColor = disablecol;
+}
+
+void ToolBar::Init() {
+
+
+
+
+    DragArea.x  = _Pos.x;
+    DragArea.y  = _Pos.y;
+    DragArea.x1 = _Pos.x + 30;
+    DragArea.y1 = _Pos.y + 30;
+
+    CalcCtrlPos();
+
+    DragIcon = new Base2D(_ResX,_ResY,shader);
+    DragIcon->setColor(DRAGICONCOL);
+    CalcIcon();
+
+    mainmenu = nullptr;
+
+    _Layout = LAYOUT::Horizontal;
 }
 
 void ToolBar::Render() {
@@ -69,7 +124,10 @@ int ToolBar::CurrentCtlPos_X() {return _CurrentCtrlPos.x;}
 int ToolBar::CurrentCtlPos_Y() {return _CurrentCtrlPos.y;}
 sPoint ToolBar::CurrentCtlPos() {return _CurrentCtrlPos;}
 
-
+void ToolBar::CalcIcon() {
+    DragIcon->setPos(DragArea.x+2,DragArea.y+2);
+    DragIcon->setSize(DragArea.x1-DragArea.x-4, DragArea.y1-DragArea.y-2);
+}
 
 void ToolBar::CalcDragArea() {
     DragArea.x  = _Pos.x;
@@ -77,7 +135,7 @@ void ToolBar::CalcDragArea() {
     DragArea.x1 = _Pos.x + 30;
     DragArea.y1 = _Pos.y + 30;
 
-    DragIcon->setPos(DragArea.x,DragArea.y);
+    CalcIcon();
 }
 
 void ToolBar::CalcCtrlPos() {
@@ -85,30 +143,7 @@ void ToolBar::CalcCtrlPos() {
     _CurrentCtrlPos.y = DragArea.y + 2;
 }
 
-void ToolBar::Init() {
-    _Pos.x = 100;
-    _Pos.y = 0;
-    _Size.w = _ResX - 100;
-    _Size.h = 34;
-    _Color = glm::vec4(0.8,0.8,1,0.5);
 
-
-    DragArea.x  = _Pos.x;
-    DragArea.y  = _Pos.y;
-    DragArea.x1 = _Pos.x + 30;
-    DragArea.y1 = _Pos.y + 30;
-
-    CalcCtrlPos();
-
-    DragIcon = new Base2D(_ResX,_ResY,shader);
-    DragIcon->setPos(DragArea.x+2,DragArea.y+2);
-    DragIcon->setColor(glm::vec4(0,0,1,0.5));
-    DragIcon->setSize(DragArea.x1-DragArea.x, DragArea.y1-DragArea.y);
-
-    mainmenu = nullptr;
-
-    _Layout = LAYOUT::Horizontal;
-}
 
 bool ToolBar::intersect(int x, int y) {
 

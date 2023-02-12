@@ -13,8 +13,8 @@
 #include <vector>
 
 
-const int MENU_WIDTH  = 190;
-const int MENU_HEIGHT = 800;
+const int MENU_WIDTH  = 150;
+const int MENU_HEIGHT = 700;
 
 typedef struct {
     sRect Pos;
@@ -39,9 +39,8 @@ public:
     // container functions
     //----------------------------------------
     void addConatiner( CControllContainer* con);
-    void addButton(CControllContainer * con, CButton * btn);
+    void addControll2D(CControllContainer * con, Base2D * ctl);
     void addTextItem(CControllContainer * con, std::string text);
-  //  void addCheckBox(CControllContainer * con, CheckBox * cb);
 
     sPoint Pos();
     int Width();

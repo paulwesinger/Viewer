@@ -148,12 +148,13 @@ void CMenu::setMenuHeader(std::string name) {
     _currentY += ms.text->GetTextAreaHeight();
 }
 
-void CMenu::addButton(CControllContainer* con, CButton *btn) {
 
-    if ( con == nullptr  || btn == nullptr )
+void CMenu::addControll2D(CControllContainer* con, Base2D * ctl) {
+
+    if ( con == nullptr  || ctl == nullptr )
         return;
 
-    con->addButton(btn);
+    con->addControll2D(ctl);
 }
 
 void CMenu::addConatiner(CControllContainer *con) {

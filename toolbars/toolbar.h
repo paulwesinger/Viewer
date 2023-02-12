@@ -10,14 +10,18 @@
 #include <glm/vec4.hpp>
 
 
+const glm::vec4 ENABLECOL = glm::vec4(0.5,0.5,0.5,1);
+const glm::vec4 DISABLECOL = glm::vec4(0.5,0.5,0.5,0.3);
+const glm::vec4 DRAGICONCOL = glm::vec4(0,0,1,1);
+
 
 class ToolBar : public Window
 {
 public:
     ToolBar(int resX, int resY,Shader * sh);
     ToolBar(int resX, int resY, int w, int h,Shader * sh);
-    ToolBar(int resX, int resY, int w, int h, glm::vec4 bg,  glm::vec4 fg, Shader * sh, std::string path="");
-    ToolBar(int resX, int resY, int px, int py, int w, int h, glm::vec4 bg, glm::vec4 fg, Shader *sh, std::string path="");
+    ToolBar(int resX, int resY, int w, int h, glm::vec4 enablecol,  glm::vec4 disablecol, Shader * sh, std::string path="");
+    ToolBar(int resX, int resY, int px, int py, int w, int h, glm::vec4 enablecol, glm::vec4 disablecol, Shader *sh, std::string path="");
 
     void Render() override;
 
@@ -48,9 +52,15 @@ public:
 private:
 
     void Init();
+    void InitSize(int w, int h);
+    void InitPos(int px, int py);
+    void InitColor(glm::vec4 enablecol, glm::vec4 disablecol);
+
+
+
     void CalcDragArea();
     void CalcCtrlPos();
-
+    void CalcIcon();
     //------------------------------
     //nullptr, wenn keines vorhanden
     //------------------------------

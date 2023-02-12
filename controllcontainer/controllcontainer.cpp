@@ -3,6 +3,8 @@
 #include "../utils/utils.h"
 #include "../defaults.h"
 
+const int MARGIN = 4;
+
 CControllContainer::CControllContainer(Shader * sh, LAYOUT l) {
 
     _Height = 10;
@@ -19,8 +21,8 @@ CControllContainer::CControllContainer(Shader * sh, LAYOUT l) {
 
 CControllContainer::CControllContainer(Shader * sh, int px, int py, int w, int h, LAYOUT l) {
 
-    _Height = h;
-    _Width = w ;   // 2* 5
+    _Height = h - MARGIN;
+    _Width = w - MARGIN * 2;   // 2* 5
     _CurrentY = py + 5;
     _CurrentX = px + 5;
 
@@ -72,21 +74,6 @@ void CControllContainer::releaseConterItems() {
         }
         controlls3D.clear();
     }
-
-    if (! buttons.empty() ) {
-        for (uint i=0; i< buttons.size(); i++) {
-            delete buttons.at(i);
-        }
-        buttons.clear();
-    }
-
-    if (! texts.empty() ) {
-        for (uint i=0; i< texts.size(); i++) {
-            delete texts.at(i);
-        }
-        texts.clear();
-    }
-
     */
 }
 
@@ -172,42 +159,18 @@ bool CControllContainer::addSpacer(){
     return true;
 }
 
-bool CControllContainer::addButton(CButton *btn) {
-
-
-    btn->setPos(_CurrentX,_CurrentY);
-    // Gesammthöhe des container
-    _Height += btn->Height();
-
-    // Nächste Position im Container
-    if (layout == LAYOUT::Vertical) {
-        CalcNextPos(btn->Height() + 1);
-        _Dimensions.h += _Height;
-    }
-    else {
-        CalcNextPos(btn->Width() + 1);
-        _Dimensions.w += _Height;
-    }
-
-
-    //buttons.push_back(btn);
-    controlls2D.push_back(btn);
-
-    loginfo("Add Button to Container ...... Done ", "CControllcontainer::addbutton");
-    return  true;
-}
-
 bool CControllContainer::addControll2D(Base2D *controll) {
 
     controll->setPos(_CurrentX, _CurrentY);
 
     if (layout == LAYOUT::Vertical) {
         CalcNextPos(controll->Height()+1);
+        controll->setWidth(_Width);
         _Dimensions.h += _Height;
     }
     else {
         CalcNextPos(controll->Width()+1);
-        _Dimensions.h += _Width;
+        _Dimensions.w += _Width;
     }
 
     controlls2D.push_back(controll);
@@ -245,7 +208,5 @@ bool CControllContainer::addText(std::string text, int resx, int resy){
         CalcNextPos(t->GetWidth() + 1);
         _Width += t->GetWidth();
     }
-
-
     return  true;
 }

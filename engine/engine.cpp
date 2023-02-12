@@ -43,11 +43,13 @@ CEngine::CEngine(std::string titel) :
 
     toolbar             = nullptr;
     ContainerToolbar1   = nullptr;
+
+    //From InitGL:
+    _ShowFramesPerSecond = true;
+
   //  _FullScreen = true;
   //  _ResX = FULLSCREEN_WIDTH;
   //  _ResY = FULLSCREEN_HEIGHT;
-
-
     _FullScreen = false;
     _ResX = SD_WIDTH;
     _ResY = SD_HEIGHT;
@@ -314,7 +316,7 @@ void CEngine::initMenu(){
         toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
                                             con1->NextControllPos(),CEngine::functoggleSkybox);
 
-        con1->addButton(toogleSkyBoxBtn);
+        con1->addControll2D(toogleSkyBoxBtn);
         con1->addSpacer();
         MainMenu->addConatiner(con1);
         curr_y = MainMenu->CurrentY() + MENU_SPACER;
@@ -402,7 +404,8 @@ void CEngine::initMenu(){
     toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
                                         con1->NextControllPos(),CEngine::functoggleSkybox);
 
-    con2->addButton(toogleSkyBoxBtn);
+    //toogleSkyBoxBtn->setSize(MainMenu->)
+    con2->addControll2D(toogleSkyBoxBtn);
     con2->addSpacer();
 
     //curr_y = MainMenu->CurrentY() + MENU_SPACER;
@@ -556,13 +559,9 @@ void CEngine::Init2D() {
     testToolBox-> setPos(1000,800);
 
     toolbar = new ToolBar(_ResX,_ResY,InitGL::getShaderPtr());
-    //toolbar->setMenuPtr(MainMenu);
-    //toolbar-> setPos(100,30);
     add2Dobject(base2d);
     add2Dobject(testToolBox);
     add2Dobject(toolbar);
-
-
 
     InitButtons();
     initMenu();

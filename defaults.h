@@ -20,6 +20,20 @@ namespace CONTROLL {
     const int MARGIN_X = 10;
 };
 
+namespace TOOL_BUTTON {
+    const int X_MARGIN = 5;
+    const int Y_MARGIN = 10;
+
+    const int DEFAULT_WIDTH   = 30;
+    const int DEFAULT_HEIGHT = 30;
+
+    const float ALPHA_IMAGE_ENABLED  = 1.0f;
+    const float ALPHA_IMAGE_DISABLED = 0.3f;
+
+    const glm::vec3 COLOR_DEFAULT_IMAGE = {1.0, 1.0, 1.0};
+    const glm::vec3 COLOR_DEFAULT_TEXT  = {1.0, 1.0, 1.0};
+};
+
 namespace BUTTON {
     const int X_MARGIN = 5;
     const int Y_MARGIN = 10;
