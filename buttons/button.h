@@ -33,6 +33,7 @@ class CButton : public Base2D
 public:
     CButton(int resx, int resy, Shader * sh);
     CButton(int resx, int resy, std::string path, std::string text, Shader *sh);
+    CButton(int resx, int resy, std::string imagereleased,std::string imagepressed, std::string text, Shader *sh);
     ~CButton();
 
     // ********************************************
@@ -65,6 +66,12 @@ protected:
 
     virtual void animateClick();
     virtual void releaseClick();
+
+    Base2D * _BtnReleased;
+    Base2D * _BtnPressed;
+
+    std::string ImageReleased;
+    std::string ImagePressed;
 
     bool _Enabled;
     std::string _Text;
@@ -123,6 +130,7 @@ class CImageButton: public CButton {
 
     CImageButton( int resx, int resy, Shader * sh);
     CImageButton( int resx, int resy, std::string pathbg, std::string pathtext, sPoint pos, Shader * sh);
+    CImageButton( int resx, int resy, std::string releaseimage, std::string pressedimage, std::string pathtext, sPoint pos, Shader * sh);
     CImageButton( int resx, int resy, std::string pathbg, std::string pathtext, Shader * sh);
 
     void setbuttonColors(glm::vec3 imagecol, glm::vec3 textcol) override;
@@ -130,15 +138,18 @@ class CImageButton: public CButton {
     void Render()  override;
     void OnClick() override;
     void OnRelease() override;
-protected:
+
+    void setPos(int x, int y) override;
     void setSize(int w, int h) override;
+protected:
+
     void animateClick() override;
     void releaseClick() override;
     void setScale(float s) override;
 
-    Base2D * textImage;
-    void  setPos(int x, int y) override;
 
+
+    Base2D * textImage;
 private:
     std::string _TextPath;
 

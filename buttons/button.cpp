@@ -14,9 +14,27 @@ CButton::CButton(int resx, int resy, std::string path, std::string text, Shader 
     init();
 }
 
+CButton::CButton(int resx, int resy, std::string imagereleased,std::string imagepressed, std::string text, Shader *sh) :
+    Base2D(resx,resy,sh)
+{
+    ImageReleased = imagereleased;
+    ImagePressed = imagepressed;
+    init();
+}
+
 void CButton::init() {
 
      _ButtonColors = colorscheme.setScheme(DARK);
+
+
+    _BtnReleased = new Base2D(_ResX,_ResY,ImageReleased,shader);
+    _BtnPressed  = new Base2D(_ResX,_ResY,ImagePressed,shader);
+
+    _BtnReleased->setPos(_Pos.x,_Pos.y);
+    _BtnReleased->setSize(Width(),Height());
+
+    _BtnPressed->setPos(_Pos.x,_Pos.y);
+    _BtnPressed->setSize(Width(),Height());
 
     setWidth(BUTTON::DEFAULT_WIDTH);
     setHeight(BUTTON::DEFAULT_HEIGHT);
@@ -30,7 +48,8 @@ void CButton::init() {
     _TextCol  = BUTTON::COLOR_DEFAULT_TEXT;
 }
 CButton::~CButton() {
-
+    delete _BtnPressed;
+    delete _BtnReleased;
 }
 
 // ----------------------------------------------
@@ -240,11 +259,36 @@ CImageButton::CImageButton(int resx, int resy, std::string pathbg, std::string p
     // init stuff
 }
 
+
+CImageButton::CImageButton( int resx, int resy, std::string releaseimage, std::string pressedimage, std::string pathtext, sPoint pos, Shader * sh):
+    CButton(resx,resy,releaseimage,pressedimage,pathtext,sh) {
+
+    _TextPath = pathtext;
+    _Pos = pos;
+
+    textPos.x = _Pos.x + BUTTON::X_MARGIN;
+    textPos.y = _Pos.y + BUTTON::Y_MARGIN;
+
+    sPoint p;
+    p.x = (int) textPos.x;
+    p.y = (int) textPos.y;
+
+    textImage = new Base2D(resx, resy,_TextPath,sh);
+    textImage->setColor(glm::vec4(BUTTON::COLOR_DEFAULT_TEXT,_AlphaText));
+    textImage->setPos(0,0);
+
+}
+
 CImageButton::CImageButton(int resx, int resy, std::string pathbg, std::string pathtext, sPoint pos,Shader * sh):
     CButton(resx, resy, pathbg,"",sh){
 
     _TextPath = pathtext;
     _Pos = pos;
+
+    _BtnReleased->setPos(_Pos.x,_Pos.y);
+    _BtnPressed->setPos(_Pos.x,_Pos.y);
+
+
 
     textPos.x = _Pos.x + BUTTON::X_MARGIN;
     textPos.y = _Pos.y + BUTTON::Y_MARGIN;
@@ -287,11 +331,21 @@ void CImageButton::setbuttonColors(glm::vec3 imagecol, glm::vec3 textcol)  {
 void CImageButton::setPos(int x, int y) {
     Base2D::setPos(x,y);
     textImage->setPos(x,y);  //_Pos.x,_Pos.y);
+
+    _BtnReleased->setPos(x, y);
+    _BtnPressed->setPos(x,y);
+
+
 }
 
 void CImageButton::setScale(float s) {}
 void CImageButton::setSize(int w, int h) {
     Base2D::setSize(w, h);
+
+
+    _BtnReleased->setSize(w, h);
+    _BtnPressed->setSize(w,h);
+
     if (textImage != nullptr) {
         textImage->setSize(w, h);
     }
@@ -300,7 +354,9 @@ void CImageButton::setSize(int w, int h) {
 void CImageButton::Render() {
 
     Base2D::setColor(glm::vec4(1.0,1.0,1.0,_Alpha_Image));
-    Base2D::Render();
+    //Base2D::Render();
+
+    _BtnReleased->Render();
 
     textImage->Base2D::setColor(glm::vec4(1.0,1.0,1.0,_AlphaText));
     textImage->Base2D::Render();

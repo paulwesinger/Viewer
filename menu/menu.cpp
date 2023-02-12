@@ -107,12 +107,12 @@ sPoint CMenu::Pos() {
 
 void CMenu::setHeight(int h) {
     height = h;
-    menuBackground->setSize(width, height);
+    menuBackground->setHeight( height);
 }
 
 void CMenu::setWidth(int w) {
     width = w;
-    menuBackground->setSize(width, height);
+    menuBackground->setWidth(width);
 }
 
 int CMenu::Width() {
@@ -163,7 +163,7 @@ void CMenu::addControll2D(CControllContainer* con, Base2D * ctl) {
 
     if ( con == nullptr  || ctl == nullptr )
         return;
-
+    height += ctl->Height();
     con->addControll2D(ctl);
 }
 
@@ -172,8 +172,8 @@ void CMenu::addConatiner(CControllContainer *con) {
     if ( con == nullptr )
         return;
     containerList.push_back(con);
-    _currentY += con->Dimensions().h + 1;
-    height += con->Dimensions().h;
+    _currentY = con->Dimensions().h + 1;
+    setHeight((_currentY - posY) + 3);
     loginfo("Add Controllcontainer to Menu .... Done"  ,"CMenu::addContainer");
 
 }

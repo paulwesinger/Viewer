@@ -250,7 +250,7 @@ void CEngine::functoogleCockpit(bool checked) {
 // Prvates for Creating
 // --------------------------------------------------------------
 CButton * CEngine::CreateImageButton(std::string btnBg, std::string btnImage, sPoint nextControllPos, FP handler) {
-    CButton * b = new CImageButton(_ResX, _ResY, btnBg, btnImage, nextControllPos,InitGL::getShaderPtr());
+    CButton * b = new CImageButton(_ResX, _ResY, btnBg, btnImage, PATH::ROOT + BTN_PRESSED, nextControllPos,InitGL::getShaderPtr());
 
 
     b->setPos(nextControllPos.x, nextControllPos.y);
@@ -285,8 +285,8 @@ void CEngine::InitToolBar() {
         toolbar->setMenuPtr(MainMenu);
 
 
-    TestButton1 = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn1);
-    TestButton2 = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn2);
+    TestButton1 = CreateImageButton(PATH::ROOT+ BTN_RELEASED,PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn1);
+    TestButton2 = CreateImageButton(PATH::ROOT+ BTN_RELEASED,PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn2);
 
     toolbar->addCtrl(TestButton1);
     toolbar->addCtrl(TestButton2);
@@ -299,7 +299,7 @@ void CEngine::InitToolBar() {
 void CEngine::initMenu(){
 
     //                  |Resolution|  | Position           | width,height, colors             |
-     MainMenu = new CMenu(_ResX, _ResY, 0, 0, MENU_WIDTH, 5/*MENU_HEIGHT*/,
+     MainMenu = new CMenu(_ResX, _ResY, 0, 0, MENU_WIDTH, 0/*MENU_HEIGHT*/,
                           glm::vec4(0.1,0.1,0.1,0.8), glm::vec4(0.9,0.9,0.9,1.0), InitGL::getShaderPtr());
 
     int curr_y = 0;
@@ -336,7 +336,7 @@ void CEngine::initMenu(){
     //-----------------------------------------------------
     sSize s;
     //sPoint p;
-    //con2->addSpacer();
+    con2->addSpacer();
     s.w = MainMenu->Width() - CONTROLL::MARGIN_X ;
     s.h = CONTROLL::HEIGHT;
 
@@ -407,10 +407,6 @@ void CEngine::initMenu(){
     con2->addControll2D(toogleSkyBoxBtn);
     con2->addSpacer();
 
-    //curr_y = MainMenu->CurrentY() + MENU_SPACER;
-
-
-
     p = con2->NextControllPos();
     cameraX = new TextEdit(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s,
                   glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0), InitGL::getShaderPtr());
@@ -456,21 +452,7 @@ void CEngine::initMenu(){
     // add label for Frames to buildin textrender label
     cameradirZ->setLabel("CamDir.Z");
 
-    p = con2->NextControllPos();
-
-
-
-    /*
-    cameradirX = new TextEdit(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s,
-                              glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0),InitGL::getShaderPtr());
-
-    cameradirX->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
-    con2->addControll2D(cameradirX);
-    // add label for Frames to buildin textrender label
-    cameradirX->setLabel("CamDir.X");
-*/
     MainMenu->addConatiner(con2);
-    MainMenu->setHeight(con2->Dimensions().h);
 }
 
 void CEngine::ShowFramesPerSec() {

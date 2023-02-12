@@ -154,11 +154,15 @@ void CControllContainer::rename(std::string theNewName){
 }
 
 void CControllContainer::CalcNextPos(int value) {
-    if (layout == LAYOUT::Vertical)
+    if (layout == LAYOUT::Vertical){
         _CurrentY += value;
+        _Dimensions.h += value;
+    }
     else
-        if (layout == LAYOUT::Horizontal)
+        if (layout == LAYOUT::Horizontal){
             _CurrentX += value;
+            _Dimensions.w += value;
+        }
 }
 
 bool CControllContainer::addSpacer(){
@@ -174,11 +178,9 @@ bool CControllContainer::addControll2D(Base2D *controll) {
     if (layout == LAYOUT::Vertical) {
         CalcNextPos(controll->Height()+1);
         controll->setWidth(_Width);
-        _Dimensions.h += controll->Height();
     }
     else {
         CalcNextPos(controll->Width()+1);
-        _Dimensions.w += _Width;
     }
 
     controlls2D.push_back(controll);
