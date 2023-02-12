@@ -780,7 +780,7 @@ bool InitGL::HandleMessage() {
 
     switch(_Event.type) {
 
-    case SDL_KEYDOWN:
+    //case SDL_KEYDOWN:
     case SDL_KEYUP : {
             switch(_Event.key.keysym.sym) {
 
@@ -796,6 +796,7 @@ bool InitGL::HandleMessage() {
                 case SDLK_m :
                     showMenu = toggleVal(showMenu);
                     MainMenu->setActive(showMenu);
+                    OnMainMenuStateChanged();
                     break;
 
                 case SDLK_q: toggleAnimation();
@@ -988,7 +989,7 @@ void InitGL::Run() {
         HandleMessage();
 
         // Delete the eventque for movemove
-        SDL_FlushEvent(SDL_MOUSEMOTION);
+      //  SDL_FlushEvent(SDL_MOUSEMOTION);
 
         ms += _Elapsed;
         frames++;
@@ -1075,6 +1076,8 @@ void InitGL::Restore3D() {
     glEnable(GL_BLEND);
     glDepthMask(1);
 }
+
+void InitGL::OnMainMenuStateChanged() {} // Override it in subclasses!
 
 void InitGL::OnMouseMove(int &x, int &y, uint32 buttonstate) {
 

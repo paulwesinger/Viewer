@@ -288,7 +288,7 @@ void CImageButton::setbuttonColors(glm::vec3 imagecol, glm::vec3 textcol)  {
 
 void CImageButton::setPos(int x, int y) {
     Base2D::setPos(x,y);
-    textImage->setPos(_Pos.x,_Pos.y);
+    textImage->setPos(x,y);  //_Pos.x,_Pos.y);
 }
 
 void CImageButton::setScale(float s) {}

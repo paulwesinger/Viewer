@@ -88,6 +88,10 @@ void CEngine::OnMouseMove(int &x, int &y, uint32 buttonstate) {
     }
 }
 
+void CEngine::OnMainMenuStateChanged() {
+    toolbar->OnMainMenuStateChanged();
+}
+
 void CEngine::OnLeftMouseButtonUp(int &x, int &y) {
     InitGL::OnLeftMouseButtonUp(x,y);
 
@@ -132,18 +136,23 @@ void CEngine::OnLeftMouseButtonDown( int &x, int &y){
 
 bool CEngine::HandleMessage() {
 
+
+    InitGL::HandleMessage();
+    SDL_FlushEvent(SDL_MOUSEMOTION);
+
     SDL_Event event;
     SDL_PollEvent(&event);
 
     uint32_t buttons;
-    switch(event.type) {
+    switch(_Event.type) {
+
         //------------------------------------------------------------------------------
         // Mause Events
         //------------------------------------------------------------------------------
         case      SDL_MOUSEMOTION : {
 
-            _Mouse.x = _Event.motion.x;
-            _Mouse.y = _Event.motion.y;
+            _Mouse.x = event.motion.x;
+            _Mouse.y = event.motion.y;
 
             buttons = SDL_GetMouseState(&event.motion.x, &event.motion.y);
             OnMouseMove(event.motion.x, event.motion.y, buttons);
@@ -152,7 +161,7 @@ bool CEngine::HandleMessage() {
 
         case SDL_MOUSEBUTTONDOWN: {
 
-            if ( event.button.button == SDL_BUTTON_LEFT ) {
+            if ( _Event.button.button == SDL_BUTTON_LEFT ) {
                 OnLeftMouseButtonDown(event.motion.x, event.motion.y);
             }
             break;
@@ -160,16 +169,16 @@ bool CEngine::HandleMessage() {
 
         case SDL_MOUSEBUTTONUP: {
 
-            if ( event.button.button == SDL_BUTTON_LEFT ) {
+            if ( _Event.button.button == SDL_BUTTON_LEFT ) {
                 OnLeftMouseButtonUp(event.motion.x, event.motion.y);
             }
             break;
         }
+
     }
 
-
     SDL_FlushEvent(SDL_MOUSEMOTION);
-    return InitGL::HandleMessage();
+    return true;
 }
 
 void CEngine::InitUserObjects() {
@@ -238,6 +247,8 @@ void CEngine::functoogleCockpit(bool checked) {
 CButton * CEngine::CreateImageButton(std::string btnBg, std::string btnImage, sPoint nextControllPos, FP handler) {
     CButton * b = new CImageButton(_ResX, _ResY, btnBg, btnImage, nextControllPos,InitGL::getShaderPtr());
 
+
+    b->setPos(nextControllPos.x, nextControllPos.y);
     b->setColor(BTN_ENABLE);
     b->setDisablecolor(BTN_DISABLE);
     b->setSize(BTN_WIDTH,BTN_HEIGHT);
@@ -249,6 +260,8 @@ CButton * CEngine::CreateImageButton(std::string btnBg, std::string btnImage, sP
 CButton * CEngine::CreateImageButton(std::string btnBg, std::string btnImage, FP handler) {
     CButton * b = new CImageButton(_ResX, _ResY, btnBg, btnImage, InitGL::getShaderPtr());
 
+    sPoint p(0,0);
+    b->setPos(p.x,p.y);
     b->setColor(BTN_ENABLE);
     b->setDisablecolor(BTN_DISABLE);
     b->setSize(BTN_WIDTH,BTN_HEIGHT);
@@ -263,37 +276,15 @@ CButton * CEngine::CreateImageButton(std::string btnBg, std::string btnImage, FP
 // --------------------------------------------------------------
 void CEngine::InitToolBar() {
 
-
-    TestButton1 = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
-                                        con1->NextControllPos(),CEngine::funcTestBtn1);
-
+    if (MainMenu != nullptr)
+        toolbar->setMenuPtr(MainMenu);
 
 
-
-
-//   stPoint p(toolbar->Pos()) ;
-
- //   ContainerToolbar1 = new CControllContainer(InitGL::getShaderPtr(), p.x,p.y,
- //                                              toolbar->Width(), 0,LAYOUT::Horizontal);
-
-
- //   ContainerToolbar1->addControll2D(TestButton1);
-    //p = ContainerToolbar1->NextControllPos();
-
-    TestButton2 = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX,
-                                       con1->NextControllPos(),CEngine::funcTestBtn2);
-    TestButton2->AddHandler(CEngine::functoggleSkybox);
-
+    TestButton1 = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn1);
+    TestButton2 = CreateImageButton(PATH::ROOT+ BTN_BG, PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn2);
 
     toolbar->addCtrl(TestButton1);
-
     toolbar->addCtrl(TestButton2);
-
-
- //   ContainerToolbar1->addControll2D(TestButton2);
-
-//    toolbar->addConatiner(ContainerToolbar1);
-
 }
 
 
@@ -477,10 +468,11 @@ void CEngine::initMenu(){
     cameradirX->setLabel("CamDir.X");
 */
     MainMenu->addConatiner(con2);
-
+/*
     if (toolbar != nullptr) {
         toolbar->setMenuPtr(MainMenu);
     }
+    */
 }
 
 void CEngine::ShowFramesPerSec() {
@@ -564,7 +556,7 @@ void CEngine::Init2D() {
     testToolBox-> setPos(1000,800);
 
     toolbar = new ToolBar(_ResX,_ResY,InitGL::getShaderPtr());
-    toolbar->setMenuPtr(MainMenu);
+    //toolbar->setMenuPtr(MainMenu);
     //toolbar-> setPos(100,30);
     add2Dobject(base2d);
     add2Dobject(testToolBox);

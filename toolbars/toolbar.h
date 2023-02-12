@@ -9,6 +9,8 @@
 #include "../controllcontainer/controllcontainer.h"
 #include <glm/vec4.hpp>
 
+
+
 class ToolBar : public Window
 {
 public:
@@ -31,6 +33,12 @@ public:
     virtual void OnEndDrag(int mx, int my) override;
     virtual bool intersect(int x, int y) override;
 
+    virtual void OnMainMenuStateChanged() ;
+
+    int CurrentCtlPos_X();
+    int CurrentCtlPos_Y();
+    sPoint CurrentCtlPos();
+
 public:
     void Stretch();
     std::vector<CControllContainer *> containerList;
@@ -50,12 +58,8 @@ private:
     CControllContainer * container;
 
     sRect DragArea;
-    glm::vec4 DragAreaColor;
-
     Base2D * DragIcon;
-
     LAYOUT _Layout;
-
     sPoint _CurrentCtrlPos;
 };
 

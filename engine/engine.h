@@ -63,6 +63,8 @@ protected:
     virtual void OnLeftMouseButtonUp(int &x, int &y) override;
     virtual void OnLeftMouseButtonDown( int &x, int &y) override;
 
+    virtual void OnMainMenuStateChanged() override;
+
     // Lists for all objects:
     std::vector<std::string> btnList;
     std::vector<std::string> object2DList;

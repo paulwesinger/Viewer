@@ -6,6 +6,7 @@
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 
+
 class Base
 {
 public:
@@ -38,6 +39,8 @@ public:
     bool IsEnabled();
     sPoint Pos();
     void setDisablecolor(glm::vec4 disCol);
+
+
 
 protected:
     sPoint _Pos;

@@ -108,6 +108,8 @@ protected:
     virtual void OnLeftMouseButtonUp(int &x, int &y);
     virtual void OnLeftMouseButtonDown( int &x, int &y);
 
+    virtual void OnMainMenuStateChanged();
+
     //----------------------------------
     // Object creation
     // ---------------------------------
