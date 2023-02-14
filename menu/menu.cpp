@@ -94,6 +94,10 @@ void CMenu::setActive(bool active) {
     _Active = active;
 }
 
+void CMenu::DrawBackground(bool visible) {
+    drawBackground = visible;
+}
+
 bool CMenu::Active() {
     return _Active;
 }
@@ -129,7 +133,10 @@ int CMenu::CurrentY(){
 
 
 void CMenu::Render() {
-    menuBackground ->Render();
+
+    if (drawBackground)
+        menuBackground ->Render();
+
     if (! containerList.empty() ) {
         for(uint i=0; i < containerList.size(); i++) {
 /*

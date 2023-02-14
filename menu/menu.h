@@ -53,6 +53,8 @@ public:
     void AlignLeft();
     void AlignRight();
 
+    void DrawBackground(bool visible);
+
     std::vector<sMenuStruct> menuItems;
     std::vector<CControllContainer *> containerList;
 protected:
@@ -69,6 +71,8 @@ protected:
 
     bool alignright;
     bool alignleft;
+
+    bool drawBackground = false;
 
 private:
     void init();

@@ -147,8 +147,8 @@ protected:
     //-----------------------------------------------------------------
     //tamplate
     //-----------------------------------------------------------------
-    CButton * CreateImageButton(std::string btnBg,std::string btnimage, sPoint nextControllPos, FP handler);
-    CButton * CreateImageButton(std::string btnBg,std::string btnimage, FP handler);
+    CButton * CreateImageButton(std::string btnreleased,std::string btnpressed,std::string btnimage, sPoint nextControllPos, FP handler);
+    CButton * CreateImageButton(std::string btnreleased,std::string btnpressed,std::string btnimage, FP handler);
 
     //-----------------------------------------------------------------
     //tamplate

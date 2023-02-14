@@ -249,8 +249,9 @@ void CEngine::functoogleCockpit(bool checked) {
 // --------------------------------------------------------------
 // Prvates for Creating
 // --------------------------------------------------------------
-CButton * CEngine::CreateImageButton(std::string btnBg, std::string btnImage, sPoint nextControllPos, FP handler) {
-    CButton * b = new CImageButton(_ResX, _ResY, btnBg, btnImage, PATH::ROOT + BTN_PRESSED, nextControllPos,InitGL::getShaderPtr());
+CButton * CEngine::CreateImageButton(std::string btnreleased,std::string btnpressed, std::string btnImage, sPoint nextControllPos, FP handler) {
+
+    CButton * b = new CImageButton(_ResX, _ResY, btnreleased, btnpressed,btnImage, nextControllPos,InitGL::getShaderPtr());
 
 
     b->setPos(nextControllPos.x, nextControllPos.y);
@@ -262,8 +263,8 @@ CButton * CEngine::CreateImageButton(std::string btnBg, std::string btnImage, sP
     return b;
 }
 
-CButton * CEngine::CreateImageButton(std::string btnBg, std::string btnImage, FP handler) {
-    CButton * b = new CImageButton(_ResX, _ResY, btnBg, btnImage, InitGL::getShaderPtr());
+CButton * CEngine::CreateImageButton(std::string btnreleased, std::string btnpressed,std::string btnImage, FP handler) {
+    CButton * b = new CImageButton(_ResX, _ResY, btnreleased,btnpressed, btnImage, InitGL::getShaderPtr());
 
     sPoint p(0,0);
     b->setPos(p.x,p.y);
@@ -285,8 +286,8 @@ void CEngine::InitToolBar() {
         toolbar->setMenuPtr(MainMenu);
 
 
-    TestButton1 = CreateImageButton(PATH::ROOT+ BTN_RELEASED,PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn1);
-    TestButton2 = CreateImageButton(PATH::ROOT+ BTN_RELEASED,PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn2);
+    TestButton1 = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT+ BTN_PRESSED ,PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn1);
+    TestButton2 = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT+ BTN_PRESSED ,PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn2);
 
     toolbar->addCtrl(TestButton1);
     toolbar->addCtrl(TestButton2);
@@ -316,7 +317,7 @@ void CEngine::initMenu(){
     p.y =0;
 
     if (skybox != nullptr) {
-        toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT + BTN_SKYBOX,
+        toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT+ BTN_PRESSED , PATH::ROOT + BTN_SKYBOX,
                                             con1->NextControllPos(),CEngine::functoggleSkybox);
 
         con1->addControll2D(toogleSkyBoxBtn);
@@ -400,7 +401,7 @@ void CEngine::initMenu(){
     // Statusfenster(pos) von Camera:
     //----------------------------------------------------
 
-    toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT + BTN_SKYBOX,
+    toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT+ BTN_RELEASED, PATH::ROOT + BTN_SKYBOX,
                                         con1->NextControllPos(),CEngine::functoggleSkybox);
 
     //toogleSkyBoxBtn->setSize(MainMenu->)
