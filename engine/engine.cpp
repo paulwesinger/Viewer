@@ -255,7 +255,6 @@ CButton * CEngine::CreateImageButton(std::string btnreleased,std::string btnpres
 
 
     b->setPos(nextControllPos.x, nextControllPos.y);
-    b->setColor(BTN_ENABLE);
     b->setDisablecolor(BTN_DISABLE);
     b->setSize(BTN_WIDTH,BTN_HEIGHT);
     b->AddHandler(handler);
@@ -268,7 +267,6 @@ CButton * CEngine::CreateImageButton(std::string btnreleased, std::string btnpre
 
     sPoint p(0,0);
     b->setPos(p.x,p.y);
-    b->setColor(BTN_ENABLE);
     b->setDisablecolor(BTN_DISABLE);
     b->setSize(BTN_WIDTH,BTN_HEIGHT);
     b->AddHandler(handler);

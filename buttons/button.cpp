@@ -28,11 +28,6 @@ void CButton::init() {
     clicked = false;
 
      _ButtonColors = colorscheme.setScheme(DARK);
-     _BtnPressed  = new Base2D(_ResX,_ResY,ImagePressed,shader);
-
-    _BtnPressed->setPos(_Pos.x,_Pos.y);
-    _BtnPressed->setSize(Width(),Height());
-
     setWidth(BUTTON::DEFAULT_WIDTH);
     setHeight(BUTTON::DEFAULT_HEIGHT);
     textPos.x = _Pos.x + BUTTON::X_MARGIN;
@@ -45,7 +40,7 @@ void CButton::init() {
     _TextCol  = BUTTON::COLOR_DEFAULT_TEXT;
 }
 CButton::~CButton() {
-    delete _BtnPressed;
+
 
 }
 
@@ -202,9 +197,7 @@ void CTextButton::setPos(int x, int y) {
 void CTextButton::setSize(int w, int h) {
     Base2D::setSize(w, h);
 
-    _BtnPressed->setSize(w,h);
-
-    // Todo : setSize in TextRender
+   // Todo : setSize in TextRender
 
 }
 
@@ -258,31 +251,9 @@ CImageButton::CImageButton(int resx, int resy, std::string releaseimage, std::st
     // init stuff
 }
 
-/*
-CImageButton::CImageButton( int resx, int resy, std::string releaseimage, std::string pressedimage, std::string pathtext, sPoint pos, Shader * sh):
-    CButton(resx,resy,releaseimage,pressedimage,pathtext,sh) {
-
-    _TextPath = pathtext;
-    _Pos = pos;
-
-    textPos.x = _Pos.x + BUTTON::X_MARGIN;
-    textPos.y = _Pos.y + BUTTON::Y_MARGIN;
-
-    sPoint p;
-    p.x = (int) textPos.x;
-    p.y = (int) textPos.y;
-
-    textImage = new Base2D(resx, resy,_TextPath,sh);
-    textImage->setColor(glm::vec4(BUTTON::COLOR_DEFAULT_TEXT,_AlphaText));
-    textImage->setPos(0,0);
-
-}
-*/
-
 CImageButton::CImageButton(int resx, int resy, std::string releaseimage, std::string pressedimage , std::string pathtext, sPoint pos,Shader * sh):
     CButton(resx, resy, releaseimage, pressedimage, pathtext,sh){
 
-    _BtnPressed->setPos(pos.x,pos.y);
     _TextPath = pathtext;
 
     textPos.x = _Pos.x + BUTTON::X_MARGIN;
@@ -315,9 +286,6 @@ void CImageButton::releaseClick() {
         textImage->setPos(p.x-2, p.y-2);
     }
 
-    if (clicked) {
-        _BtnPressed->setSize(Width()+2,Height()+2);
-    }
     clicked = false;
 }
 
@@ -331,14 +299,11 @@ void CImageButton::setbuttonColors(glm::vec3 imagecol, glm::vec3 textcol)  {
 void CImageButton::setPos(int x, int y) {
     Base2D::setPos(x,y);
     textImage->setPos(x,y);  //_Pos.x,_Pos.y);
-
-    _BtnPressed->setPos(x,y);
 }
 
 void CImageButton::setScale(float s) {}
 void CImageButton::setSize(int w, int h) {
     Base2D::setSize(w, h);
-    _BtnPressed->setSize(w,h);
 
     if (textImage != nullptr) {
         textImage->setSize(w - 2, h - 2);
@@ -347,16 +312,16 @@ void CImageButton::setSize(int w, int h) {
 
 void CImageButton::Render() {
 
-    Base2D::setColor(glm::vec4(1.0,0.0,0.0,_Alpha_Image));
-    Base2D::Render();
+    glm::vec4 rendercol;
 
-    if ( clicked) {
-        _BtnPressed->setSize(Width() - 1,Height() - 1);
-        setColor(glm::vec4(1,1,1,1));
-        _BtnPressed->Render();
-    }
-    //else
-        //setColor(glm::vec4(1,0,0,1));
+    if (clicked)
+        rendercol = glm::vec4(1.0,0.0,0.0,_Alpha_Image);
+    else
+        rendercol = glm::vec4(1.0,1.0,1.0,_Alpha_Image);
+
+
+    Base2D::setColor(rendercol);
+    Base2D::Render();
 
     textImage->setColor(glm::vec4(1.0,1.0,1.0,_AlphaText));
     textImage->Render();
@@ -366,7 +331,6 @@ void CImageButton::OnClick() {
     if ( ! clicked) {
         clickFunc();
         clicked = true;
-        _BtnPressed->setSize(Width()-2,Height()-2);
         setColor(glm::vec4(1,1,1,1));
     }
     animateClick();
