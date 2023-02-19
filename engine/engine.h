@@ -82,7 +82,6 @@ protected:
     CButton * TestButton1;
     CButton * TestButton2;
 
-
     static void functoggleSkybox();
     static void funcFog();
     static void funcTestBtn1();

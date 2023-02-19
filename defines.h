@@ -119,6 +119,8 @@ typedef struct POINT Point;
 struct sSize {
     int w;
     int h;
+    sSize(){w = 0; h = 0;}
+    sSize(int width, int height){ w = width, h = height; }
 } ;
 
 typedef struct _float2{

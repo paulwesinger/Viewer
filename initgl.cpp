@@ -722,9 +722,11 @@ bool InitGL::HandleMessage() {
                    break;
 
                 case SDLK_m :
-                    showMenu = toggleVal(showMenu);
-                    MainMenu->setActive(showMenu);
-                    OnMainMenuStateChanged();
+                    if (MainMenu != nullptr) {
+                        showMenu = toggleVal(showMenu);
+                        MainMenu->setActive(showMenu);
+                        OnMainMenuStateChanged();
+                    }
                     break;
 
                 case SDLK_q: toggleAnimation();
@@ -1044,7 +1046,7 @@ void InitGL::OnLeftMouseButtonDown(int &x, int &y) {
 
     }
 
-    if ( ! MainMenu->containerList.empty() && MainMenu != nullptr && MainMenu->Active()) {
+    if ( MainMenu != nullptr && !MainMenu->containerList.empty()  && MainMenu->Active()) {
 
         for ( uint i = 0; i< MainMenu->containerList.size(); i++) {
 
@@ -1063,7 +1065,7 @@ void InitGL::OnLeftMouseButtonDown(int &x, int &y) {
 
 void InitGL::OnLeftMouseButtonUp(int &x, int &y) {
 
-    if ( ! MainMenu->containerList.empty() && MainMenu != nullptr && MainMenu->Active()) {
+    if (MainMenu != nullptr && ! MainMenu->containerList.empty() && MainMenu->Active()) {
 
         for ( uint i = 0; i< MainMenu->containerList.size(); i++) {
 

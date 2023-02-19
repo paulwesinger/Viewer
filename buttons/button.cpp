@@ -27,7 +27,7 @@ void CButton::init() {
 
     clicked = false;
 
-     _ButtonColors = colorscheme.setScheme(DARK);
+    _ButtonColors = colorscheme.setScheme(DARK);
     setWidth(BUTTON::DEFAULT_WIDTH);
     setHeight(BUTTON::DEFAULT_HEIGHT);
     textPos.x = _Pos.x + BUTTON::X_MARGIN;
@@ -203,7 +203,14 @@ void CTextButton::setSize(int w, int h) {
 
 void CTextButton::Render() {
 
-    Base2D::setColor(glm::vec4(1.0,1.0,1.0,_Alpha_Image));
+    glm::vec4 rendercol;
+
+    if (clicked)
+        rendercol = glm::vec4(1.0,0.0,0.0,_Alpha_Image);
+    else
+        rendercol = glm::vec4(1.0,1.0,1.0,_Alpha_Image);
+
+    Base2D::setColor(rendercol);
     Base2D::Render();
 
     btnText->Render();

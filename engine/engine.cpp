@@ -2,13 +2,30 @@
 #include "../utils/utils.h"
 #include "../landscape/landscape.h"
 #include "../sphere/sphere.h"
-//#include "../defaults.h"
+#include "../menuitem/menuitem.h"
 
 
 
-const std::string BTN_RELEASED      = "images/ButtonReleased.png";
-const std::string BTN_PRESSED       = "images/ButtonPressed.png";
-const std::string BTN_SKYBOX        = "images/ToogleSkybox.png";
+// Menus
+const std::string MENUBACKGROUNDS = PATH::ROOT + "images/MenuBackgrounds/";
+const std::string MENUTEXTS       = PATH::ROOT + "images/ButtonTexts/";
+
+const std::string MENU_BACKGROUND   = MENUBACKGROUNDS   + "MenuItemBackground.png";
+const std::string MENU_BACKGROUNDSUB   = MENUBACKGROUNDS   + "MenuItemBackgroundSub.png";
+
+const std::string MENU_SKYBOX     = MENUTEXTS   + "ToogleSkybox.png";
+
+// Buttons
+const std::string BTNBACKGROUNDS = PATH::ROOT + "images/ButtonBackgrounds/";
+const std::string BTNTEXTS       = PATH::ROOT + "images/ButtonTexts/";
+
+const std::string BTN_RELEASED   = BTNBACKGROUNDS   + "ButtonReleased.png";
+
+// Texture for text on button
+const std::string BTN_SKYBOX     = BTNTEXTS   + "ToogleSkybox.png";
+
+
+
 
 // macro
 #define safeDelete(pt) \
@@ -102,7 +119,7 @@ void CEngine::OnLeftMouseButtonUp(int &x, int &y) {
 
     if ( ! toolbar->CtrlList.empty() ) {
 
-            if ( _LockClick) {
+       //     if ( _LockClick) {
                 for (uint j=0; j< toolbar->CtrlList.size(); j ++) {
                     if (toolbar->CtrlList.at(j)->intersect(x, y) ) {
                         toolbar->CtrlList.at(j)->OnRelease();
@@ -112,18 +129,20 @@ void CEngine::OnLeftMouseButtonUp(int &x, int &y) {
                 if (toolbar->intersect(x,y)) {
                     toolbar->OnEndDrag(x,y);
                 }
-            }
-            else
-                _LockClick = false;
+       //     }
+       //     else
+       //         _LockClick = false;
         }
 }
 
 void CEngine::OnLeftMouseButtonDown( int &x, int &y){
     InitGL::OnLeftMouseButtonDown(x,y);
 
+
+
         if ( ! toolbar->CtrlList.empty()) {
 
-            if ( _LockClick) {
+            //if ( _LockClick) {
                 for (uint j=0; j< toolbar->CtrlList.size(); j ++) {
                     if (toolbar->CtrlList.at(j)->intersect(x, y) ) {
                         toolbar->CtrlList.at(j)->OnClick();
@@ -133,9 +152,9 @@ void CEngine::OnLeftMouseButtonDown( int &x, int &y){
                 if (toolbar->intersect(x,y) ) {
                     toolbar->OnStartDrag(x,y);
                 }
-            }
-            else
-                _LockClick = false;
+            //}
+            //else
+            //    _LockClick = false;
         }
 }
 
@@ -197,7 +216,8 @@ void CEngine::InitUserObjects() {
 
 void CEngine::functoogleAnimation(bool checked) {
 
-    InitGL::toggleAnimation();  // eigntlich startanimation..
+    _Animate = !_Animate;
+    //InitGL::toggleAnimation();  // eigntlich startanimation..
 
 }
 
@@ -231,8 +251,6 @@ void CEngine::Render() {
 
     if (toolbar != nullptr)
         toolbar->Render();
-
-
 }
 
 void CEngine::RenderSkyBox() {
@@ -283,9 +301,8 @@ void CEngine::InitToolBar() {
     if (MainMenu != nullptr)
         toolbar->setMenuPtr(MainMenu);
 
-
-    TestButton1 = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT+ BTN_PRESSED ,PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn1);
-    TestButton2 = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT+ BTN_PRESSED ,PATH::ROOT + BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn2);
+    TestButton1 = CreateImageButton(BTN_RELEASED,"" ,BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn1);
+    TestButton2 = CreateImageButton(BTN_RELEASED, "" ,BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn2);
 
     toolbar->addCtrl(TestButton1);
     toolbar->addCtrl(TestButton2);
@@ -298,24 +315,48 @@ void CEngine::InitToolBar() {
 void CEngine::initMenu(){
 
     //                  |Resolution|  | Position           | width,height, colors             |
-     MainMenu = new CMenu(_ResX, _ResY, 0, 0, MENU_WIDTH, 0/*MENU_HEIGHT*/,
+    MainMenu = new CMenu(_ResX, _ResY, 0, 0, MENU_WIDTH, 0/*MENU_HEIGHT*/,
                           glm::vec4(0.1,0.1,0.1,0.8), glm::vec4(0.9,0.9,0.9,1.0), InitGL::getShaderPtr());
 
-    int curr_y = 0;
-
+    MainMenu->DrawBackground(false);
     // -------------------------------------
     // Standard Menu ist in Initgl vorhanden
     // jetzt  befüllen
     //--------------------------------------
     con1 = new CControllContainer(InitGL::getShaderPtr(), MainMenu->Pos().x,MainMenu->Pos().y,
-                                                            MainMenu->Width(), 0);
+                                                               MainMenu->Width(), 0, LAYOUT::Vertical);
 
     sPoint p;
     p.x = 0;
     p.y =0;
 
+    sSize s;
+    s.w = MainMenu->Width() - CONTROLL::MARGIN_X;
+    s.h = CONTROLL::HEIGHT;
+    p= con1->NextControllPos();
+
+    MenuItem * item1 = new MenuItem(_ResX,_ResY,p,sSize(BTN_WIDTH, BTN_HEIGHT),MENU_BACKGROUNDSUB,MENU_SKYBOX,InitGL::getShaderPtr() );
+    con1->addControll2D(item1);
+
+    p= con1->NextControllPos();
+    checkBoxAnimation = new CheckBox(_ResX, _ResY,BTN_RELEASED, p,s ,
+                                     glm::vec4(0.79, 0.99, 1.0, 1.0), InitGL::getShaderPtr() );
+
+    checkBoxAnimation->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
+    checkBoxAnimation->AddHandler(CEngine::functoogleAnimation);
+    checkBoxAnimation->setChecked();
+    con1->addControll2D(checkBoxAnimation);
+    // add label for Frames to buildin textrender label
+    checkBoxAnimation->setLabel("Animate");
+
+    //----------------------------------------------------
+    // checkbox für Blending
+    //----------------------------------------------------
+    MainMenu->addConatiner(con1);
+
+    /*
     if (skybox != nullptr) {
-        toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT+ BTN_PRESSED , PATH::ROOT + BTN_SKYBOX,
+        toogleSkyBoxBtn = CreateImageButton(BTN_RELEASED, "" ,BTN_SKYBOX,
                                             con1->NextControllPos(),CEngine::functoggleSkybox);
 
         con1->addControll2D(toogleSkyBoxBtn);
@@ -341,7 +382,7 @@ void CEngine::initMenu(){
 
     p = con2->NextControllPos();
 
-    txtFrameperSec = new TextEdit(_ResX, _ResY,PATH::ROOT + BTN_RELEASED, p,s,
+    txtFrameperSec = new TextEdit(_ResX, _ResY,BTN_RELEASED, p,s,
                                   glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0),InitGL::getShaderPtr());
 
 
@@ -355,7 +396,7 @@ void CEngine::initMenu(){
     //----------------------------------------------------
     p = con2->NextControllPos();
 
-    checkBoxAnimation = new CheckBox(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s ,
+    checkBoxAnimation = new CheckBox(_ResX, _ResY,BTN_RELEASED, p,s ,
                                      glm::vec4(0.79, 0.99, 1.0, 1.0), InitGL::getShaderPtr() );
 
     checkBoxAnimation->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
@@ -370,7 +411,7 @@ void CEngine::initMenu(){
     //----------------------------------------------------
     p = con2->NextControllPos();
 
-    checkBoxBlending = new CheckBox(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s,
+    checkBoxBlending = new CheckBox(_ResX, _ResY, BTN_RELEASED, p,s,
                                     glm::vec4(0.79, 0.99, 1.0, 1.0), InitGL::getShaderPtr() );
 
     checkBoxBlending->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
@@ -385,7 +426,7 @@ void CEngine::initMenu(){
     //----------------------------------------------------
     p = con2->NextControllPos();
 
-    checkBoxCockpit = new CheckBox(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s,
+    checkBoxCockpit = new CheckBox(_ResX, _ResY, BTN_RELEASED, p,s,
                                    glm::vec4(0.79, 0.99, 1.0, 1.0), InitGL::getShaderPtr() );
 
     checkBoxCockpit->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
@@ -399,15 +440,17 @@ void CEngine::initMenu(){
     // Statusfenster(pos) von Camera:
     //----------------------------------------------------
 
-    toogleSkyBoxBtn = CreateImageButton(PATH::ROOT+ BTN_RELEASED, PATH::ROOT+ BTN_RELEASED, PATH::ROOT + BTN_SKYBOX,
-                                        con1->NextControllPos(),CEngine::functoggleSkybox);
+    p = con2->NextControllPos();
+    toogleSkyBoxBtn = new CTextButton(_ResX,_ResY,BTN_RELEASED, "Test",p,InitGL::getShaderPtr());
+    toogleSkyBoxBtn->setSize(BTN_WIDTH,BTN_HEIGHT);
+    toogleSkyBoxBtn->AddHandler(CEngine::funcTestBtn2);
 
     //toogleSkyBoxBtn->setSize(MainMenu->)
     con2->addControll2D(toogleSkyBoxBtn);
     con2->addSpacer();
 
     p = con2->NextControllPos();
-    cameraX = new TextEdit(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s,
+    cameraX = new TextEdit(_ResX, _ResY, BTN_RELEASED, p,s,
                   glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0), InitGL::getShaderPtr());
 
     cameraX->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
@@ -416,7 +459,7 @@ void CEngine::initMenu(){
     cameraX->setLabel("Cam X");
 
     p = con2->NextControllPos();
-    cameraY = new TextEdit(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s
+    cameraY = new TextEdit(_ResX, _ResY, BTN_RELEASED, p,s
                   ,glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0),InitGL::getShaderPtr());
 
     cameraY->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
@@ -425,7 +468,7 @@ void CEngine::initMenu(){
     cameraY->setLabel("Cam Y");
 
     p = con2->NextControllPos();
-    cameraZ = new TextEdit(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s,
+    cameraZ = new TextEdit(_ResX, _ResY, BTN_RELEASED, p,s,
                            glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0),InitGL::getShaderPtr());
 
     cameraZ->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
@@ -434,7 +477,7 @@ void CEngine::initMenu(){
     cameraZ->setLabel("Cam Z");
 
     p = con2->NextControllPos();
-    camerayaw = new TextEdit(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s,
+    camerayaw = new TextEdit(_ResX, _ResY, BTN_RELEASED, p,s,
                              glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0), InitGL::getShaderPtr());
 
     camerayaw->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
@@ -443,7 +486,7 @@ void CEngine::initMenu(){
     camerayaw->setLabel("Cam Yaw");
 
     p = con2->NextControllPos();
-    cameradirZ = new TextEdit(_ResX, _ResY, PATH::ROOT + "images/ButtonReleased.png", p,s,
+    cameradirZ = new TextEdit(_ResX, _ResY, BTN_RELEASED, p,s,
                               glm::vec4(0.79, 0.99, 1.0, 1.0) , glm::vec4(0.79, 0.99, 1.0, 1.0), InitGL::getShaderPtr());
 
     cameradirZ->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
@@ -452,16 +495,19 @@ void CEngine::initMenu(){
     cameradirZ->setLabel("CamDir.Z");
 
     MainMenu->addConatiner(con2);
+
+    */
 }
 
 void CEngine::ShowFramesPerSec() {
-
+/*
     TextRender * t = txtFrameperSec->getTextPtr();
     if (t != nullptr) {
         t-> SetTextColor(glm::vec4(1.0,1.0,1.0,100));
         t->SetText(0,IntToString(_FramerateOut));
         t->Render();
     }
+    */
 }
 
 void CEngine::ShowCameraPos() {
