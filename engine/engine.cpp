@@ -62,6 +62,8 @@ CEngine::CEngine(std::string titel) :
     toolbar             = nullptr;
     ContainerToolbar1   = nullptr;
 
+    SubMenu1            = nullptr;
+
     //From InitGL:
     _ShowFramesPerSecond = true;
 
@@ -253,6 +255,16 @@ void CEngine::Render() {
         toolbar->Render();
 }
 
+void CEngine::RenderControlls() {
+    InitGL::RenderControlls();
+
+    // Here Stoff for 2D Rendering !
+
+    if (SubMenu1 != nullptr)
+        SubMenu1->Render();
+
+}
+
 void CEngine::RenderSkyBox() {
 
     if (_ShowSkybox)
@@ -313,6 +325,12 @@ void CEngine::InitToolBar() {
 // Init Methods for Engines
 // --------------------------------------------------------------
 void CEngine::initMenu(){
+
+
+    SubMenu1 = new CMenu(_ResX, _ResY, 150, 100, MENU_WIDTH, MENU_HEIGHT,
+                         glm::vec4(0.1,0.1,0.1,0.8), glm::vec4(0.9,0.9,0.9,1.0), InitGL::getShaderPtr());
+
+    SubMenu1->DrawBackground(true);
 
     //                  |Resolution|  | Position           | width,height, colors             |
     MainMenu = new CMenu(_ResX, _ResY, 0, 0, MENU_WIDTH, 0/*MENU_HEIGHT*/,

@@ -56,6 +56,7 @@ protected:
     void loadButtons();
     virtual void Render()  override;
     virtual void RenderSkyBox() override;
+    virtual void RenderControlls() override;
 
     virtual void Render2DUserObject() override;
 
@@ -77,6 +78,9 @@ protected:
     CControllContainer *con1;
     CControllContainer *con2;
     CControllContainer * ContainerToolbar1;
+
+
+    CMenu * SubMenu1;
 
     CButton * toogleSkyBoxBtn;
     CButton * TestButton1;
