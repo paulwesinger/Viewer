@@ -4,12 +4,49 @@
 #include "../defaults.h"
 
 
+MenuItem::MenuItem(int resx,int resy, Shader * sh)
+    :Base2D(resx,resy,sh)
+{
+    _TextImage = new Base2D(resx,resy,sh);
+    _SubMenu  = nullptr;
+    _ID = 0 ;
+}
 
-CMenu::CMenu(int resX, int resY, Shader * sh) {
+MenuItem::MenuItem(int resx, int resy, sPoint pos, sSize size, std::string bgtexture, std::string texttexture,  Shader * s)
+    :Base2D(resx,resy,bgtexture,s)
+{
+
+
+    Base2D::setPos(pos.x,pos.y);
+    Base2D::setSize(size.w, size.h);
+
+    _TextImage = new Base2D(resx,resy,texttexture,s);
+    _TextImage->setPos(pos.x, pos.y);
+    _TextImage->setSize(size.w, size.h);
+}
+
+void MenuItem::Render() {
+
+    Base2D::Render();
+    _TextImage->Render();
+}
+
+void MenuItem::setID(int id) {
+    _ID = id;
+}
+
+int MenuItem::ID() { return _ID; }
+
+
+
+CMenu::CMenu(int resX, int resY, Shader * sh)
+    :Base2D(resX,resY,sh)
+    {
+    /*
     _resY = resY;
     _resX = resX;
 
-    shader = sh;
+    //shader = sh;
 
     posX = 0;
     posY = 0;
@@ -19,75 +56,79 @@ CMenu::CMenu(int resX, int resY, Shader * sh) {
 
     backgroundColor = glm::vec4(0.0,0.0,0.0,1.0);
     foregroundColor = glm::vec4(1.0,1.0,1.0,1.0);
+*/
+    init();
+}
+
+CMenu::CMenu(int resX, int resY, int w, int h, Shader * sh)
+    :Base2D(resX,resY,sh)
+{
+    setWidth(w);
+    setHeight(h);
 
     init();
 }
 
-CMenu::CMenu(int resX, int resY, int w, int h, Shader * sh) {
-    _resY = resY;
-    _resX = resX;
-
-    shader  = sh;
-
-    posX = 0;
-    posY = 0;
-
-    width =  w;
-    height = h;
-
-    backgroundColor = glm::vec4(0.0,0.0,0.0,1.0);
-    foregroundColor = glm::vec4(1.0,1.0,1.0,1.0);
+CMenu::CMenu(int resX, int resY, int w, int h, glm::vec4 bg, glm::vec4 fg, Shader * sh)
+    :Base2D(resX,resY,sh)
+{
+    setWidth(w);
+    setHeight(h);
+    setBackgroundColor(bg);
+    setColor(fg);
 
     init();
 }
 
-CMenu::CMenu(int resX, int resY, int w, int h, glm::vec4 bg, glm::vec4 fg, Shader * sh) {
-
-    _resY = resY;
-    _resX = resX;
-    _currentY = 0;
-
-    shader = sh;
-    posX = 0;
-    posY = 0;
-
-    width =  w;
-    height = h;
-
-    backgroundColor = bg;
-    foregroundColor = fg;
-
-    init();
-}
-
-CMenu::CMenu(int resX, int resY, int px, int py, int w, int h, glm::vec4 bg, glm::vec4 fg, Shader * sh) {
-
-    _resY = resY;
-    _resX = resX;
-    _currentY = 0;
+CMenu::CMenu(int resX, int resY, int px, int py, int w, int h, glm::vec4 bg, glm::vec4 fg, Shader * sh)
+    :Base2D(resX,resY,sh)
+{
 
     shader = sh;
 
-    posX = px;
-    posY = py;
+    setPos(px,py);
+    setSize(w,h);
 
-    width =  w;
-    height = h;
-
-    backgroundColor = bg;
-    foregroundColor = fg;
+    setBackgroundColor(bg);
+    setColor(fg);
 
     init();
 }
 
 void CMenu::init() {
 
-    menuBackground = new Base2D(_resX, _resY, shader);
-    menuBackground->setPos(posX, posY);
-    menuBackground->setSize(width, height);
-    menuBackground->setColor(backgroundColor);
-
+    _CurrentY = 0;
     _Active = true;
+
+    _Header= nullptr;
+    _HeaderText = nullptr;
+    _PathToHeaderText = "";
+    posContainer.x = PosX();
+    posContainer.y = PosY() + 5;
+}
+
+void CMenu::addMenuHeader(std::string path, int w, int h) {
+
+
+    _CurrentY += h;
+
+    posContainer.y += h;
+
+
+    /*
+    _PathToHeaderText = path;
+    _Header = new Base2D(_ResX,_ResY,shader);
+    _Header ->setBackgroundColor(glm::vec4(0.28,0.47,0.64,0.5));
+    _Header->setPos(PosX(), PosY());
+    _Header->setSize(w,h);
+
+    _HeaderText = new Base2D(_ResX,_ResY,path,shader);
+    _HeaderText->setPos(PosX(), PosY());
+    _HeaderText->setSize(w, h);
+
+
+    //_CurrentY += _Header->Height();
+    */
 }
 
 void CMenu::setActive(bool active) {
@@ -102,51 +143,25 @@ bool CMenu::Active() {
     return _Active;
 }
 
-sPoint CMenu::Pos() {
-    sPoint p;
-    p.x = posX;
-    p.y = posY;
-    return p;
-}
-
-void CMenu::setHeight(int h) {
-    height = h;
-    menuBackground->setHeight( height);
-}
-
-void CMenu::setWidth(int w) {
-    width = w;
-    menuBackground->setWidth(width);
-}
-
-int CMenu::Width() {
-    return width;
-}
-
-int CMenu::Height() {
-    return height;
-}
-
 int CMenu::CurrentY(){
-    return _currentY;
+    return _CurrentY;
 }
+
+
+int CMenu::PosX() { return  Base::PosX(); }
+int CMenu::PosY() { return Base::PosY(); }
+int CMenu:: Width() { return Base::Size().w; }
+int CMenu::Height() { return Base::Size().h; }
+int CMenu::ID() { return _ID; }
 
 
 void CMenu::Render() {
 
     if (drawBackground)
-        menuBackground ->Render();
+        Base2D::Render();
 
     if (! containerList.empty() ) {
         for(uint i=0; i < containerList.size(); i++) {
-/*
-            if ( ! containerList.at(i) ->buttons.empty()) {
-                for (uint j=0; j < containerList.at(i)->buttons.size(); j++){
-                    containerList.at(i)->buttons.at(j) ->Render();
-                }
-            }
-
-            */
             if ( ! containerList.at(i) ->controlls2D.empty() ) {
                 for (uint j=0; j < containerList.at(i)->controlls2D.size(); j++){
                     containerList.at(i)->controlls2D.at(j) ->Render();
@@ -154,15 +169,15 @@ void CMenu::Render() {
             }
         }
     }
-
 }
+
 
 void CMenu::setMenuHeader(std::string name) {
     sMenuStruct ms;
-    ms.text = new TextRender(_resX,_resY, shader);
+    ms.text = new TextRender(_ResX,_ResY, shader);
     ms.text->AddString(name);
 
-    _currentY += ms.text->GetTextAreaHeight();
+    _CurrentY += ms.text->GetTextAreaHeight();
 }
 
 
@@ -170,7 +185,10 @@ void CMenu::addControll2D(CControllContainer* con, Base2D * ctl) {
 
     if ( con == nullptr  || ctl == nullptr )
         return;
+    int  height = Height();
+
     height += ctl->Height();
+    ctl->setHeight(height);
     con->addControll2D(ctl);
 }
 
@@ -178,9 +196,15 @@ void CMenu::addConatiner(CControllContainer *con) {
 
     if ( con == nullptr )
         return;
+
+    con->setPos(posContainer);
     containerList.push_back(con);
-    _currentY = con->Dimensions().h + 1;
-    setHeight((_currentY - posY) + 3);
+
+
+    _CurrentY = con->Dimensions().h + 1;
+    posContainer.y += _CurrentY;
+
+    setHeight((_CurrentY - PosY())  + 3);
     loginfo("Add Controllcontainer to Menu .... Done"  ,"CMenu::addContainer");
 
 }
@@ -192,6 +216,9 @@ void CMenu::addTextItem(CControllContainer *con, std::string text) {
     // Hier eigentlich header text..! container anpassen !!
 }
 
+void CMenu::setID(int id) {
+    _ID = id;
+}
 
 void CMenu::AlignLeft() {
 

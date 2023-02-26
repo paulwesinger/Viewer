@@ -100,7 +100,7 @@ void ToolBar::Render() {
 void ToolBar::Stretch() {
     if (mainmenu != nullptr)  {
         if (mainmenu->Active()) {
-            _Pos.x = mainmenu->Pos().x + mainmenu->Width();
+            _Pos.x = mainmenu->PosX() + mainmenu->Width();
             _Size.w = _ResX -_Pos.x;
             CalcDragArea();
             CalcCtrlPos();
@@ -253,8 +253,8 @@ void ToolBar::setMenuPtr(CMenu * ptr) {
         mainmenu = ptr;
 
         if (ptr->Active() ) {
-            _Pos.x = ptr->Pos().x + ptr->Width();
-            _Pos.y = ptr->Pos().y;
+            _Pos.x = ptr->PosX() + ptr->Width();
+            _Pos.y = ptr->PosY();
         }
         else{
             _Pos.x = 0;

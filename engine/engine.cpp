@@ -2,18 +2,21 @@
 #include "../utils/utils.h"
 #include "../landscape/landscape.h"
 #include "../sphere/sphere.h"
-#include "../menuitem/menuitem.h"
-
+#include "../menuids.h"
+#include "../label/label.h"
 
 
 // Menus
 const std::string MENUBACKGROUNDS = PATH::ROOT + "images/MenuBackgrounds/";
-const std::string MENUTEXTS       = PATH::ROOT + "images/ButtonTexts/";
+const std::string MENUTEXTS       = PATH::ROOT + "images/MenuTexts/";
+
 
 const std::string MENU_BACKGROUND   = MENUBACKGROUNDS   + "MenuItemBackground.png";
 const std::string MENU_BACKGROUNDSUB   = MENUBACKGROUNDS   + "MenuItemBackgroundSub.png";
 
-const std::string MENU_SKYBOX     = MENUTEXTS   + "ToogleSkybox.png";
+//const std::string MENU_SKYBOX     = MENUTEXTS   + "ToogleSkybox.png";
+const std::string MENU_FILE       = MENUTEXTS   + "Datei.png";
+
 
 // Buttons
 const std::string BTNBACKGROUNDS = PATH::ROOT + "images/ButtonBackgrounds/";
@@ -327,21 +330,19 @@ void CEngine::InitToolBar() {
 void CEngine::initMenu(){
 
 
-    SubMenu1 = new CMenu(_ResX, _ResY, 150, 100, MENU_WIDTH, MENU_HEIGHT,
-                         glm::vec4(0.1,0.1,0.1,0.8), glm::vec4(0.9,0.9,0.9,1.0), InitGL::getShaderPtr());
-
-    SubMenu1->DrawBackground(true);
 
     //                  |Resolution|  | Position           | width,height, colors             |
     MainMenu = new CMenu(_ResX, _ResY, 0, 0, MENU_WIDTH, 0/*MENU_HEIGHT*/,
                           glm::vec4(0.1,0.1,0.1,0.8), glm::vec4(0.9,0.9,0.9,1.0), InitGL::getShaderPtr());
 
-    MainMenu->DrawBackground(false);
+    MainMenu->setID(MENUIDS::MENU_Main);
+
+    MainMenu->DrawBackground(true);
     // -------------------------------------
     // Standard Menu ist in Initgl vorhanden
     // jetzt  befüllen
     //--------------------------------------
-    con1 = new CControllContainer(InitGL::getShaderPtr(), MainMenu->Pos().x,MainMenu->Pos().y,
+    con1 = new CControllContainer(InitGL::getShaderPtr(), MainMenu->PosX(),MainMenu->PosY(),
                                                                MainMenu->Width(), 0, LAYOUT::Vertical);
 
     sPoint p;
@@ -351,9 +352,14 @@ void CEngine::initMenu(){
     sSize s;
     s.w = MainMenu->Width() - CONTROLL::MARGIN_X;
     s.h = CONTROLL::HEIGHT;
-    p= con1->NextControllPos();
 
-    MenuItem * item1 = new MenuItem(_ResX,_ResY,p,sSize(BTN_WIDTH, BTN_HEIGHT),MENU_BACKGROUNDSUB,MENU_SKYBOX,InitGL::getShaderPtr() );
+    MainMenu->addMenuHeader(MENU_FILE,s.w, s.h);
+    p = con1->NextControllPos();
+
+    MenuItem * item1 = new MenuItem(_ResX,_ResY,p,sSize(BTN_WIDTH, BTN_HEIGHT),MENU_BACKGROUNDSUB,BTN_SKYBOX,InitGL::getShaderPtr() );
+    item1->setID(FILEMENU_IDS::ITEM_New);
+
+
     con1->addControll2D(item1);
 
     p= con1->NextControllPos();
@@ -371,6 +377,15 @@ void CEngine::initMenu(){
     // checkbox für Blending
     //----------------------------------------------------
     MainMenu->addConatiner(con1);
+
+
+    SubMenu1 = new CMenu(_ResX, _ResY, item1->PosX() + item1->Width()+ 5 , item1->PosY(), MENU_WIDTH, MENU_HEIGHT,
+                         glm::vec4(0.1,0.1,0.1,0.8), glm::vec4(0.9,0.9,0.9,1.0), InitGL::getShaderPtr());
+
+    SubMenu1->setID(MENUIDS::MENU_File);
+    SubMenu1->DrawBackground(true);
+
+    // Hier aus einer liste id'S holen, submenu
 
     /*
     if (skybox != nullptr) {

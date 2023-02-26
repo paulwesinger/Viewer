@@ -39,12 +39,12 @@ SOURCES += \
         fileutils/fileutil.cpp \
         imageloader/loadimage.cpp \
         initgl.cpp \
+        label/label.cpp \
         landscape/landscape.cpp \
         lights/light.cpp \
         logs/logs.cpp \
         main.cpp \
         menu/menu.cpp \
-        menuitem/menuitem.cpp \
         meshobject/meshobject.cpp \
         objectclasses/object.cpp \
         objloader/objloader.cpp \
@@ -223,11 +223,12 @@ HEADERS += \
     functions.h \
     imageloader/loadimage.h \
     initgl.h \
+    label/label.h \
     landscape/landscape.h \
     lights/light.h \
     logs/logs.h \
     menu/menu.h \
-    menuitem/menuitem.h \
+    menuids.h \
     meshobject/meshobject.h \
     objectclasses/object.h \
     objloader/objloader.h \

@@ -17,6 +17,7 @@
 #include "../toolbars/toolbar.h"
 
 
+
 const std::string BUTTONS_CFG  = PATH::ROOT + "config/Buttons/";
 const std::string OBJECT3D_CFG = PATH::ROOT + "config/3DObjects/";
 const std::string COCKPIT_CFG  = PATH::ROOT + "config/3DObjects/Cockpits/";
@@ -74,6 +75,9 @@ protected:
     std::vector<std::string> object3DLandscapeList;
     std::vector<std::string> objectCockpitList;
     std::vector<std::string> objectTexturedSpheresList;
+
+    // Submenue's and items -> this holds ALL submenus and menuitems
+    std::vector<CMenu> subMenuList;
 
     CControllContainer *con1;
     CControllContainer *con2;

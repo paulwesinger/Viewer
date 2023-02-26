@@ -12,8 +12,6 @@ class Base
 public:
     Base();
     virtual ~Base();
-
-
     virtual void Render();
 
     virtual void OnStartDrag(int mx, int my);
@@ -27,26 +25,34 @@ public:
     virtual void setSize( int w, int h);
     virtual void setPos(int x, int y);
     virtual void setColor(glm::vec4 col);
+    virtual void setBackgroundColor(glm::vec4 col);
+    virtual void setDisablecolor(glm::vec4 disCol);
     virtual void calcDragBar();
 
-
-    virtual int Height();
-    virtual int Width();
     virtual void disable();
     virtual void enable();
     virtual bool IsDragging();
-    glm::vec4 color();
-    bool IsEnabled();
-    sPoint Pos();
-    void setDisablecolor(glm::vec4 disCol);
 
+    virtual sPoint Pos();
+    virtual sSize Size();
 
+    virtual int Height();
+    virtual int Width();
+    virtual int PosX();
+    virtual int PosY();
+
+    virtual glm::vec4 color();
+    virtual glm::vec4 backgroundColor();
+    virtual glm::vec4 disableColor();
+
+    virtual bool IsEnabled();
 
 protected:
     sPoint _Pos;
     sSize  _Size;
 
     glm::vec4 _Color;
+    glm::vec4 _BackgroundColor;
     glm::vec4 _DisableColor;
     bool _Enable;
     int _ResX;

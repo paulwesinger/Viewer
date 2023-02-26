@@ -22,13 +22,7 @@ void Base::setWidth(int w) {
     calcDragBar();
 }
 
-int Base::Width(){
-    return _Size.w;
-}
 
-int Base::Height() {
-    return _Size.h;
-}
 void Base::setHeight(int h) {
     _Size.h = h;
     calcDragBar();
@@ -57,15 +51,25 @@ void Base::calcDragBar() {
     interSectHeadline.y1 = _Pos.y + _Size.h;
 }
 
-sPoint Base::Pos() {
-    return _Pos;
-}
+sPoint Base::Pos() {  return _Pos; }
+sSize Base:: Size() { return _Size; }
+
+int Base::PosX() {return _Pos.x; }
+int Base::PosY() { return _Pos.y; }
+int Base::Width(){ return _Size.w; }
+int Base::Height() {return _Size.h; }
 
 bool Base::IsEnabled(){
     return _Enable;
 }
 
 glm::vec4 Base::color() { return  _Color; }
+glm::vec4 Base::backgroundColor(){  return _BackgroundColor;  }
+glm::vec4 Base::disableColor() { return _DisableColor; }
+
+void Base::setBackgroundColor(glm::vec4 col) {
+    _BackgroundColor = col;
+}
 
 void Base::setColor(glm::vec4 col) {
     _Color = col;
