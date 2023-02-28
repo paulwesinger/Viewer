@@ -97,38 +97,32 @@ CMenu::CMenu(int resX, int resY, int px, int py, int w, int h, glm::vec4 bg, glm
 
 void CMenu::init() {
 
-    _CurrentY = 0;
+    _CurrentY = 2;
     _Active = true;
 
     _Header= nullptr;
     _HeaderText = nullptr;
     _PathToHeaderText = "";
-    posContainer.x = PosX();
-    posContainer.y = PosY() + 5;
+   // posContainer.x = PosX();
+   // posContainer.y = PosY() + 5;
 }
 
 void CMenu::addMenuHeader(std::string path, int w, int h) {
 
 
+    if (_Header == nullptr)
+        _Header = new Base2D(_ResX,_ResY,path,shader);
+
+    _Header->setPos(PosX()+1,PosY());
+    _Header->setWidth(Width() -2 );
+    _Header->setHeight(h);
+    _Header->setColor(glm::vec4(0,0,0.8,0.5));
+
     _CurrentY += h;
-
-    posContainer.y += h;
-
-
-    /*
-    _PathToHeaderText = path;
-    _Header = new Base2D(_ResX,_ResY,shader);
-    _Header ->setBackgroundColor(glm::vec4(0.28,0.47,0.64,0.5));
-    _Header->setPos(PosX(), PosY());
-    _Header->setSize(w,h);
-
-    _HeaderText = new Base2D(_ResX,_ResY,path,shader);
-    _HeaderText->setPos(PosX(), PosY());
-    _HeaderText->setSize(w, h);
-
-
-    //_CurrentY += _Header->Height();
-    */
+    int height = Height();
+    height += h;
+  //  width = w+2;
+    setHeight(height);
 }
 
 void CMenu::setActive(bool active) {
@@ -160,15 +154,18 @@ void CMenu::Render() {
     if (drawBackground)
         Base2D::Render();
 
-    if (! containerList.empty() ) {
-        for(uint i=0; i < containerList.size(); i++) {
-            if ( ! containerList.at(i) ->controlls2D.empty() ) {
-                for (uint j=0; j < containerList.at(i)->controlls2D.size(); j++){
-                    containerList.at(i)->controlls2D.at(j) ->Render();
+    if (_Header != nullptr)
+        _Header->Render();
+
+ //   if (! containerList.empty() ) {
+     //   for(uint i=0; i < containerList.size(); i++) {
+     //       if ( ! containerList.at(i) ->controlls2D.empty() ) {
+                for (uint j=0; j < controlls2D.size(); j++){
+                    controlls2D.at(j)->Render();
                  }
-            }
-        }
-    }
+      //      }
+     //   }
+   // }
 }
 
 
@@ -183,13 +180,19 @@ void CMenu::setMenuHeader(std::string name) {
 
 void CMenu::addControll2D(CControllContainer* con, Base2D * ctl) {
 
-    if ( con == nullptr  || ctl == nullptr )
+    //if ( con == nullptr  || ctl == nullptr )
+    if ( ctl == nullptr )
         return;
     int  height = Height();
+    ctl->setWidth(Width()-2);
+    ctl->setPos(PosX()+1,PosY());
 
     height += ctl->Height();
-    ctl->setHeight(height);
-    con->addControll2D(ctl);
+    setHeight(height);
+    _CurrentY  += height;
+    controlls2D.push_back(ctl);
+
+    //con->addControll2D(ctl);
 }
 
 void CMenu::addConatiner(CControllContainer *con) {

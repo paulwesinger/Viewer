@@ -353,30 +353,31 @@ void CEngine::initMenu(){
     s.w = MainMenu->Width() - CONTROLL::MARGIN_X;
     s.h = CONTROLL::HEIGHT;
 
-    MainMenu->addMenuHeader(MENU_FILE,s.w, s.h);
-    p = con1->NextControllPos();
+    MainMenu->addMenuHeader(MENU_BACKGROUND,s.w, s.h);
+    p.y = MainMenu->CurrentY();
 
     MenuItem * item1 = new MenuItem(_ResX,_ResY,p,sSize(BTN_WIDTH, BTN_HEIGHT),MENU_BACKGROUNDSUB,BTN_SKYBOX,InitGL::getShaderPtr() );
     item1->setID(FILEMENU_IDS::ITEM_New);
+    MainMenu->addControll2D(con1,item1);
 
+    //con1->addControll2D(item1);
 
-    con1->addControll2D(item1);
-
-    p= con1->NextControllPos();
+    p.y = MainMenu->CurrentY();
     checkBoxAnimation = new CheckBox(_ResX, _ResY,BTN_RELEASED, p,s ,
                                      glm::vec4(0.79, 0.99, 1.0, 1.0), InitGL::getShaderPtr() );
 
     checkBoxAnimation->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
     checkBoxAnimation->AddHandler(CEngine::functoogleAnimation);
     checkBoxAnimation->setChecked();
-    con1->addControll2D(checkBoxAnimation);
+    //con1->addControll2D(checkBoxAnimation);
     // add label for Frames to buildin textrender label
     checkBoxAnimation->setLabel("Animate");
+    MainMenu->addControll2D(con1,checkBoxAnimation);
 
     //----------------------------------------------------
     // checkbox für Blending
     //----------------------------------------------------
-    MainMenu->addConatiner(con1);
+    //MainMenu->addConatiner(con1);
 
 
     SubMenu1 = new CMenu(_ResX, _ResY, item1->PosX() + item1->Width()+ 5 , item1->PosY(), MENU_WIDTH, MENU_HEIGHT,

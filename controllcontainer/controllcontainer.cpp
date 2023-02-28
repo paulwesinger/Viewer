@@ -87,6 +87,9 @@ void CControllContainer::releaseConterItems() {
 
 void CControllContainer::setPos(sPoint pos) {
     _Pos = pos;
+    _CurrentY = pos.y;
+
+
 }
 sPoint CControllContainer::Pos() {
     return _Pos;

@@ -95,6 +95,9 @@ protected:
 
     bool drawBackground = false;
 
+    std::vector <Base2D *> controlls2D;
+
+
 private:
 
     Base2D *_Header;
