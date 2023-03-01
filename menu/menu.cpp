@@ -189,7 +189,7 @@ void CMenu::addControll2D(CControllContainer* con, Base2D * ctl) {
 
     height += ctl->Height();
     setHeight(height);
-    _CurrentY  += height;
+    _CurrentY  += ctl->Height()+1;
     controlls2D.push_back(ctl);
 
     //con->addControll2D(ctl);
