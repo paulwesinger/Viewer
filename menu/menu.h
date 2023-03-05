@@ -32,6 +32,9 @@ public:
     MenuItem(int resx, int resy, sPoint pos, sSize size, std::string bgtexture, std::string texttexture,  Shader * s);
 
     void Render() override;
+    void setPos(int x, int y) override;
+    void setSize(int w, int h) override;
+
     void setID(int id);
 
     int ID();
@@ -77,6 +80,7 @@ public:
     std::vector<sMenuStruct> menuItems;
     std::vector<CControllContainer *> containerList;
     std::vector<MenuItem> itemList;
+    std::vector <Base2D *> controlls2D;
 
     bool Active();
     int CurrentY();
@@ -95,7 +99,7 @@ protected:
 
     bool drawBackground = false;
 
-    std::vector <Base2D *> controlls2D;
+
 
 
 private:

@@ -1046,42 +1046,42 @@ void InitGL::OnLeftMouseButtonDown(int &x, int &y) {
 
     }
 
-    if ( MainMenu != nullptr && !MainMenu->containerList.empty()  && MainMenu->Active()) {
+    if ( MainMenu != nullptr /*&& !MainMenu->containerList.empty()*/  && MainMenu->Active()) {
 
-        for ( uint i = 0; i< MainMenu->containerList.size(); i++) {
+        //for ( uint i = 0; i< MainMenu->containerList.size(); i++) {
 
-            if ( ! MainMenu->containerList.at(i)->controlls2D.empty() ) {
+            if ( ! MainMenu->controlls2D.empty() ) {
 
                 _LockClick = true;
-                for (uint j=0; j< MainMenu->containerList.at(i)->controlls2D.size(); j ++) {
-                    if (MainMenu->containerList.at(i)->controlls2D.at(j)->intersect( x, y) ) {
-                        MainMenu->containerList.at(i)->controlls2D.at(j)->OnClick();
+                for (uint j=0; j< MainMenu->controlls2D.size(); j ++) {
+                    if (MainMenu->controlls2D.at(j)->intersect( x, y) ) {
+                        MainMenu->controlls2D.at(j)->OnClick();
                     }
                 }
             }
-        }
+      //  }
     }
 }
 
 void InitGL::OnLeftMouseButtonUp(int &x, int &y) {
 
-    if (MainMenu != nullptr && ! MainMenu->containerList.empty() && MainMenu->Active()) {
+    if (MainMenu != nullptr && MainMenu->Active()) {
 
-        for ( uint i = 0; i< MainMenu->containerList.size(); i++) {
+   //     for ( uint i = 0; i< MainMenu->containerList.size(); i++) {
 
-            if ( ! MainMenu->containerList.at(i)->controlls2D.empty() ) {
+            if ( ! MainMenu->controlls2D.empty() ) {
 
                 if ( _LockClick) {
-                    for (uint j=0; j< MainMenu->containerList.at(i)->controlls2D.size(); j ++) {
-                        if (MainMenu->containerList.at(i)->controlls2D.at(j)->intersect(x, y) ) {
-                            MainMenu->containerList.at(i)->controlls2D.at(j)->OnRelease();
+                    for (uint j=0; j< MainMenu->controlls2D.size(); j ++) {
+                        if (MainMenu->controlls2D.at(j)->intersect(x, y) ) {
+                            MainMenu->controlls2D.at(j)->OnRelease();
                         }
                     }
                 }
                 else
                     _LockClick = false;
             }
-        }
+    //    }
     }
 
     for (uint i = 0; i < textfields.size(); i++) {

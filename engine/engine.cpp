@@ -3,8 +3,6 @@
 #include "../landscape/landscape.h"
 #include "../sphere/sphere.h"
 #include "../menuids.h"
-#include "../label/label.h"
-
 
 // Menus
 const std::string MENUBACKGROUNDS = PATH::ROOT + "images/MenuBackgrounds/";
@@ -13,7 +11,7 @@ const std::string MENUTEXTS       = PATH::ROOT + "images/MenuTexts/";
 
 const std::string MENU_MAINTEXT   = MENUTEXTS + "MainMenu.png";
 
-const std::string MENU_BACKGROUND   = MENUBACKGROUNDS   + "darkgray.png";
+const std::string MENU_BACKGROUND   = MENUBACKGROUNDS   + "MenuItemBackground.png";
 const std::string MENU_BACKGROUNDSUB   = MENUBACKGROUNDS   + "MenuItemBackgroundSub.png";
 
 //const std::string MENU_SKYBOX     = MENUTEXTS   + "ToogleSkybox.png";
@@ -256,8 +254,9 @@ void CEngine::Render() {
     InitGL::Render();
 
 
-    if (toolbar != nullptr)
-        toolbar->Render();
+
+ //   if (toolbar != nullptr)
+ //       toolbar->Render();
 }
 
 void CEngine::RenderControlls() {
@@ -265,8 +264,8 @@ void CEngine::RenderControlls() {
 
     // Here Stoff for 2D Rendering !
 
-    if (SubMenu1 != nullptr)
-        SubMenu1->Render();
+  //  if (SubMenu1 != nullptr)
+  //      SubMenu1->Render();
 }
 
 void CEngine::RenderSkyBox() {
@@ -338,7 +337,7 @@ void CEngine::initMenu(){
 
     MainMenu->setID(MENUIDS::MENU_Main);
 
-    MainMenu->DrawBackground(false);
+    MainMenu->DrawBackground(true);
 
 
 
@@ -347,8 +346,7 @@ void CEngine::initMenu(){
     // jetzt  befüllen
     //--------------------------------------
     con1 = new CControllContainer(InitGL::getShaderPtr(), MainMenu->PosX(),MainMenu->PosY(),
-                                                               MainMenu->Width(), 0, LAYOUT::Vertical);
-
+                                               MainMenu->Width(), 0, LAYOUT::Vertical);
     sPoint p;
     p.x = 0;
     p.y =0;
@@ -358,18 +356,13 @@ void CEngine::initMenu(){
     s.h = CONTROLL::HEIGHT;
 
     Label * menuHeader = new Label(_ResX, _ResY, MENU_BACKGROUND, MENU_MAINTEXT, InitGL::getShaderPtr());
-    menuHeader->setPos(p.x,p.y);
     menuHeader->setSize(s.w, CONTROLL::HEIGHT);
-
- //   MainMenu->addMenuHeader(MENU_BACKGROUND,s.w, s.h);
     MainMenu->addControll2D(con1,menuHeader);
     p.y = MainMenu->CurrentY();
 
     MenuItem * item1 = new MenuItem(_ResX,_ResY,p,sSize(BTN_WIDTH, BTN_HEIGHT),MENU_BACKGROUNDSUB,BTN_SKYBOX,InitGL::getShaderPtr() );
     item1->setID(FILEMENU_IDS::ITEM_New);
     MainMenu->addControll2D(con1,item1);
-
-    //con1->addControll2D(item1);
 
     p.y = MainMenu->CurrentY();
     checkBoxAnimation = new CheckBox(_ResX, _ResY,BTN_RELEASED, p,s ,
@@ -378,15 +371,12 @@ void CEngine::initMenu(){
     checkBoxAnimation->setColor(glm::vec4(0.79, 0.99, 1.0, 1.0));
     checkBoxAnimation->AddHandler(CEngine::functoogleAnimation);
     checkBoxAnimation->setChecked();
-    //con1->addControll2D(checkBoxAnimation);
-    // add label for Frames to buildin textrender label
     checkBoxAnimation->setLabel("Animate");
     MainMenu->addControll2D(con1,checkBoxAnimation);
 
     //----------------------------------------------------
     // checkbox für Blending
     //----------------------------------------------------
-    //MainMenu->addConatiner(con1);
     SubMenu1 = new CMenu(_ResX, _ResY, item1->PosX() + item1->Width()+ 5 , item1->PosY(), MENU_WIDTH, MENU_HEIGHT,
                          glm::vec4(0.1,0.1,0.1,0.8), glm::vec4(0.9,0.9,0.9,1.0), InitGL::getShaderPtr());
 

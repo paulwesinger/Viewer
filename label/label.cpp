@@ -31,11 +31,15 @@ void Label::init() {
 void Label::setPos(int x, int y)
 {
     Base::setPos(x,y);
+    if (_Text)
+        _Text->setPos(x,y);
 }
 
 void Label::setSize(int w, int h)
 {
     Base::setSize(w,h);
+    if (_Text)
+        _Text->setSize(w,h);
 }
 
 void Label::Render ()

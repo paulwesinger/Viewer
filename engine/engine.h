@@ -15,6 +15,7 @@
 #include "../menu/menu.h"
 #include "../window/window.h"
 #include "../toolbars/toolbar.h"
+#include "../label/label.h"
 
 
 
@@ -145,6 +146,7 @@ protected:
     Window * testToolBox;
 
     ToolBar * toolbar;
+
 
 
     std::string &getValueItem(std::string &s, std::string erasestring);

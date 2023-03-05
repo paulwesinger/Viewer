@@ -25,10 +25,23 @@ MenuItem::MenuItem(int resx, int resy, sPoint pos, sSize size, std::string bgtex
     _TextImage->setSize(size.w, size.h);
 }
 
+void MenuItem::setPos (int x, int y) {
+    Base2D::setPos(x,y);
+    if (_TextImage)
+        _TextImage->setPos(x,y);
+}
+
+void MenuItem::setSize(int w, int h){
+    Base2D::setSize(w, h) ;
+    if (_TextImage)
+        _TextImage->setSize(w,h);
+}
+
 void MenuItem::Render() {
 
     Base2D::Render();
-    _TextImage->Render();
+    if (_TextImage)
+        _TextImage->Render();
 }
 
 void MenuItem::setID(int id) {
@@ -184,12 +197,13 @@ void CMenu::addControll2D(CControllContainer* con, Base2D * ctl) {
     if ( ctl == nullptr )
         return;
     int  height = Height();
-    ctl->setWidth(Width()-2);
-    ctl->setPos(PosX()+1,PosY());
+    ctl->setWidth(Width()-4);
+    ctl->setHeight(ctl->Height());
+    ctl->setPos(PosX()+2, _CurrentY-1);
 
     height += ctl->Height();
-    setHeight(height);
-    _CurrentY  += ctl->Height()+1;
+    setHeight(height+2);
+    _CurrentY  += ctl->Height()+2;
     controlls2D.push_back(ctl);
 
     //con->addControll2D(ctl);
