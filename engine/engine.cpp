@@ -180,8 +180,8 @@ bool CEngine::HandleMessage() {
         //------------------------------------------------------------------------------
         case      SDL_MOUSEMOTION : {
 
-            _Mouse.x = event.motion.x;
-            _Mouse.y = event.motion.y;
+//            _Mouse.x = event.motion.x;
+//            _Mouse.y = event.motion.y;
 
             buttons = SDL_GetMouseState(&event.motion.x, &event.motion.y);
             OnMouseMove(event.motion.x, event.motion.y, buttons);
@@ -192,6 +192,7 @@ bool CEngine::HandleMessage() {
 
             if ( _Event.button.button == SDL_BUTTON_LEFT ) {
                 OnLeftMouseButtonDown(event.motion.x, event.motion.y);
+
             }
             break;
         }
@@ -203,7 +204,18 @@ bool CEngine::HandleMessage() {
             }
             break;
         }
+    }
 
+    //-----------------------------
+    // Check for Menu action
+    //-----------------------------
+    for (unsigned int i = 0; i<MainMenu->controlls2D.size(); i++) {
+
+        int x = _Mouse.x;
+        if (MainMenu->controlls2D[i]->intersect(_Mouse.x,_Mouse.y))
+        {
+            MainMenu->controlls2D[i]->OnMouseHover();
+        }
     }
 
     SDL_FlushEvent(SDL_MOUSEMOTION);
@@ -246,6 +258,15 @@ void CEngine::funcTestBtn1() {
 void CEngine::funcTestBtn2() {
 
 }
+
+//-----------------------------
+// Handler für MainMenu
+//-----------------------------
+void CEngine::funcMainMenuItem1Func() {
+    bool wurscht = false;
+}
+
+
 
 
 
@@ -333,13 +354,10 @@ void CEngine::initMenu(){
 
 //                |Resolution|  | Position           | width,height, colors             |
     MainMenu = new CMenu(_ResX, _ResY, 0, 0, MENU_WIDTH, 0/*MENU_HEIGHT*/,
-                          glm::vec4(0.1,0.1,0.1,0.8), glm::vec4(0.9,0.9,0.9,1.0), InitGL::getShaderPtr());
+                  glm::vec4(0.1,0.1,0.1,0.8), glm::vec4(0.9,0.9,0.9,1.0), InitGL::getShaderPtr());
 
     MainMenu->setID(MENUIDS::MENU_Main);
-
     MainMenu->DrawBackground(true);
-
-
 
     // -------------------------------------
     // Standard Menu ist in Initgl vorhanden
@@ -362,6 +380,8 @@ void CEngine::initMenu(){
 
     MenuItem * item1 = new MenuItem(_ResX,_ResY,p,sSize(BTN_WIDTH, BTN_HEIGHT),MENU_BACKGROUNDSUB,BTN_SKYBOX,InitGL::getShaderPtr() );
     item1->setID(FILEMENU_IDS::ITEM_New);
+    item1->AddHoverFunc(funcMainMenuItem1Func);
+
     MainMenu->addControll2D(con1,item1);
 
     p.y = MainMenu->CurrentY();

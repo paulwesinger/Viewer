@@ -182,6 +182,8 @@ void Base2D::setImage(std::string path) {
 void Base2D::OnClick(){}   // Im child überschreiben
 
 void Base2D::OnRelease() {}
+
+void Base2D::OnMouseHover(){}
 // ---------------------------------------------------
 // Render Function
 // param in [x] - X Position in screencoords

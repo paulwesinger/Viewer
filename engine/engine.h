@@ -102,6 +102,8 @@ protected:
     static void functoogleCockpit(bool checked);
     static void DrawPanel();
 
+    static void funcMainMenuItem1Func();
+
  private:
 
     void InitButtons();
@@ -146,9 +148,6 @@ protected:
     Window * testToolBox;
 
     ToolBar * toolbar;
-
-
-
     std::string &getValueItem(std::string &s, std::string erasestring);
     TextRender * textrenderer;
     fileUtil * fu;

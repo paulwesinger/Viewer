@@ -34,13 +34,16 @@ public:
     void Render() override;
     void setPos(int x, int y) override;
     void setSize(int w, int h) override;
-
+    void OnMouseHover() override;
+    void AddHoverFunc(FP handler);
     void setID(int id);
 
     int ID();
 
 protected:
     Base2D * _TextImage;
+    FP HoverFunc = nullptr;
+
 private:
 
     CMenu * _SubMenu;
@@ -57,6 +60,11 @@ public:
     CMenu(int resX, int resY, int px, int py, int w, int h, glm::vec4 bg, glm::vec4 fg, Shader *sh);
 
     void Render() override;
+    int PosX() override;
+    int PosY() override;
+    int Width() override;
+    int Height() override;
+
     void setMenuHeader(std::string name);
     void setActive(bool active);
     void setID(int id);
@@ -86,21 +94,11 @@ public:
     int CurrentY();
     int ID();
 
-    int PosX() override;
-    int PosY() override;
-    int Width() override;
-    int Height() override;
-
-
 protected:
 
     bool alignright;
     bool alignleft;
-
     bool drawBackground = false;
-
-
-
 
 private:
 

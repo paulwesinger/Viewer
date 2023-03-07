@@ -50,6 +50,16 @@ void MenuItem::setID(int id) {
 
 int MenuItem::ID() { return _ID; }
 
+void MenuItem::OnMouseHover() {
+  //  if (HoverFunc != nullptr)
+        HoverFunc();
+}
+
+void MenuItem::AddHoverFunc(FP handler) {
+    //if (HoverFunc != nullptr)
+        HoverFunc = handler;
+}
+
 
 
 CMenu::CMenu(int resX, int resY, Shader * sh)
@@ -182,6 +192,7 @@ void CMenu::Render() {
 }
 
 
+
 void CMenu::setMenuHeader(std::string name) {
     sMenuStruct ms;
     ms.text = new TextRender(_ResX,_ResY, shader);
@@ -189,7 +200,6 @@ void CMenu::setMenuHeader(std::string name) {
 
     _CurrentY += ms.text->GetTextAreaHeight();
 }
-
 
 void CMenu::addControll2D(CControllContainer* con, Base2D * ctl) {
 
