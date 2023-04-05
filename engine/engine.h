@@ -17,8 +17,6 @@
 #include "../toolbars/toolbar.h"
 #include "../label/label.h"
 
-
-
 const std::string BUTTONS_CFG  = PATH::ROOT + "config/Buttons/";
 const std::string OBJECT3D_CFG = PATH::ROOT + "config/3DObjects/";
 const std::string COCKPIT_CFG  = PATH::ROOT + "config/3DObjects/Cockpits/";

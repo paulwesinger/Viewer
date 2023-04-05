@@ -143,24 +143,16 @@ void CEngine::OnLeftMouseButtonUp(int &x, int &y) {
 void CEngine::OnLeftMouseButtonDown( int &x, int &y){
     InitGL::OnLeftMouseButtonDown(x,y);
 
-
-
-        if ( ! toolbar->CtrlList.empty()) {
-
-            //if ( _LockClick) {
-                for (uint j=0; j< toolbar->CtrlList.size(); j ++) {
-                    if (toolbar->CtrlList.at(j)->intersect(x, y) ) {
-                        toolbar->CtrlList.at(j)->OnClick();
-
-                    }
-                }
-                if (toolbar->intersect(x,y) ) {
-                    toolbar->OnStartDrag(x,y);
-                }
-            //}
-            //else
-            //    _LockClick = false;
+    if ( ! toolbar->CtrlList.empty()) {
+        for (uint j=0; j< toolbar->CtrlList.size(); j ++) {
+            if (toolbar->CtrlList.at(j)->intersect(x, y) ) {
+                toolbar->CtrlList.at(j)->OnClick();
+            }
         }
+        if (toolbar->intersect(x,y) ) {
+            toolbar->OnStartDrag(x,y);
+        }
+    }
 }
 
 bool CEngine::HandleMessage() {
@@ -380,9 +372,14 @@ void CEngine::initMenu(){
 
     MenuItem * item1 = new MenuItem(_ResX,_ResY,p,sSize(BTN_WIDTH, BTN_HEIGHT),MENU_BACKGROUNDSUB,BTN_SKYBOX,InitGL::getShaderPtr() );
     item1->setID(FILEMENU_IDS::ITEM_New);
-    item1->AddHoverFunc(funcMainMenuItem1Func);
-
+    item1->ClickFunc(funcMainMenuItem1Func);
     MainMenu->addControll2D(con1,item1);
+    p.y = MainMenu->CurrentY();
+
+    MenuItem * item2 = new MenuItem(_ResX,_ResY,p,sSize(BTN_WIDTH, BTN_HEIGHT),MENU_BACKGROUND,BTN_SKYBOX,InitGL::getShaderPtr() );
+    item2->setID(FILEMENU_IDS::ITEM_Edit);
+    item2->ClickFunc(funcMainMenuItem1Func);
+    MainMenu->addControll2D(con1,item2);
 
     p.y = MainMenu->CurrentY();
     checkBoxAnimation = new CheckBox(_ResX, _ResY,BTN_RELEASED, p,s ,

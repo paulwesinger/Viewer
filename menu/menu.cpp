@@ -50,14 +50,14 @@ void MenuItem::setID(int id) {
 
 int MenuItem::ID() { return _ID; }
 
-void MenuItem::OnMouseHover() {
+void MenuItem::OnClick() {
   //  if (HoverFunc != nullptr)
-        HoverFunc();
+        clickFunc();
 }
 
-void MenuItem::AddHoverFunc(FP handler) {
+void MenuItem::ClickFunc(FP handler) {
     //if (HoverFunc != nullptr)
-        HoverFunc = handler;
+        clickFunc = handler;
 }
 
 
