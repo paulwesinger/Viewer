@@ -90,7 +90,9 @@ void ToolBar::Init() {
 void ToolBar::Render() {
 
     Window::Render();
-    DragIcon->Render();
+
+    if (_Dragable)
+        DragIcon->Render();
 
     for (uint i = 0; i<CtrlList.size(); i++)    {
         CtrlList.at(i)->Render();
@@ -143,14 +145,18 @@ void ToolBar::CalcCtrlPos() {
     _CurrentCtrlPos.y = DragArea.y + 2;
 }
 
-
-
 bool ToolBar::intersect(int x, int y) {
 
-
-    return  ( ((x > DragArea.x) && (x < DragArea.x1) ) &&
+    if ( _Dragable)
+        return  ( ((x > DragArea.x) && (x < DragArea.x1) ) &&
               ((y > DragArea.y) && (y < DragArea.y1) ) ) ? true : false;
+    else
+        return false;
 }
+
+void ToolBar::SetDragable() { DragIcon->SetDragable(); Base2D::SetDragable(); }
+void ToolBar::ResetDragable() { DragIcon->ResetDragable(); Base2D::ResetDragable(); }
+bool ToolBar::IsDragable() { return Base2D::IsDragAble(); }
 
 void ToolBar::OnMainMenuStateChanged() {
     Stretch();
@@ -169,6 +175,9 @@ void ToolBar::OnMainMenuStateChanged() {
 }
 
 void ToolBar::OnStartDrag(int mx, int my) {
+
+    if ( ! _Dragable )
+        return;
 
     Base::OnStartDrag(mx,my);
 
@@ -191,6 +200,9 @@ void ToolBar::OnStartDrag(int mx, int my) {
 }
 
 void ToolBar::OnDrag(int mx, int my) {
+
+    if (! _Dragable)
+        return;
 
     Base::OnDrag(mx,my);
 
@@ -227,6 +239,9 @@ void ToolBar::OnDrag(int mx, int my) {
 }
 
 void ToolBar::OnEndDrag(int mx, int my){
+    if (! _Dragable)
+        return;
+
     Base::OnEndDrag(mx,my);
 
     CalcDragArea();

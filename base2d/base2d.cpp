@@ -179,6 +179,9 @@ void Base2D::setImage(std::string path) {
     _ImagePath = path;
 }
 
+void Base2D::SetDragable() { _Dragable = true; }
+void Base2D::ResetDragable() { _Dragable = false;}
+bool Base2D::IsDragAble() { return _Dragable; }
 void Base2D::OnClick(){}   // Im child überschreiben
 
 void Base2D::OnRelease() {}

@@ -138,6 +138,10 @@ void CEngine::OnLeftMouseButtonUp(int &x, int &y) {
        //     else
        //         _LockClick = false;
         }
+
+    if ( ! MainMenu->menuItems.empty()) {
+
+    }
 }
 
 void CEngine::OnLeftMouseButtonDown( int &x, int &y){
@@ -203,7 +207,6 @@ bool CEngine::HandleMessage() {
     //-----------------------------
     for (unsigned int i = 0; i<MainMenu->controlls2D.size(); i++) {
 
-        int x = _Mouse.x;
         if (MainMenu->controlls2D[i]->intersect(_Mouse.x,_Mouse.y))
         {
             MainMenu->controlls2D[i]->OnMouseHover();
@@ -257,10 +260,6 @@ void CEngine::funcTestBtn2() {
 void CEngine::funcMainMenuItem1Func() {
     bool wurscht = false;
 }
-
-
-
-
 
 void CEngine::Render() {
 
@@ -328,6 +327,8 @@ void CEngine::InitToolBar() {
 
     if (MainMenu != nullptr)
         toolbar->setMenuPtr(MainMenu);
+
+    //toolbar->SetDragable();
 
     TestButton1 = CreateImageButton(BTN_RELEASED,"" ,BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn1);
     TestButton2 = CreateImageButton(BTN_RELEASED, "" ,BTN_SKYBOX, toolbar->CurrentCtlPos(), CEngine::funcTestBtn2);

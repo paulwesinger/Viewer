@@ -32,6 +32,11 @@ public:
     void setImage(std::string path);
     void useShader(int type);
     void setShaderPtr(Shader * pt);
+
+    void SetDragable();
+    void ResetDragable();
+    bool IsDragAble();
+
     Shader * getShaderPtr();
 
     virtual void Render() override;
@@ -61,6 +66,8 @@ protected:
     GLint _Uniform_mv_projectloc;
     GLint _Uniform_colorloc;
     glm::mat4 _Projection;
+
+    bool _Dragable = false;
 
 };
 

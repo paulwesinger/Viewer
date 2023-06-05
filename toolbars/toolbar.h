@@ -28,6 +28,10 @@ public:
     void setMenuPtr(CMenu* ptr);
     CMenu* getMenuPtr();
 
+    void SetDragable();
+    void ResetDragable();
+    bool IsDragable();
+
     void addConatiner(CControllContainer *con);
     void addCtrl(Base2D * ctl);
     void setLayOut(LAYOUT l);
