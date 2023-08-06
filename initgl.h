@@ -82,13 +82,13 @@ protected:
     virtual void Render2D();
 
     virtual void Render2DUserObject() {};
-
     virtual void RenderControlls();
 
     virtual void SetResolution(int resx,int resy);
     virtual bool HandleMessage();
     virtual void InitEngineObject();
     virtual void InitUserObjects();
+    virtual void InitSkyBox();
 
     void SetClearColor(float r, float g, float b, float a);
     void setClearColor(float r, float g, float b);

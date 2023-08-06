@@ -154,8 +154,10 @@ void InitGL::Render() {
 
             list3D[i]->UseBlinn(_UseBlinn);
             list3D[i]->Draw(camera);
-      }
-   }  // Not showpanel
+        }
+    }
+    if (_ShowSkybox)
+        RenderSkyBox();
 }
 
 void InitGL::RenderSkyBox() {
@@ -590,6 +592,11 @@ void InitGL::InitEngineObject() {
     lightSource->setActiveShader(LIGHT_SHADER);
 }
 
+void InitGL::InitSkyBox() {
+    if (skybox != NULL)
+        skybox = new SkyBox(projection->GetPerspective());
+}
+
 void InitGL::InitUserObjects() {
 
     loginfo("Starte InitUserObject","InitGL::InitUserObject");
@@ -708,7 +715,7 @@ bool InitGL::HandleMessage() {
 
     switch(_Event.type) {
 
-    //case SDL_KEYDOWN:
+    //case SDL_KEYDOWN: {
     case SDL_KEYUP : {
             switch(_Event.key.keysym.sym) {
 
@@ -949,6 +956,7 @@ void InitGL::Run() {
             RenderLight();
             Render();
             RenderCockpit();
+
 
             // ===================================
             // Engine Objekte

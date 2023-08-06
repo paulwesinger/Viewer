@@ -97,6 +97,7 @@ void CEngine::Run() {
 
 void CEngine::InitEngineObject(){
     InitGL::InitEngineObject();
+    InitGL::InitSkyBox();
 
     Init2D();
     Init3D();
@@ -209,7 +210,9 @@ bool CEngine::HandleMessage() {
 
         if (MainMenu->controlls2D[i]->intersect(_Mouse.x,_Mouse.y))
         {
-            MainMenu->controlls2D[i]->OnMouseHover();
+            if ( _Event.button.button == SDL_BUTTON_LEFT ) {
+                MainMenu->controlls2D[i]->OnClick();
+            }
         }
     }
 
@@ -219,7 +222,6 @@ bool CEngine::HandleMessage() {
 
 void CEngine::InitUserObjects() {
     InitGL::InitUserObjects();
-
 }
 
 // ---------------------------------------------------------------
@@ -257,8 +259,10 @@ void CEngine::funcTestBtn2() {
 //-----------------------------
 // Handler für MainMenu
 //-----------------------------
-void CEngine::funcMainMenuItem1Func() {
-    bool wurscht = false;
+void CEngine::funcToogleSkyBox() {
+
+    InitGL::toggleSkyBox();
+
 }
 
 void CEngine::Render() {
@@ -373,13 +377,13 @@ void CEngine::initMenu(){
 
     MenuItem * item1 = new MenuItem(_ResX,_ResY,p,sSize(BTN_WIDTH, BTN_HEIGHT),MENU_BACKGROUNDSUB,BTN_SKYBOX,InitGL::getShaderPtr() );
     item1->setID(FILEMENU_IDS::ITEM_New);
-    item1->ClickFunc(funcMainMenuItem1Func);
+    item1->ClickFunc(funcToogleSkyBox);
     MainMenu->addControll2D(con1,item1);
     p.y = MainMenu->CurrentY();
 
     MenuItem * item2 = new MenuItem(_ResX,_ResY,p,sSize(BTN_WIDTH, BTN_HEIGHT),MENU_BACKGROUND,BTN_SKYBOX,InitGL::getShaderPtr() );
     item2->setID(FILEMENU_IDS::ITEM_Edit);
-    item2->ClickFunc(funcMainMenuItem1Func);
+    item2->ClickFunc(funcToogleSkyBox);
     MainMenu->addControll2D(con1,item2);
 
     p.y = MainMenu->CurrentY();

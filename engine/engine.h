@@ -100,7 +100,7 @@ protected:
     static void functoogleCockpit(bool checked);
     static void DrawPanel();
 
-    static void funcMainMenuItem1Func();
+    static void funcToogleSkyBox();
 
  private:
 
