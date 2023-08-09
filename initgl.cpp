@@ -204,7 +204,8 @@ void InitGL::RenderCockpit() {
 
 void InitGL::Render2D(){
 
-    if ( !  objects2D.empty() ) {
+    if ( !  objects2D.empty() )
+    {
         for (uint i =0; i < objects2D.size(); i++) {
             (objects2D[i])->Render();
         }
@@ -715,8 +716,8 @@ bool InitGL::HandleMessage() {
 
     switch(_Event.type) {
 
-    //case SDL_KEYDOWN: {
-    case SDL_KEYUP : {
+    case SDL_KEYDOWN: {
+    //case SDL_KEYUP : {
             switch(_Event.key.keysym.sym) {
 
                 case SDLK_b: _UseBlinn = toggleVal(_UseBlinn);

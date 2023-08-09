@@ -35,8 +35,10 @@ public:
     void setPos(int x, int y) override;
     void setSize(int w, int h) override;
     virtual void OnClick() override;
+    virtual void OnClick(bool b);
 
     void ClickFunc(FP handler);
+     void ClickFunc(FPB handler);
     void setID(int id);
 
     int ID();
@@ -44,6 +46,7 @@ public:
 protected:
     Base2D * _TextImage;
     FP clickFunc = nullptr;
+    FPB clickFuncBool =  nullptr;
 
 private:
 

@@ -96,7 +96,7 @@ protected:
 
 
     static void functoogleAnimation(bool checked);
-    static void functoogleBlend(bool checked);
+    static void functoogleBlend();
     static void functoogleCockpit(bool checked);
     static void DrawPanel();
 

@@ -50,8 +50,15 @@ void MenuItem::setID(int id) {
 
 int MenuItem::ID() { return _ID; }
 
-void MenuItem::OnClick() {
-  //  if (HoverFunc != nullptr)
+void MenuItem::OnClick(bool b)
+{
+    if (clickFuncBool != nullptr)
+        clickFuncBool(b);
+}
+
+void MenuItem::OnClick()
+{
+    if (clickFunc != nullptr)
         clickFunc();
 }
 
@@ -60,6 +67,10 @@ void MenuItem::ClickFunc(FP handler) {
         clickFunc = handler;
 }
 
+void MenuItem::ClickFunc(FPB handler) {
+    //if (HoverFunc != nullptr)
+        clickFuncBool = handler;
+}
 
 
 CMenu::CMenu(int resX, int resY, Shader * sh)

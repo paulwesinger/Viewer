@@ -222,6 +222,7 @@ bool CEngine::HandleMessage() {
 
 void CEngine::InitUserObjects() {
     InitGL::InitUserObjects();
+    skybox = new SkyBox(projection->GetPerspective());
 }
 
 // ---------------------------------------------------------------
@@ -235,13 +236,14 @@ void CEngine::functoogleAnimation(bool checked) {
 
 }
 
-void CEngine::functoogleBlend(bool checked) {
+void CEngine::functoogleBlend() {
 
        InitGL::toggleBlend();
 }
 
 void CEngine::functoggleSkybox() {
-    InitGL::toggleSkyBox();
+    //InitGL::toggleSkyBox();
+    _ShowSkybox =  !_ShowSkybox;
 }
 
 void CEngine::funcFog(){
@@ -259,12 +261,6 @@ void CEngine::funcTestBtn2() {
 //-----------------------------
 // Handler für MainMenu
 //-----------------------------
-void CEngine::funcToogleSkyBox() {
-
-    InitGL::toggleSkyBox();
-
-}
-
 void CEngine::Render() {
 
     InitGL::Render();
@@ -284,10 +280,9 @@ void CEngine::RenderControlls() {
   //      SubMenu1->Render();
 }
 
-void CEngine::RenderSkyBox() {
-
-    if (_ShowSkybox)
-        InitGL::RenderSkyBox();
+void CEngine::RenderSkyBox()
+{
+   InitGL::RenderSkyBox();
 }
 
 void CEngine::functoogleCockpit(bool checked) {
@@ -377,13 +372,14 @@ void CEngine::initMenu(){
 
     MenuItem * item1 = new MenuItem(_ResX,_ResY,p,sSize(BTN_WIDTH, BTN_HEIGHT),MENU_BACKGROUNDSUB,BTN_SKYBOX,InitGL::getShaderPtr() );
     item1->setID(FILEMENU_IDS::ITEM_New);
-    item1->ClickFunc(funcToogleSkyBox);
+
+    item1->ClickFunc(functoggleSkybox);
     MainMenu->addControll2D(con1,item1);
     p.y = MainMenu->CurrentY();
 
     MenuItem * item2 = new MenuItem(_ResX,_ResY,p,sSize(BTN_WIDTH, BTN_HEIGHT),MENU_BACKGROUND,BTN_SKYBOX,InitGL::getShaderPtr() );
     item2->setID(FILEMENU_IDS::ITEM_Edit);
-    item2->ClickFunc(funcToogleSkyBox);
+    item2->ClickFunc(functoogleBlend);
     MainMenu->addControll2D(con1,item2);
 
     p.y = MainMenu->CurrentY();
